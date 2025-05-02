@@ -38,7 +38,7 @@ jobs:
       - name: Set the buildpack for backend
         run: |
           cd backend
-          heroku buildpacks:set heroku/nodejs
+          heroku buildpacks:set heroku/nodejs --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
 
       - name: Deploy to Heroku
         run: |
