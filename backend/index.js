@@ -107,7 +107,6 @@ const io = new Server(server, {
   },
 });
 
-// test hahaha
 io.on("connection", (socket) => {
   // Khi người dùng tham gia phòng
   socket.on("join-room", (roomCode) => {
