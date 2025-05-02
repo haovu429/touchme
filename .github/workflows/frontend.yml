@@ -87,7 +87,7 @@ jobs:
           # Lệnh này sẽ tạo một commit mới chỉ chứa nội dung của 'frontend' và đẩy lên
           # Dùng --force để ghi đè nhánh trên Heroku
           echo "Pushing frontend subtree to Heroku app root..."
-          git subtree push --prefix frontend heroku main --force
+          git subtree push --prefix frontend heroku main
         env:
           # Vẫn cần các biến môi trường cho git push qua HTTPS
           GIT_ASKPASS: echo
