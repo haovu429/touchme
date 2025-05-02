@@ -35,3 +35,5 @@ jobs:
           cd backend
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}.git
           git add .
+          git commit -m "Deploy backend to Heroku"
+          git push heroku main
