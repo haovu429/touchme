@@ -34,6 +34,11 @@ jobs:
         run: |
           echo "machine git.heroku.com login ${{ secrets.HEROKU_USER_NAME }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
     
+      - name: Set the buildpack for frontend
+        run: |
+          cd frontend
+          heroku buildpacks:set heroku/nodejs
+    
       - name: Fetch all commits (Unshallow)
         run: |
           git fetch --all --unshallow
