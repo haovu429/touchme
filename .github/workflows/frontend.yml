@@ -30,6 +30,11 @@ jobs:
           git config --global user.email ${{ secrets.HEROKU_USER_EMAIL }}
           git config --global user.name ${{ secrets.HEROKU_USER_NAME }}
     
+      - name: Set up Heroku CLI
+        run: |
+          curl https://cli-assets.heroku.com/install.sh | sh
+          echo "Heroku CLI installed successfully"
+
       - name: Set up Heroku authentication
         run: |
           echo "machine git.heroku.com login ${{ secrets.HEROKU_USER_NAME }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
