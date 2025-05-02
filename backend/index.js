@@ -26,6 +26,8 @@ const dotEnvFiles = [
 console.log('Attempting to load .env files in this order (later files override earlier ones):');
 console.log(dotEnvFiles);
 
+const allowOverride = process.env.NODE_ENV !== 'production';
+
 // 3. Nạp các file .env nếu chúng tồn tại
 dotEnvFiles.forEach(filePath => {
   const fullPath = path.resolve(process.cwd(), filePath); // Lấy đường dẫn tuyệt đối
@@ -33,7 +35,7 @@ dotEnvFiles.forEach(filePath => {
     console.log(`Loading environment variables from: ${filePath}`);
     dotenv.config({
       path: fullPath,
-      override: true // Cho phép file này ghi đè các biến đã được nạp trước đó (mặc định trong dotenv v14+)
+      override: allowOverride // Cho phép file này ghi đè các biến đã được nạp trước đó (mặc định trong dotenv v14+)
     });
   }
 });
