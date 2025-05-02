@@ -1,10 +1,20 @@
 import { defineConfig } from 'vite'
 import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
-  // server: {
-  //   port: 3000, // thay 3001 bằng cổng bạn muốn
-  // },
   plugins: [
     tailwindcss(),
   ],
+  server: {
+    // Đảm bảo bạn có dòng này để chạy đúng trên Heroku
+    host: '0.0.0.0',
+    // Thêm hoặc chỉnh sửa phần này:
+    allowedHosts: [
+      'touchme-frontend-aba69e9a1bd9.herokuapp.com',
+      // Bạn có thể muốn giữ lại localhost để phát triển cục bộ
+      'localhost',
+      '127.0.0.1',
+    ],
+    // Cổng (port) thường Vite sẽ tự nhận từ $PORT của Heroku
+    // port: process.env.PORT
+  },
 })
