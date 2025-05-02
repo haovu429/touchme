@@ -34,16 +34,42 @@ jobs:
         run: |
           curl https://cli-assets.heroku.com/install.sh | sh
           echo "Heroku CLI installed successfully"
+
+      - name: Set up Heroku authentication
+        run: |
+          echo "machine git.heroku.com login ${{ secrets.HEROKU_USER_NAME }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
       
       - name: Set the buildpack for backend
         run: |
           cd backend
           heroku buildpacks:set heroku/nodejs --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
-
-      - name: Deploy to Heroku
+      - name: Fetch all commits (Unshallow)
         run: |
-          cd backend
+          git fetch --all --unshallow
+
+      # - name: Deploy to Heroku
+      #   run: |
+      #     cd backend
+      #     git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}.git
+      #     git add .
+      #     git commit -m "Deploy backend to Heroku"
+      #     git push heroku main
+      - name: Deploy backend subtree to Heroku root
+        run: |
+          # Thêm remote Heroku (chạy từ gốc repo)
+          # Kiểm tra xem remote đã tồn tại chưa để tránh lỗi
+          git remote remove heroku || true
           git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME }}.git
-          git add .
-          git commit -m "Deploy backend to Heroku"
-          git push heroku main
+
+          # Push nội dung của thư mục 'backend' lên làm gốc của nhánh 'main' trên remote 'heroku'
+          # Lệnh này sẽ tạo một commit mới chỉ chứa nội dung của 'backend' và đẩy lên
+          # Dùng --force để ghi đè nhánh trên Heroku
+          echo "Pushing backend subtree to Heroku app root..."
+          git subtree push --prefix backend heroku main
+        env:
+          # Vẫn cần các biến môi trường cho git push qua HTTPS
+          GIT_ASKPASS: echo
+          GIT_USERNAME: ${{ secrets.HEROKU_USER_EMAIL }} # Hoặc placeholder
+          GIT_PASSWORD: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }} # Có thể cần cho các lệnh khác nếu có
+

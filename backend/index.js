@@ -13,7 +13,7 @@ const io = new Server(server, {
     origin: "*",
   },
 });
-
+// test hahaha
 io.on("connection", (socket) => {
   // Khi người dùng tham gia phòng
   socket.on("join-room", (roomCode) => {
