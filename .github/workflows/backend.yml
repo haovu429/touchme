@@ -46,7 +46,7 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
           FRONTEND_URL_VALUE: ${{ secrets.FRONTEND_URL }}
-        run: heroku config:set FRONTEND_URL=$FRONTEND_URL_VALUE --app $HEROKU_APP_NAME
+        run: heroku config:set FRONTEND_URL=${{ secrets.FRONTEND_URL }} --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
       
       - name: Set the buildpack for backend
         run: |
