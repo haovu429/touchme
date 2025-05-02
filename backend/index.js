@@ -28,6 +28,8 @@ console.log(dotEnvFiles);
 
 const allowOverride = process.env.NODE_ENV !== 'production';
 
+console.log("process.env.FRONTEND_URL: ", process.env.FRONTEND_URL);
+
 // 3. Nạp các file .env nếu chúng tồn tại
 dotEnvFiles.forEach(filePath => {
   const fullPath = path.resolve(process.cwd(), filePath); // Lấy đường dẫn tuyệt đối
