@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 
+console.log("VITE_SOCKET_URL: ", import.meta.env.VITE_SOCKET_URL);
 const socket = io(import.meta.env.VITE_SOCKET_URL);
 
 export default function RealtimeQuestionRoom() {
