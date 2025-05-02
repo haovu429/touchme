@@ -33,6 +33,10 @@ jobs:
       - name: Set up Heroku authentication
         run: |
           echo "machine git.heroku.com login ${{ secrets.HEROKU_USER_NAME }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
+    
+      - name: Fetch all commits (Unshallow)
+        run: |
+          git fetch --all --unshallow
 
       - name: Check for changes
         run: |
