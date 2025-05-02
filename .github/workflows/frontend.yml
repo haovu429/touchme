@@ -25,6 +25,16 @@ jobs:
           cd frontend
           npm install
 
+      - name: Check if package.json exists in frontend
+        run: |
+          cd frontend
+          if [ -f "package.json" ]; then
+            echo "package.json found"
+          else
+            echo "package.json not found"
+            exit 1
+          fi
+
       - name: Configure git user
         run: |
           git config --global user.email ${{ secrets.HEROKU_USER_EMAIL }}
