@@ -1,43 +1,41 @@
-name: Frontend CI/CD
+name: Deploy Frontend to Heroku
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'frontend/**'  # Giới hạn việc deploy chỉ khi có thay đổi trong thư mục frontend
+      - "frontend/**"
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # Checkout code
-      - name: Checkout code
-        uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-      # Cài đặt Node.js
       - name: Set up Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
-          node-version: '14'  # Hoặc phiên bản Node.js bạn đang sử dụng
+          node-version: '18'
 
-      # Cài đặt dependencies cho frontend
       - name: Install dependencies
         run: |
           cd frontend
           npm install
 
-      # Build ứng dụng React (hoặc Vite)
-      - name: Build frontend
+      - name: Build React app
         run: |
           cd frontend
           npm run build
 
-      # Đẩy code lên Heroku
       - name: Deploy to Heroku
-        env:
-          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
           cd frontend
-          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME  }}.git
-          git push heroku main
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_FRONTEND_APP_NAME }}.git
+          git add .
+          git commit -m "Deploy to Heroku"
+          git push heroku master
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
