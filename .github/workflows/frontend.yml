@@ -42,7 +42,7 @@ jobs:
       - name: Set the buildpack for frontend
         run: |
           cd frontend
-          heroku buildpacks:set heroku/nodejs --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
+          heroku buildpacks:set https://github.com/heroku/heroku-buildpack-nodejs.git --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
     
       - name: Fetch all commits (Unshallow)
         run: |
