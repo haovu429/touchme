@@ -39,6 +39,15 @@ jobs:
         run: |
           echo "machine git.heroku.com login ${{ secrets.HEROKU_USER_NAME }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
       
+      # Bước 2: Gán biến môi trường FRONTEND_URL vào Heroku Config Vars
+      # Sử dụng secrets đã lưu trên GitHub
+      - name: Set Heroku Config Var (FRONTEND_URL)
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          FRONTEND_URL_VALUE: ${{ secrets.FRONTEND_URL }}
+        run: heroku config:set FRONTEND_URL=$FRONTEND_URL_VALUE --app $HEROKU_APP_NAME
+      
       - name: Set the buildpack for backend
         run: |
           cd backend

@@ -63,7 +63,12 @@ jobs:
         run: |
           cd frontend
           git status
-          
+    
+      - name: Build Frontend Application
+        # Truyền secret vào làm biến môi trường cho quá trình build của Vite
+        env:
+          VITE_SOCKET_URL: ${{ secrets.VITE_SOCKET_URL }}
+        run: npm run build --prefix frontend # Chạy script build
     #   - name: Deploy to Heroku
     #     run: |
     #       cd frontend
