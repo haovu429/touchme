@@ -1,10 +1,10 @@
 # Node.js (Backend)
+**/node_modules
 node_modules/
 npm-debug.log
 yarn-debug.log
 yarn-error.log
 package-lock.json
-/dist
 
 # Vite (Frontend)
 node_modules/
@@ -13,8 +13,9 @@ dist/
 .env.local
 .env.*.local
 
-# MacOS
-.DS_Store
+# build
+frontend/dist
+backend/build
 
 # Visual Studio Code
 .vscode/
@@ -22,5 +23,7 @@ dist/
 # Logs
 *.log
 
-# Loại bỏ .history
-.history/
+# system
+.DS_Store
+.history
+.vscode

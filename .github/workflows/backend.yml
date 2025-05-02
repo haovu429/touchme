@@ -1,0 +1,37 @@
+name: Backend CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'backend/**'  # Giới hạn việc deploy chỉ khi có thay đổi trong thư mục backend
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout code
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      # Cài đặt Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Hoặc phiên bản Node.js bạn đang sử dụng
+
+      # Cài đặt dependencies cho backend
+      - name: Install dependencies
+        run: |
+          cd backend
+          npm install
+
+      # Đẩy code lên Heroku
+      - name: Deploy to Heroku
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+        run: |
+          cd backend
+          git remote add heroku https://git.heroku.com/${{ secrets.HEROKU_BACKEND_APP_NAME   }}.git
+          git push heroku main
