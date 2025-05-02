@@ -49,6 +49,15 @@ jobs:
       - name: Set up Heroku authentication
         run: |
           echo "machine git.heroku.com login ${{ secrets.HEROKU_USER_NAME }} password ${{ secrets.HEROKU_API_KEY }}" > ~/.netrc
+
+      # Bước 2: Gán biến môi trường NPM_CONFIG_PRODUCTION vào Heroku Config Vars
+      # Sử dụng secrets đã lưu trên GitHub
+      - name: Set Heroku Config Var (NPM_CONFIG_PRODUCTION)
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          NPM_CONFIG_PRODUCTION: ${{ secrets.NPM_CONFIG_PRODUCTION }}
+        run: heroku config:set NPM_CONFIG_PRODUCTION=${{ secrets.NPM_CONFIG_PRODUCTION }} --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
     
       - name: Set the buildpack for frontend
         run: |
