@@ -1,0 +1,44 @@
+{
+  "level1": [
+    {"question": 1, "content": "Nếu bạn được rủ bất cứ ai trên thế giới đi ăn tối, người đó sẽ là ai?"},
+    {"question": 2, "content": "Bạn có thích trở nên nổi tiếng không? Và bạn thích nổi tiếng bằng cách nào?"},
+    {"question": 3, "content": "Trước khi gọi điện cho ai đó, bạn có nhẩm lại nội dung mình sẽ nói không? Tại sao?"},
+    {"question": 4, "content": "Yếu tố nào tạo nên một ngày tuyệt hảo đối với bạn?"},
+    {"question": 5, "content": "Lần gần nhất bạn ngân nga với chính mình là khi nào? Lần gần nhất hát cho người khác nghe?"},
+    {"question": 6, "content": "Giả sử bạn có thể sống đến 90 tuổi. Trong 60 năm còn lại của cuộc đời, bạn sẽ chọn duy trì ngoại hình năm 30 hay trí tuệ năm 30?"},
+    {"question": 7, "content": "Bạn có linh cảm bí mật nào về cái chết của mình không?"},
+    {"question": 8, "content": "Liệt kê 3 điều có vẻ như là điểm chung giữa bạn và đối tượng của bạn."},
+    {"question": 9, "content": "Bạn cảm thấy biết ơn điều gì nhất trong cuộc sống?"},
+    {"question": 10, "content": "Nếu có thể thay đổi cách mình được nuôi dạy từ nhỏ, bạn sẽ thay đổi thế nào?"},
+    {"question": 11, "content": "Dành ra khoảng 4 phút kể về câu chuyện cuộc đời bạn, càng chi tiết càng tốt."},
+    {"question": 12, "content": "Nếu sáng mai thức dậy bạn được ban cho một tính cách hay khả năng, đó sẽ là gì?"}
+  ],
+  "level2": [
+    {"question": 1, "content": "Nếu có một quả cầu pha lê cho bạn biết sự thật về bản thân, cuộc sống, tương lai, hoặc bất cứ gì khác, bạn sẽ muốn biết điều gì?"},
+    {"question": 2, "content": "Bạn có mơ ước được thực hiện điều gì từ lâu rồi không? Tại sao bạn vẫn chưa thực hiện việc đó?"},
+    {"question": 3, "content": "Thành tựu lớn nhất của cuộc đời bạn là gì?"},
+    {"question": 4, "content": "Bạn coi trọng điều gì nhất trong tình bạn?"},
+    {"question": 5, "content": "Kỷ niệm quý giá nhất của bạn là gì?"},
+    {"question": 6, "content": "Còn ký ức tồi tệ nhất của bạn thì sao?"},
+    {"question": 7, "content": "Nếu bạn biết trong vòng một năm tới bạn sẽ ra đi đột ngột, liệu bạn có thay đổi bất cứ điều gì trong nhịp sống hiện tại của mình không? Tại sao?"},
+    {"question": 8, "content": "Tình bạn có ý nghĩa như thế nào với bạn?"},
+    {"question": 9, "content": "Vai trò của tình yêu nói riêng và tình cảm nói chung trong cuộc sống của bạn?"},
+    {"question": 10, "content": "Lần lượt chia sẻ 5 khía cạnh tích cực của nhau theo suy nghĩ và cảm nhận của mỗi bên."},
+    {"question": 11, "content": "Gia đình bạn thân thiết và ấm cúng tới mức nào? Bạn có cảm thấy tuổi thơ của mình hạnh phúc hơn người khác không?"},
+    {"question": 12, "content": "Bạn cảm thấy mối quan hệ của mình với mẹ bạn như thế nào?"}
+  ],
+  "level3": [
+    {"question": 1, "content": "Đặt 3 câu trần thuật một sự thật với chủ thể là “chúng ta”. Ví dụ: “Chúng ta đều đang ở trong căn phòng này và cảm thấy…”"},
+    {"question": 2, "content": "Hoàn thành câu sau: “Tôi ước có một người mà mình có thể chia sẻ…”"},
+    {"question": 3, "content": "Nếu bạn có ý định trở thành bạn thân của đối phương, hãy chia sẻ điều quan trọng mà anh ấy/cô ấy cần biết."},
+    {"question": 4, "content": "Nói với đối phương điều bạn thích ở họ; hãy thành thật nhất có thể – những điều bạn thường không nói với một người mới gặp."},
+    {"question": 5, "content": "Chia sẻ với đối phương một kỷ niệm xấu hổ trong cuộc đời bạn."},
+    {"question": 6, "content": "Lần gần nhất bạn khóc trước mặt người khác là khi nào? Còn khi bạn khóc một mình thì sao?"},
+    {"question": 7, "content": "Nói với đối phương về một điểm mà bạn mến ở họ."},
+    {"question": 8, "content": "Xét tất cả các vấn đề, bạn thấy vấn đề nào nghiêm trọng đến mức không thể đem ra đùa cợt được?"},
+    {"question": 9, "content": "Nếu tối nay bạn phải từ giã cõi đời nhưng không có cơ hội nào để liên lạc với bất kì ai, điều gì chưa nói làm bạn hối tiếc nhất? Tại sao trước đây bạn vẫn chưa nói điều đó ra?"},
+    {"question": 10, "content": "Ngôi nhà với tất cả đồ đạc bạn sở hữu chìm trong hỏa hoạn. Sau khi cứu hết người thân và thú cưng, bạn còn đủ thời gian vào nhà cứu thêm một món đồ nữa. Bạn sẽ cứu món đồ nào? Tại sao?"},
+    {"question": 11, "content": "Trong tất cả thành viên gia đình của bạn, sự ra đi của ai làm bạn bứt rứt nhất? Tại sao?"},
+    {"question": 12, "content": "Chia sẻ một vấn đề cá nhân và hỏi ý kiến đối phương nên giải quyết vấn đề đó như thế nào. Ngoài ra, nhờ đối phương phản hồi cảm nhận của họ về thái độ/cảm xúc của bạn đối với vấn đề mà bạn lựa chọn."}
+  ]
+}
