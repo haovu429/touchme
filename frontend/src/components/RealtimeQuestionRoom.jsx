@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import { toast } from 'react-toastify'; // Import toast từ react-toastify
 
 console.log("VITE_SOCKET_URL: ", import.meta.env.VITE_SOCKET_URL);
 console.log("NODE_ENV: ", import.meta.env.NODE_ENV);
@@ -26,6 +27,11 @@ export default function RealtimeQuestionRoom() {
     socket.emit("get-question", { roomCode, level }); // Gửi roomCode và level tới backend
   };
 
+  const quitRoom = () => {
+    socket.emit("leave-room", { roomCode}); // Gửi roomCode và level tới backend
+    window.location.reload()
+  };
+
   // Lắng nghe câu hỏi từ server (socket)
   useEffect(() => {
     socket.on("new-question", (q) => {
@@ -41,6 +47,7 @@ export default function RealtimeQuestionRoom() {
       // setUsersInRoom(prevUsers => [...prevUsers, { id: data.userId, name: data.username }]);
       setUserCount(data.userCount);
       addSystemMessage(`${data.username} has joined.`);
+      toast.info(`${data.username || 'Someone'} has joined! 👋`);
     });
 
     // Lắng nghe người dùng rời đi
@@ -52,6 +59,7 @@ export default function RealtimeQuestionRoom() {
       // setUsersInRoom(prevUsers => prevUsers.filter(user => user.id !== data.userId));
       setUserCount(data.userCount);
       addSystemMessage(`${data.username} has left.`);
+      toast.warn(`${data.username || 'Someone'} has left.`); // Dùng toast.warn hoặc loại khác
     });
 
     // Lắng nghe xác nhận đã vào phòng (tùy chọn)
@@ -59,6 +67,7 @@ export default function RealtimeQuestionRoom() {
       console.log(
         `Successfully joined room ${data.roomCode}. Users: ${data.userCount}`
       );
+      toast.success(`Successfully joined room ${data.roomCode}. Users: ${data.userCount}`);
       setUserCount(data.userCount);
     });
 
@@ -91,8 +100,8 @@ export default function RealtimeQuestionRoom() {
       </h2>
 
       {!joined ? (
-        <div className="bg-cyan-300 p-6 rounded-2xl w-full max-w-sm text-center space-y-4 shadow-lg">
-          <p className="text-white text-lg font-semibold">Nhập số phòng</p>
+        <div className="bg-cyan-100 p-6 rounded-2xl w-full max-w-sm text-center space-y-4 shadow-lg">
+          <p className="text-black-500 text-lg font-semibold">Nhập số phòng</p>
           <input
             type="text"
             value={roomCode}
@@ -139,6 +148,7 @@ export default function RealtimeQuestionRoom() {
         </div>
       ) : (
         <div className="bg-white p-6 rounded-2xl w-full max-w-md space-y-6 shadow-xl text-center">
+         <div>
           <div className="text-2xl font-semibold text-purple-800">
             {question ? question : "Món ăn yêu thích của bạn là gì?"}
           </div>
@@ -147,6 +157,13 @@ export default function RealtimeQuestionRoom() {
             className="bg-rose-400 text-white px-6 py-3 rounded-xl font-bold text-lg hover:bg-rose-500 transition"
           >
             Random câu hỏi
+          </button>
+          </div>
+          <button
+            onClick={quitRoom}
+            className="bg-rose-400 text-whiteF px-6 py-3 rounded-xl font-bold text-lg hover:bg-rose-500 transition"
+          >
+            Thoát
           </button>
         </div>
       )}
