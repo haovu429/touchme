@@ -62,7 +62,8 @@ jobs:
       - name: Set the buildpack for frontend
         run: |
           cd frontend
-          heroku buildpacks:set heroku/static --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
+          heroku buildpacks:clear -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
+          heroku buildpacks:set heroku/heroku-buildpack-static -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
     
       - name: Fetch all commits (Unshallow)
         run: |
