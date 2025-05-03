@@ -4,7 +4,7 @@ listen <%= ENV["PORT"] %>;
 # Chỉ định thư mục gốc chứa file tĩnh (index.html, css, js,...)
 # Thay 'build' bằng tên thư mục output của bạn nếu khác.
 # /app/www/ là nơi Heroku thường đặt code của bạn.
-root /app/www/build; # <-- CHỈNH SỬA DÒNG NÀY NẾU CẦN
+root /app/www/dist; # <-- CHỈNH SỬA DÒNG NÀY NẾU CẦN
 
 # File index mặc định
 index index.html index.htm;
