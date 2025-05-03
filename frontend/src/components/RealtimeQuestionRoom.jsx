@@ -94,7 +94,7 @@ export default function RealtimeQuestionRoom() {
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 via-pink-400 to-rose-300 p-6">
       <h1 className="text-white text-4xl font-bold mb-10">
-        🎉 Chao xìn, bạn muốn biết gì về tôi?
+        🎉 Chao xìn, bạn muốn biết gì?
       </h1>
       <h2 className="text-white text-4xl font-bold mb-10">
         Phòng: {roomCode}, số người tham gia: {userCount}
