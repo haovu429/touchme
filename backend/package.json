@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "tsc",
+    "clean": "rimraf dist",
+    "compile": "tsc",
+    "copy-files": "copyfiles -u 1 src/**/*.json dist/",
+    "build": "npm run clean && npm run compile && npm run copy-files",
     "start": "node dist/index.js",
     "dev": "cross-env NODE_ENV=development nodemon src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -17,12 +20,18 @@
     "cors": "^2.8.5",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
-    "socket.io": "^4.8.1"
+    "socket.io": "^4.8.1",
+    "typescript": "^5.8.3"
   },
   "devDependencies": {
     "@types/node": "^22.15.3",
+    "copyfiles": "^2.4.1",
     "cross-env": "^7.0.3",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.8.3"
+    "rimraf": "^6.0.1",
+    "ts-node": "^10.9.2"
+  },
+  "engines": {
+    "node": "22.12.0",
+    "npm": "10.9.0"
   }
 }
