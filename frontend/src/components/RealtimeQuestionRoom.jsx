@@ -10,6 +10,8 @@ export default function RealtimeQuestionRoom() {
   const [joined, setJoined] = useState(false);
   const [question, setQuestion] = useState(null);
   const [level, setLevel] = useState("level1");
+  const [userCount, setUserCount] = useState(0);
+  const [systemMessage, addSystemMessage] = useState("");
 
   // Hàm join phòng
   const joinRoom = () => {
@@ -29,16 +31,64 @@ export default function RealtimeQuestionRoom() {
     socket.on("new-question", (q) => {
       setQuestion(q.content); // Lấy nội dung câu hỏi
     });
+
+    // Lắng nghe người dùng mới tham gia
+    socket.on("user-joined", (data) => {
+      console.log(
+        `${data.username} (${data.userId}) joined. Total users: ${data.userCount}`
+      );
+      // Cập nhật UI: ví dụ hiển thị thông báo, cập nhật danh sách người dùng
+      // setUsersInRoom(prevUsers => [...prevUsers, { id: data.userId, name: data.username }]);
+      setUserCount(data.userCount);
+      addSystemMessage(`${data.username} has joined.`);
+    });
+
+    // Lắng nghe người dùng rời đi
+    socket.on("user-left", (data) => {
+      console.log(
+        `${data.username} (${data.userId}) left. Total users: ${data.userCount}`
+      );
+      // Cập nhật UI: ví dụ hiển thị thông báo, cập nhật danh sách người dùng
+      // setUsersInRoom(prevUsers => prevUsers.filter(user => user.id !== data.userId));
+      setUserCount(data.userCount);
+      addSystemMessage(`${data.username} has left.`);
+    });
+
+    // Lắng nghe xác nhận đã vào phòng (tùy chọn)
+    socket.on("room-joined", (data) => {
+      console.log(
+        `Successfully joined room ${data.roomCode}. Users: ${data.userCount}`
+      );
+      setUserCount(data.userCount);
+    });
+
     return () => {
       socket.off("new-question");
+      socket.off("user-joined");
+      socket.off("user-left");
+      socket.off("room-joined");
     };
-  }, []);
+  }, [socket]);
+
+  // Đừng quên gọi emit("join-room", roomCode, username) khi người dùng thực sự muốn vào phòng
+  const joinRoomHandler = (selectedRoom, userName) => {
+    socket.emit("join-room", selectedRoom, userName);
+  };
+
+  // (Tùy chọn) Gọi emit("leave-room", roomCode) khi người dùng nhấn nút rời phòng
+  const leaveRoomHandler = (currentRoom) => {
+    socket.emit("leave-room", currentRoom);
+    // Cập nhật UI phía client ngay lập tức (ví dụ: quay về màn hình chọn phòng)
+  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 via-pink-400 to-rose-300 p-6">
       <h1 className="text-white text-4xl font-bold mb-10">
-        🎉 Chao xìn, bạn muốn biết gì về tôi? hihi
+        🎉 Chao xìn, bạn muốn biết gì về tôi?
       </h1>
+      <h2 className="text-white text-4xl font-bold mb-10">
+        Phòng: {roomCode}, số người tham gia: {userCount}
+      </h2>
 
       {!joined ? (
         <div className="bg-cyan-300 p-6 rounded-2xl w-full max-w-sm text-center space-y-4 shadow-lg">
