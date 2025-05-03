@@ -1,0 +1,22 @@
+# Dòng này quan trọng để Nginx lắng nghe đúng cổng Heroku cấp phát
+listen <%= ENV["PORT"] %>;
+
+# Chỉ định thư mục gốc chứa file tĩnh (index.html, css, js,...)
+# Thay 'build' bằng tên thư mục output của bạn nếu khác.
+# /app/www/ là nơi Heroku thường đặt code của bạn.
+root /app/www/build; # <-- CHỈNH SỬA DÒNG NÀY NẾU CẦN
+
+# File index mặc định
+index index.html index.htm;
+
+location / {
+  # Dòng này cực kỳ quan trọng cho Single Page Application (SPA) như React, Vue, Angular
+  # Nó đảm bảo mọi request không khớp file sẽ trả về index.html để client-side routing xử lý
+  try_files $uri $uri/ /index.html;
+}
+
+# (Tùy chọn) Cấu hình caching cho các file tĩnh để tăng tốc độ tải
+location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
+  expires 1y;
+  add_header Cache-Control "public";
+}
