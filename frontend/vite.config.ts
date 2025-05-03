@@ -17,4 +17,10 @@ export default defineConfig({
     // Cổng (port) thường Vite sẽ tự nhận từ $PORT của Heroku
     // port: process.env.PORT
   },
+  build: {
+    // Kiểm tra dòng này:
+    outDir: 'dist' // Ví dụ: Nếu đặt là 'build' thay vì 'dist'
+    // Hoặc tệ hơn:
+    // outDir: '.' // Nếu đặt là '.', nó sẽ build ra thư mục gốc hiện tại!
+  }
 })
