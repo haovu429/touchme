@@ -65,7 +65,8 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_FRONTEND_APP_NAME }} # Giả sử tên app cũng là secret
         run: |
           cd frontend
-          heroku buildpacks:add heroku-community/nginx -a $HEROKU_APP_NAME
+          heroku buildpacks:clear -a $HEROKU_APP_NAME
+          heroku buildpacks:add heroku/nodejs heroku-community/nginx -a $HEROKU_APP_NAME
     
       - name: Fetch all commits (Unshallow)
         run: |
