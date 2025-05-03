@@ -81,7 +81,7 @@ const server = http.createServer(app);
 // Thay vì app.use(cors()), cấu hình cụ thể hơn:
 app.use(
   cors({
-    origin: function (origin, callback) {
+    origin: function (origin: any, callback: any) {
       // Cho phép các request không có origin (như mobile apps, curl) trong một số trường hợp
       // hoặc khi origin nằm trong danh sách allowedOrigins
       if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -96,7 +96,7 @@ app.use(
 );
 
 // --- Định nghĩa endpoint test HTTP GET tại /test ---
-app.get("/", (req, res) => {
+app.get("/", (req: any, res: any) => {
   // req: đối tượng request (chứa thông tin từ client gửi lên)
   // res: đối tượng response (dùng để gửi phản hồi về client)
   // Lấy địa chỉ IP của client
@@ -118,16 +118,27 @@ app.get("/", (req, res) => {
 const io = new Server(server, {
   cors: {
     origin: allowedOrigins,
-    origin: "*",
   },
 });
 
 // Lưu trữ thông tin người dùng đơn giản (ví dụ) - Trong ứng dụng thực tế có thể phức tạp hơn
-const users = {}; // Ví dụ: { "socketId1": { username: "Alice", currentRoom: "room123" }, ... }
+const users: { [key: string]: any } = {}; // Ví dụ: { "socketId1": { username: "Alice", currentRoom: "room123" }, ... }
+const rooms = new Map([]); // Ví dụ: { "room123": { users: ["socketId1", "socketId2"], ... } }
+const demoRoom = {
+  'as123': {
+    roomKey: "as123",
+    currentQuestion: "What is the capital of France?",
+  },
+};
 
-io.on("connection", (socket) => {
+io.on("connection", (socket: any) => {
+
+  const createRoom = (roomCode: string, username: "Anonymous") => {
+
+  }
+
   // Khi người dùng tham gia phòng
-  socket.on("join-room", (roomCode, username = "Anonymous") => {
+  socket.on("join-room", (roomCode: string, username = "Anonymous") => {
     // Rời khỏi các phòng khác (nếu có) - Quan trọng nếu bạn chỉ muốn user ở 1 phòng tại 1 thời điểm
     Object.keys(socket.rooms); //trả về cả socket.id, cần lọc ra
     // Hoặc cách tốt hơn là lưu phòng hiện tại của user
@@ -156,21 +167,26 @@ io.on("connection", (socket) => {
     const userCount = io.sockets.adapter.rooms.get(roomCode)?.size || 0;
 
     // Gửi sự kiện "user-joined" tới TẤT CẢ MỌI NGƯỜI trong phòng (bao gồm cả người mới vào)
-    io.to(roomCode).emit("user-joined", {
-      userId: socket.id,
-      username: username,
-      message: `${username} has joined the room!`,
-      userCount: userCount, // Gửi kèm số lượng người dùng
-    });
+    // io.to(roomCode).emit("user-joined", {
+    //   userId: socket.id,
+    //   username: username,
+    //   message: `${username} has joined the room!`,
+    //   userCount: userCount, // Gửi kèm số lượng người dùng
+    // });
 
     // Hoặc chỉ gửi tới những người khác (không bao gồm người mới vào)
-    // socket.to(roomCode).emit("user-joined", { userId: socket.id, username: username, message: `${username} has joined!` });
+    socket.to(roomCode).emit("user-joined", {
+      userId: socket.id,
+      username: username,
+      message: `${username} has joined!`,
+      userCount: userCount,
+    });
     // Gửi thông tin phòng hiện tại về cho client vừa join (tùy chọn)
     socket.emit("room-joined", { roomCode, userCount });
   });
 
   // Khi người dùng yêu cầu câu hỏi (theo roomCode và cấp độ)
-  socket.on("get-question", (data) => {
+  socket.on("get-question", (data: any) => {
     const { roomCode, level } = data; // Lấy roomCode và level từ dữ liệu nhận được
     const levelQuestions = questions[level]; // Lấy câu hỏi từ cấp độ (level1, level2, level3)
 
@@ -211,7 +227,7 @@ io.on("connection", (socket) => {
   });
 
   // (Tùy chọn) Xử lý khi người dùng chủ động rời phòng mà không ngắt kết nối
-  socket.on("leave-room", (roomCode) => {
+  socket.on("leave-room", (roomCode: string) => {
     const userData = users[socket.id];
     if (userData && userData.currentRoom === roomCode) {
       socket.leave(roomCode);
