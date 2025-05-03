@@ -57,13 +57,16 @@ jobs:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
           HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
           NPM_CONFIG_PRODUCTION: ${{ secrets.NPM_CONFIG_PRODUCTION }}
-        run: heroku config:set NPM_CONFIG_PRODUCTION=${{ secrets.NPM_CONFIG_PRODUCTION }} --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
+        run: heroku config:set NPM_CONFIG_PRODUCTION=$NPM_CONFIG_PRODUCTION --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
     
       - name: Set the buildpack for frontend
+        env:
+          HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}  # <-- Sử dụng secret đã lưu
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_FRONTEND_APP_NAME }} # Giả sử tên app cũng là secret
         run: |
           cd frontend
-          heroku buildpacks:clear -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
-          heroku buildpacks:set heroku/heroku-buildpack-static -a ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
+          heroku buildpacks:clear -a $HEROKU_APP_NAME
+          heroku buildpacks:set https://github.com/heroku/heroku-buildpack-static.git -a $HEROKU_APP_NAME
     
       - name: Fetch all commits (Unshallow)
         run: |
