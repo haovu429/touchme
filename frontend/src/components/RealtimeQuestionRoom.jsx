@@ -29,7 +29,8 @@ export default function RealtimeQuestionRoom() {
 
   const quitRoom = () => {
     socket.emit("leave-room", { roomCode}); // Gửi roomCode và level tới backend
-    window.location.reload()
+    window.location.reload();
+    toast.info(`You just left room ${roomCode}! 👋`);
   };
 
   // Lắng nghe câu hỏi từ server (socket)
