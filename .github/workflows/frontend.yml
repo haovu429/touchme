@@ -65,11 +65,9 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_FRONTEND_APP_NAME }} # Giả sử tên app cũng là secret
         run: |
           cd frontend
-          # heroku buildpacks:clear --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
-          # heroku buildpacks:add --index 1 'heroku/nodejs' --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
-          # heroku buildpacks:add --index 2 'heroku/nginx' --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
-          # echo "Buildpacks set (hopefully!)"
-          # heroku buildpacks --app ${{ secrets.HEROKU_FRONTEND_APP_NAME }} # Thêm lệnh này để kiểm tra ngay trong log CI/CD
+          heroku buildpacks:clear -a $HEROKU_APP_NAME
+          heroku buildpacks:add --index 1 heroku/nodejs -a $HEROKU_APP_NAME
+          heroku buildpacks:add --index 2 heroku-community/nginx -a $HEROKU_APP_NAME
     
       - name: Fetch all commits (Unshallow)
         run: |
