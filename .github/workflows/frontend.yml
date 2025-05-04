@@ -67,7 +67,7 @@ jobs:
           cd frontend
           heroku buildpacks:clear -a $HEROKU_APP_NAME
           heroku buildpacks:add --index 1 heroku/nodejs -a $HEROKU_APP_NAME
-          heroku buildpacks:add --index 2 heroku-community/nginx -a $HEROKU_APP_NAME
+          heroku buildpacks:add --index 2 heroku/nginx -a $HEROKU_APP_NAME
     
       - name: Fetch all commits (Unshallow)
         run: |
