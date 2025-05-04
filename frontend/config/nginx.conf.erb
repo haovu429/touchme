@@ -1,22 +1,53 @@
-# Dòng này quan trọng để Nginx lắng nghe đúng cổng Heroku cấp phát
-listen <%= ENV["PORT"] %>;
+# ===== Đặt vào file: frontend/config/nginx.conf.erb =====
+# (Giữ nguyên tên file .erb khi dùng heroku-community/nginx)
 
-# Chỉ định thư mục gốc chứa file tĩnh (index.html, css, js,...)
-# Thay 'build' bằng tên thư mục output của bạn nếu khác.
-# /app/www/ là nơi Heroku thường đặt code của bạn.
-root /app/dist; # <-- CHỈNH SỬA DÒNG NÀY NẾU CẦN
+# Khối events bắt buộc, có thể để trống
+events {}
 
-# File index mặc định
-index index.html index.htm;
+# Khối http chứa cấu hình server
+http {
+    # Include các kiểu MIME cơ bản (đường dẫn này thường đúng trên Heroku)
+    include       /etc/nginx/mime.types;
+    default_type  application/octet-stream;
 
-location / {
-  # Dòng này cực kỳ quan trọng cho Single Page Application (SPA) như React, Vue, Angular
-  # Nó đảm bảo mọi request không khớp file sẽ trả về index.html để client-side routing xử lý
-  try_files $uri $uri/ /index.html;
+    # Các cài đặt hiệu suất cơ bản
+    sendfile        on;
+    # tcp_nopush     on;
+
+    # Bật Gzip (Tùy chọn nhưng nên có)
+    gzip on;
+    gzip_disable "msie6";
+    gzip_vary on;
+    gzip_proxied any;
+    gzip_comp_level 6;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
+
+    # Ghi log ra Heroku Logs
+    access_log /dev/stdout;
+    error_log stderr info; # Có thể đổi thành 'debug' nếu cần xem chi tiết hơn
+
+    # Khối server chính
+    server {
+        # Sử dụng cú pháp ERB để lấy PORT động (Đúng cho heroku-community/nginx)
+        listen <%= ENV["PORT"] %>;
+
+        # Tên server, _ để bắt mọi tên miền
+        server_name _;
+
+        # Thư mục gốc chứa file tĩnh đã build (/app/dist)
+        root /app/dist;
+        index index.html index.htm;
+
+        # Cấu hình cho SPA routing
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        # Cấu hình caching (sửa thành 30 phút theo yêu cầu trước đó)
+        location ~* \.(?:ico|css|js|gif|jpe?g|png|svg|woff|woff2|ttf|eot)$ {
+            expires 30m; # Thời gian cache 30 phút
+            add_header Cache-Control "public";
+        }
+    }
 }
-
-# (Tùy chọn) Cấu hình caching cho các file tĩnh để tăng tốc độ tải
-location ~* \.(?:ico|css|js|gif|jpe?g|png)$ {
-  expires 1y;
-  add_header Cache-Control "public";
-}
+# ===== Kết thúc file frontend/config/nginx.conf.erb =====
