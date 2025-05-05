@@ -350,7 +350,7 @@ export default function RealtimeQuestionRoom() {
               ref={chatDisplayRef}
               // Bỏ flex-grow, thêm max-height cụ thể (ví dụ: max-h-96 tương đương 24rem hoặc 384px)
               // Bạn có thể điều chỉnh giá trị max-h- này (vd: max-h-80, max-h-[400px]) cho phù hợp với giao diện
-              className="overflow-y-auto mb-2 pr-2 space-y-1.5 min-h-[200px] max-h-96 border rounded-md p-2 bg-gray-50"
+              className="overflow-y-auto mb-2 pr-2 space-y-1.5 min-h-[200px] max-h-96 rounded-md p-1 bg-gray-50"
               // Giữ lại: overflow-y-auto, mb-2, pr-2, space-y-1.5, min-h-[200px], border, rounded, p-2, bg-gray-50
               // Bỏ đi: flex-grow
               // Thêm vào: max-h-96 (hoặc giá trị khác bạn muốn)
