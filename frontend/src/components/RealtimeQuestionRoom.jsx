@@ -3,6 +3,7 @@ import React, { useEffect, useState, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 import SystemChatMessage from "./SystemChatMessage";
+import QRCode from "react-qr-code"; // <--- Import thư viện QR Code
 
 const socket = io(import.meta.env.VITE_SOCKET_URL, {
   transports: ["websocket", "polling"], // Ưu tiên websocket
@@ -20,6 +21,22 @@ export default function RealtimeQuestionRoom() {
   const [messages, setMessages] = useState([]); // Mảng lưu tin nhắn { id, text, senderName, timestamp }
   const [newMessage, setNewMessage] = useState(""); // Nội dung tin nhắn đang gõ
   const chatDisplayRef = useRef(null); // Ref để tự cuộn chat
+  const [showQrCode, setShowQrCode] = useState(false); // <-- State để ẩn/hiện QR
+
+  // --- useEffect để đọc roomCode từ URL khi component mount ---
+  useEffect(() => {
+    const queryParams = new URLSearchParams(window.location.search);
+    const roomFromUrl = queryParams.get("room");
+    if (roomFromUrl && roomFromUrl.length <= 6) {
+      const sanitizedRoomCode = roomFromUrl
+        .toUpperCase()
+        .replace(/[^A-Z0-9]/g, "");
+      setRoomCode(sanitizedRoomCode);
+      toast.info(`Mã phòng ${sanitizedRoomCode} đã được nhập sẵn từ link mời.`);
+      // Xóa query param khỏi URL để tránh lỗi khi refresh
+      window.history.replaceState({}, document.title, window.location.pathname);
+    }
+  }, []); // Chạy 1 lần khi mount
 
   // Hàm tự cuộn xuống cuối chat
   const scrollToBottom = useCallback(() => {
@@ -92,6 +109,20 @@ export default function RealtimeQuestionRoom() {
 
   // Lắng nghe sự kiện từ server
   useEffect(() => {
+    // --- Xử lý kết nối lại và tự động join lại ---
+    const handleConnect = () => {
+      console.log("Reconnected with ID:", socket.id);
+      if (joined && roomCode && username) {
+        // Chỉ rejoin nếu trước đó đã ở trong phòng
+        console.log(`Attempting to rejoin room ${roomCode} as ${username}`);
+        socket.emit("join-room", roomCode, username, level); // Gửi lại đầy đủ thông tin
+        toast.info("Đã kết nối lại!");
+      } else {
+        console.log("Connected with ID:", socket.id);
+      }
+    };
+    socket.on("connect", handleConnect);
+
     // Lắng nghe câu hỏi mới
     // Backend gửi cả object, ta lấy content
     socket.on("new-question", (q) => {
@@ -158,7 +189,7 @@ export default function RealtimeQuestionRoom() {
       socket.off("disconnect");
     };
     // Chỉ phụ thuộc vào socket và hàm scroll (ít thay đổi)
-  }, [socket, scrollToBottom]);
+  }, [socket, scrollToBottom, joined, roomCode, username, level]);
 
   // Hàm định dạng timestamp (ví dụ đơn giản)
   const formatTime = (timestamp) => {
@@ -168,6 +199,10 @@ export default function RealtimeQuestionRoom() {
       minute: "2-digit",
     });
   };
+
+  // --- Tạo URL để mời ---
+  // Nên lấy base URL từ biến môi trường thay vì hardcode
+  const inviteUrl = joined ? `${window.location.origin}?room=${roomCode}` : "";
 
   return (
     // --- Container chính ---
@@ -276,6 +311,32 @@ export default function RealtimeQuestionRoom() {
                 Thoát phòng
               </button>
             </div>
+            {/* --- Khu vực Mã QR Mời Bạn --- */}
+            <div className="text-center pt-3 flex-grow flex flex-col items-center justify-center">
+              <button
+                onClick={() => setShowQrCode(!showQrCode)}
+                className="text-blue-600 hover:text-blue-800 font-semibold text-sm mb-2"
+              >
+                {showQrCode ? "Ẩn mã mời" : "Hiện mã mời bạn bè (QR Code)"}
+              </button>
+              {showQrCode && inviteUrl && (
+                <div className="bg-white p-3 inline-block rounded-lg border shadow-md">
+                  <QRCode value={inviteUrl} size={128} level="M" />{" "}
+                  {/* level="M" để dễ quét hơn */}
+                  <p className="text-xs text-gray-600 mt-2">
+                    Quét mã này để vào phòng
+                  </p>
+                  <input
+                    type="text"
+                    readOnly // Chỉ đọc
+                    value={inviteUrl} // Hiển thị link
+                    className="w-full text-xs text-center mt-1 p-1 border rounded bg-gray-100"
+                    onClick={(e) => e.target.select()} // Chọn text khi click
+                  />
+                </div>
+              )}
+            </div>
+            {/* ----------------------------- */}
             {/* (Tùy chọn) Có thể thêm danh sách người dùng ở đây nếu muốn */}
             {/* <div className="border-t pt-4"> ... </div> */}
           </div>
