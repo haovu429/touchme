@@ -50,7 +50,7 @@ const frontendUrl = process.env.FRONTEND_URL; // Ví dụ: https://your-frontend
 
 const allowedOrigins = [
   "http://localhost:5173", // URL frontend khi chạy local (nhớ thay cổng nếu cần)\
-  "https://www.touchme.today/"
+  "https://www.touchme.today"
   // Bạn có thể thêm các URL khác vào đây nếu cần (ví dụ: URL preview deploy)
 ];
 
