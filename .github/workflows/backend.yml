@@ -44,9 +44,12 @@ jobs:
       - name: Set Heroku Config Var (FRONTEND_URL)
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
-          HEROKU_APP_NAME: ${{ secrets.HEROKU_APP_NAME }}
+          HEROKU_APP_NAME: ${{ secrets.HEROKU_BACKEND_APP_NAME }}
           FRONTEND_URL_VALUE: ${{ secrets.FRONTEND_URL }}
-        run: heroku config:set FRONTEND_URL=${{ secrets.FRONTEND_URL }} --app ${{ secrets.HEROKU_BACKEND_APP_NAME }}
+          FIREBASE_KEY_CONTENT: ${{ secrets.FIREBASE_KEY_CONTENT }}
+        run: |
+          heroku config:set FRONTEND_URL=$FRONTEND_URL_VALUE --app $HEROKU_APP_NAME
+          heroku config:set FIREBASE_SERVICE_ACCOUNT_KEY_JSON="$FIREBASE_KEY_CONTENT" -a $HEROKU_APP_NAME
       
       - name: Set the buildpack for backend
         run: |

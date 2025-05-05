@@ -27,3 +27,6 @@ backend/build
 .DS_Store
 .history
 .vscode
+
+
+**/secrets
