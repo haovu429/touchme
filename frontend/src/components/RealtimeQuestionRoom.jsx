@@ -1,141 +1,220 @@
-import React, { useEffect, useState } from "react";
+// touchme/frontend/src/components/RealtimeQuestionRoom.jsx
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { io } from "socket.io-client";
-import { toast } from 'react-toastify'; // Import toast từ react-toastify
+import { toast } from "react-toastify";
+import SystemChatMessage from "./SystemChatMessage";
 
-// console.log("VITE_SOCKET_URL: ", import.meta.env.VITE_SOCKET_URL);
-// console.log("NODE_ENV: ", import.meta.env.NODE_ENV);
-const socket = io(import.meta.env.VITE_SOCKET_URL);
+const socket = io(import.meta.env.VITE_SOCKET_URL, {
+  transports: ["websocket", "polling"], // Ưu tiên websocket
+}); // Kết nối tới backend
 
 export default function RealtimeQuestionRoom() {
   const [roomCode, setRoomCode] = useState("");
+  const [username, setUsername] = useState(""); // State cho tên người dùng
   const [joined, setJoined] = useState(false);
-  const [question, setQuestion] = useState(null);
+  const [question, setQuestion] = useState(null); // Lưu nội dung câu hỏi (string)
   const [level, setLevel] = useState("level1");
   const [userCount, setUserCount] = useState(0);
-  const [systemMessage, addSystemMessage] = useState("");
 
-  // Hàm join phòng
+  // --- State cho Chat ---
+  const [messages, setMessages] = useState([]); // Mảng lưu tin nhắn { id, text, senderName, timestamp }
+  const [newMessage, setNewMessage] = useState(""); // Nội dung tin nhắn đang gõ
+  const chatDisplayRef = useRef(null); // Ref để tự cuộn chat
+
+  // Hàm tự cuộn xuống cuối chat
+  const scrollToBottom = useCallback(() => {
+    if (chatDisplayRef.current) {
+      // Thêm độ trễ nhỏ để DOM kịp cập nhật trước khi cuộn
+      setTimeout(() => {
+        if (chatDisplayRef.current) {
+          chatDisplayRef.current.scrollTop =
+            chatDisplayRef.current.scrollHeight;
+        }
+      }, 50);
+    }
+  }, []);
+
+  // Tự cuộn khi có tin nhắn mới hoặc load lịch sử
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, scrollToBottom]);
+
+  // Hàm join phòng (Sửa để gửi username và level)
   const joinRoom = () => {
-    if (roomCode) {
-      socket.emit("join-room", roomCode);
+    const finalUsername =
+      username.trim() || `User_${Math.random().toString(36).substring(2, 6)}`; // Username hoặc tên ngẫu nhiên
+    const finalRoomCode = roomCode.trim().toUpperCase(); // Luôn viết hoa mã phòng
+    if (finalRoomCode && finalRoomCode.length <= 6) {
+      // Thêm kiểm tra độ dài nếu cần
+      setRoomCode(finalRoomCode); // Cập nhật lại state nếu có trim/uppercase
+      setUsername(finalUsername); // Cập nhật lại state username
+      socket.emit("join-room", finalRoomCode, finalUsername, level); // Gửi cả 3
       setJoined(true);
+    } else {
+      toast.error("Vui lòng nhập mã phòng hợp lệ (tối đa 6 ký tự).");
     }
   };
 
-  // Hàm gửi yêu cầu lấy câu hỏi từ server
+  // Hàm random câu hỏi (Giữ nguyên)
   const randomQuestion = () => {
-    socket.emit("get-question", { roomCode, level }); // Gửi roomCode và level tới backend
+    if (roomCode) {
+      socket.emit("get-question", { roomCode, level });
+    }
   };
 
+  // Hàm thoát phòng (Sửa lại)
   const quitRoom = () => {
-    socket.emit("leave-room", { roomCode}); // Gửi roomCode và level tới backend
-    window.location.reload();
-    toast.info(`You just left room ${roomCode}! 👋`);
+    if (roomCode) {
+      socket.emit("leave-room", roomCode); // Chỉ gửi roomCode string
+    }
+    // Reset state về ban đầu
+    setJoined(false);
+    setRoomCode("");
+    setUsername("");
+    setQuestion(null);
+    setLevel("level1");
+    setUserCount(0);
+    setMessages([]);
+    // Không cần reload trang
+    // toast.info(`Bạn đã rời phòng!`); // Có thể thêm toast nếu muốn
   };
 
-  // Lắng nghe câu hỏi từ server (socket)
+  // Hàm gửi tin nhắn
+  const sendMessage = (e) => {
+    e.preventDefault(); // Ngăn form submit reload
+    const trimmedMessage = newMessage.trim();
+    if (trimmedMessage && roomCode && joined) {
+      // Chỉ gửi khi đã join và có tin nhắn
+      socket.emit("send-message", { roomCode, message: trimmedMessage });
+      setNewMessage(""); // Xóa input
+    }
+  };
+
+  // Lắng nghe sự kiện từ server
   useEffect(() => {
+    // Lắng nghe câu hỏi mới
+    // Backend gửi cả object, ta lấy content
     socket.on("new-question", (q) => {
-      setQuestion(q.content); // Lấy nội dung câu hỏi
+      setQuestion(q?.content);
     });
 
-    // Lắng nghe người dùng mới tham gia
+    // Lắng nghe user join
     socket.on("user-joined", (data) => {
-      // console.log(
-      //   `${data.username} (${data.userId}) joined. Total users: ${data.userCount}`
-      // );
-      // Cập nhật UI: ví dụ hiển thị thông báo, cập nhật danh sách người dùng
-      // setUsersInRoom(prevUsers => [...prevUsers, { id: data.userId, name: data.username }]);
       setUserCount(data.userCount);
-      addSystemMessage(`${data.username} has joined.`);
-      toast.info(`${data.username || 'Someone'} has joined! 👋`);
+      toast.info(`${data.username || "Someone"} has joined! 👋`);
     });
 
-    // Lắng nghe người dùng rời đi
+    // Lắng nghe user left
     socket.on("user-left", (data) => {
-      // console.log(
-      //   `${data.username} (${data.userId}) left. Total users: ${data.userCount}`
-      // );
-      // Cập nhật UI: ví dụ hiển thị thông báo, cập nhật danh sách người dùng
-      // setUsersInRoom(prevUsers => prevUsers.filter(user => user.id !== data.userId));
       setUserCount(data.userCount);
-      addSystemMessage(`${data.username} has left.`);
-      toast.warn(`${data.username || 'Someone'} has left.`); // Dùng toast.warn hoặc loại khác
+      toast.warn(`${data.username || "Someone"} has left.`);
     });
 
-    // Lắng nghe xác nhận đã vào phòng (tùy chọn)
+    // Lắng nghe khi join phòng thành công (nhận cả lịch sử chat)
     socket.on("room-joined", (data) => {
-      // console.log(
-      //   `Successfully joined room ${data.roomCode}. Users: ${data.userCount}`
-      // );
-      toast.success(`Successfully joined room ${data.roomCode}. Users: ${data.userCount}`);
-      console.log("Question: ", data.question);
-      setQuestion(data.question); // Nếu server gửi câu hỏi ngay khi vào phòng
+      toast.success(`Đã vào phòng ${data.roomCode}. (${data.userCount} người)`);
+      setQuestion(data.question?.content); // Lấy content câu hỏi ban đầu
       setUserCount(data.userCount);
+      setMessages(data.chatHistory || []); // Nhận lịch sử chat
+      // scrollToBottom(); // Đã xử lý bằng useEffect [messages]
     });
 
+    // --- Lắng nghe tin nhắn mới ---
+    socket.on("new-message", (message) => {
+      // message có dạng { id, text, senderId, senderName, timestamp }
+      // Thêm tin nhắn vào cuối mảng để hiển thị
+      setMessages((prevMessages) => [...prevMessages, message]);
+      // scrollToBottom(); // Đã xử lý bằng useEffect [messages]
+    });
+
+    // Lắng nghe lỗi gửi tin nhắn
+    socket.on("message-error", (error) => {
+      console.error("Message Error:", error.message);
+      toast.error(error.message || "Gửi tin nhắn thất bại.");
+    });
+
+    // Lắng nghe lỗi chung từ server (ví dụ: phòng không tồn tại khi cố gửi tin)
+    socket.on("connect_error", (err) => {
+      console.error("Connection error:", err.message);
+      toast.error(`Kết nối thất bại: ${err.message}`);
+      setJoined(false); // Reset trạng thái nếu mất kết nối
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log("Disconnected:", reason);
+      toast.error(`Mất kết nối: ${reason}`);
+      setJoined(false); // Reset trạng thái
+    });
+
+    // --- Cleanup listeners ---
     return () => {
       socket.off("new-question");
       socket.off("user-joined");
       socket.off("user-left");
       socket.off("room-joined");
+      socket.off("new-message");
+      socket.off("message-error");
+      socket.off("connect_error");
+      socket.off("disconnect");
     };
-  }, [socket]);
+    // Chỉ phụ thuộc vào socket và hàm scroll (ít thay đổi)
+  }, [socket, scrollToBottom]);
 
-  // Đừng quên gọi emit("join-room", roomCode, username) khi người dùng thực sự muốn vào phòng
-  const joinRoomHandler = (selectedRoom, userName) => {
-    socket.emit("join-room", selectedRoom, userName);
-  };
-
-  // (Tùy chọn) Gọi emit("leave-room", roomCode) khi người dùng nhấn nút rời phòng
-  const leaveRoomHandler = (currentRoom) => {
-    socket.emit("leave-room", currentRoom);
-    // Cập nhật UI phía client ngay lập tức (ví dụ: quay về màn hình chọn phòng)
+  // Hàm định dạng timestamp (ví dụ đơn giản)
+  const formatTime = (timestamp) => {
+    if (!timestamp) return "";
+    return new Date(timestamp).toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 via-pink-400 to-rose-300 p-6">
-      <h1 className="text-white text-4xl font-bold mb-10">
-        🎉 Chao xìn, bạn muốn biết gì?
+    // --- Container chính ---
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-purple-500 via-pink-400 to-rose-300 p-4 pt-8 md:p-6">
+      {/* --- Header chung --- */}
+      <h1 className="text-white text-3xl md:text-4xl font-bold mb-4 text-center">
+        🎉 Touch Me 🎉
       </h1>
-      <h2 className="text-white text-4xl font-bold mb-10">
-        Phòng: {roomCode}, số người tham gia: {userCount}
-      </h2>
+      {joined && (
+        <h2 className="text-white text-lg md:text-xl font-semibold mb-4 text-center">
+          Phòng: <span className="text-yellow-300 font-bold">{roomCode}</span> |
+          Số người: <span className="font-bold">{userCount}</span>
+        </h2>
+      )}
 
+      {/* --- Giao diện chính --- */}
       {!joined ? (
-        <div className="bg-cyan-100 p-6 rounded-2xl w-full max-w-sm text-center space-y-4 shadow-lg">
-          <p className="text-black-500 text-lg font-semibold">Nhập số phòng</p>
+        // --- Form Join/Create Room ---
+        <div className="bg-white bg-opacity-90 p-6 rounded-2xl w-full max-w-sm text-center space-y-4 shadow-xl border border-gray-200">
+          <p className="text-gray-800 text-xl font-semibold">
+            Tham gia hoặc Tạo phòng
+          </p>
+          {/* Input Username */}
+          <input
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            placeholder="Nhập tên của bạn"
+            className="w-full rounded-lg p-3 text-lg font-medium text-center border border-gray-300 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none"
+            maxLength={20}
+          />
+          {/* Input Room Code */}
           <input
             type="text"
             value={roomCode}
-            onChange={(e) => setRoomCode(e.target.value)}
-            placeholder="AB12CD"
-            className="w-full rounded-xl p-3 text-lg font-semibold text-center"
+            onChange={(e) => setRoomCode(e.target.value.toUpperCase())}
+            placeholder="Nhập mã phòng (6 ký tự)"
+            maxLength={6}
+            className="w-full rounded-lg p-3 text-lg font-semibold text-center uppercase border border-gray-300 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 outline-none"
           />
-          <button
-            onClick={joinRoom}
-            className="w-full bg-rose-400 text-white py-2 rounded-xl font-bold hover:bg-rose-500 transition"
-          >
-            Tham gia
-          </button>
-          <button
-            onClick={() => {
-              const code = Math.random()
-                .toString(36)
-                .substring(2, 8)
-                .toUpperCase();
-              setRoomCode(code);
-            }}
-            className="w-full bg-cyan-500 text-white py-2 rounded-xl font-bold hover:bg-cyan-600 transition"
-          >
-            Tạo phòng
-          </button>
-          <div className="w-full max-w-sm mx-auto">
+          {/* Level Select */}
+          <div className="w-full">
             <label
               htmlFor="level"
-              className="block text-lg font-semibold text-gray-700 mb-2"
+              className="block text-sm font-medium text-gray-700 mb-1 text-left"
             >
-              Chọn cấp độ
+              Cấp độ (khi tạo phòng mới)
             </label>
             <select
               id="level"
@@ -148,28 +227,143 @@ export default function RealtimeQuestionRoom() {
               <option value="level3">Level 3</option>
             </select>
           </div>
+          {/* Buttons */}
+          <button
+            onClick={joinRoom}
+            className="w-full bg-rose-500 text-white py-3 rounded-xl font-bold hover:bg-rose-600 transition text-lg shadow-md"
+          >
+            Tham gia / Tạo phòng
+          </button>
+          <button
+            onClick={() => {
+              const code = Math.random()
+                .toString(36)
+                .substring(2, 8)
+                .toUpperCase();
+              setRoomCode(code);
+            }}
+            className="w-full bg-cyan-500 text-white py-3 rounded-xl font-bold hover:bg-cyan-600 transition text-lg shadow-md"
+          >
+            Lấy mã phòng ngẫu nhiên
+          </button>
         </div>
       ) : (
-        <div className="bg-white p-6 rounded-2xl w-full max-w-md space-y-6 shadow-xl text-center">
-         <div>
-          <div className="text-2xl font-semibold text-purple-800">
-            {question ? question : "Món ăn yêu thích của bạn là gì?"}
+        // --- Giao diện trong phòng (Chia cột) ---
+        // Container lớn hơn, sử dụng flex cho 2 cột
+        <div
+          className="bg-white bg-opacity-95 p-4 md:p-6 rounded-2xl w-full max-w-sm md:max-w-4xl lg:max-w-5xl space-y-4 md:space-y-0 md:space-x-6 shadow-xl flex flex-col md:flex-row border border-gray-200"
+          style={{ height: "80vh", maxHeight: "700px" }}
+        >
+          {/* Cột Trái: Câu hỏi và Nút điều khiển */}
+          <div className="flex flex-col w-full md:w-3/5 space-y-4">
+            <div className="text-center border-b pb-4 flex-shrink-0">
+              <h3 className="text-lg font-semibold text-gray-600 mb-2">
+                Câu hỏi hiện tại:
+              </h3>
+              <div className="text-xl md:text-2xl font-semibold text-purple-800 mb-4 break-words min-h-[60px] flex items-center justify-center px-2">
+                {question ? question : "Đang chờ câu hỏi..."}
+              </div>
+              <button
+                onClick={randomQuestion}
+                className="bg-rose-400 text-white px-4 py-2 md:px-5 rounded-xl font-bold text-base md:text-lg hover:bg-rose-500 transition shadow"
+              >
+                Câu hỏi mới
+              </button>
+              <button
+                onClick={quitRoom}
+                className="bg-gray-400 text-white px-4 py-2 md:px-5 rounded-xl font-bold text-base md:text-lg hover:bg-gray-500 transition ml-3 shadow"
+              >
+                Thoát phòng
+              </button>
+            </div>
+            {/* (Tùy chọn) Có thể thêm danh sách người dùng ở đây nếu muốn */}
+            {/* <div className="border-t pt-4"> ... </div> */}
           </div>
-          <button
-            onClick={randomQuestion}
-            className="bg-rose-400 text-white px-6 py-3 rounded-xl font-bold text-lg hover:bg-rose-500 transition"
-          >
-            Random câu hỏi
-          </button>
-          </div>
-          <button
-            onClick={quitRoom}
-            className="bg-rose-400 text-whiteF px-6 py-3 rounded-xl font-bold text-lg hover:bg-rose-500 transition"
-          >
-            Thoát
-          </button>
-        </div>
+          {/* Cột Phải: Chat */}
+          <div className="flex flex-col w-full md:w-2/5 border-t md:border-t-0 md:border-l border-gray-200 md:pl-6 pt-4 md:pt-0 overflow-hidden">
+            <h3 className="text-base font-semibold text-center mb-2 flex-shrink-0 border-b pb-1">
+              Chat Box
+            </h3>
+            {/* Khu vực hiển thị tin nhắn */}
+            <div
+              ref={chatDisplayRef}
+              className="flex-grow overflow-y-auto mb-2 pr-2 space-y-1.5 min-h-[200px] max-h-full"
+            >
+              {messages.length === 0 && (
+                <p className="text-center text-gray-400 italic text-sm mt-4">
+                  Bắt đầu trò chuyện...
+                </p>
+              )}
+              {messages.map((msg) => {
+                // --- SỬ DỤNG COMPONENT MỚI CHO TIN HỆ THỐNG ---
+                if (msg.type === "system-question") {
+                  return (
+                    <SystemChatMessage
+                      key={msg.id || msg.timestamp}
+                      msg={msg}
+                      formatTime={formatTime}
+                    />
+                  );
+                }
+                // --- Render tin nhắn người dùng bình thường ---
+                else {
+                  return (
+                    <div
+                      key={msg.id || msg.timestamp}
+                      className={`flex flex-col ${
+                        msg.senderId === socket.id ? "items-end" : "items-start"
+                      }`}
+                    >
+                      <div
+                        className={`px-2.5 py-1 rounded-lg max-w-[90%] break-words shadow-sm ${
+                          msg.senderId === socket.id
+                            ? "bg-blue-500 text-white"
+                            : "bg-gray-100 text-gray-800"
+                        }`}
+                      >
+                        {msg.senderId !== socket.id && (
+                          <span className="font-semibold text-xs block opacity-80 mb-0.5">
+                            {msg.senderName || "Someone"}
+                          </span>
+                        )}
+                        <span className="text-sm">{msg.text}</span>
+                        <span className="text-[10px] opacity-70 block text-right mt-0.5">
+                          {formatTime(msg.timestamp)}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                }
+                // ------------------------------------------
+              })}
+            </div>
+
+            {/* Khu vực nhập tin nhắn */}
+            <form
+              onSubmit={sendMessage}
+              className="flex items-center pt-3 flex-shrink-0"
+            >
+              <input
+                type="text"
+                value={newMessage}
+                onChange={(e) => setNewMessage(e.target.value)}
+                placeholder="Nhập tin nhắn..."
+                className="flex-grow px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+                autoComplete="off"
+                maxLength={300} // Giới hạn ký tự nếu cần
+              />
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-r-lg font-semibold hover:bg-blue-600 transition"
+                disabled={!newMessage.trim()} // Vô hiệu hóa nút nếu input trống
+              >
+                Gửi
+              </button>
+            </form>
+          </div>{" "}
+          {/* Hết cột phải (Chat) */}
+        </div> // Hết giao diện trong phòng
       )}
-    </div>
+    </div> // Hết container chính
   );
 }
