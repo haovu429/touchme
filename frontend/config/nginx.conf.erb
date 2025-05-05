@@ -1,53 +1,83 @@
-# ===== Đặt vào file: frontend/config/nginx.conf.erb =====
-# (Giữ nguyên tên file .erb khi dùng heroku-community/nginx)
+daemon off;
+# stay attached to the dyno process, run in Procfile / web
 
-# Khối events bắt buộc, có thể để trống
-events {}
+pid /app/nginx.pid;
+# /app is $HOME & working directory of Heroku dyno
 
-# Khối http chứa cấu hình server
-http {
-    # Include các kiểu MIME cơ bản (đường dẫn này thường đúng trên Heroku)
-    include       /etc/nginx/mime.types;
-    default_type  application/octet-stream;
+error_log stderr info;
+# As documented for Nginx, but we still see error during start-up in log:
+# >  nginx: [alert] could not open error log file: open() "./logs/error.log"
 
-    # Các cài đặt hiệu suất cơ bản
-    sendfile        on;
-    # tcp_nopush     on;
+worker_processes <%= ENV['NGINX_WORKERS'] || 4 %>;
+# Heroku dynos have at least 4 cores.
 
-    # Bật Gzip (Tùy chọn nhưng nên có)
-    gzip on;
-    gzip_disable "msie6";
-    gzip_vary on;
-    gzip_proxied any;
-    gzip_comp_level 6;
-    gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript image/svg+xml;
-
-    # Ghi log ra Heroku Logs
-    access_log /dev/stdout;
-    error_log stderr debug; # Có thể đổi thành 'debug' nếu cần xem chi tiết hơn
-
-    # Khối server chính
-    server {
-        # Sử dụng cú pháp ERB để lấy PORT động (Đúng cho heroku-community/nginx)
-        listen <%= ENV["PORT"] %>;
-
-        # Tên server, _ để bắt mọi tên miền
-        server_name _;
-
-        # Thư mục gốc chứa file tĩnh đã build (/app/dist)
-        root /app/dist;
-        index index.html index.htm;
-
-        # Cấu hình cho SPA routing
-        location / {
-            try_files $uri $uri/ /index.html;
-        }
-
-        # Cấu hình caching (sửa thành 30 phút theo yêu cầu trước đó)
-        location ~* \.(?:ico|css|js|gif|jpe?g|png|svg|woff|woff2|ttf|eot)$ {
-            expires 30m; # Thời gian cache 30 phút
-            add_header Cache-Control "public";
-        }
-    }
+events {
+	use epoll;
+	accept_mutex on;
+	worker_connections <%= ENV['NGINX_WORKER_CONNECTIONS'] || 1024 %>;
 }
-# ===== Kết thúc file frontend/config/nginx.conf.erb =====
+
+http {
+	gzip on;
+	gzip_comp_level 2;
+	gzip_min_length 512;
+	gzip_proxied any; # Heroku router sends Via header
+
+	server_tokens off;
+
+	log_format l2met 'measure#nginx.service=$request_time request_id=$http_x_request_id';
+	access_log /dev/stdout l2met;
+	# Remote IP, request path, HTTP status, & timestamp are all logged by Heroku Router, so not useful to include here.
+
+	include mime.types;
+	default_type application/octet-stream;
+	sendfile on;
+
+	client_body_timeout <%= ENV['NGINX_CLIENT_BODY_TIMEOUT'] || 5 %>;
+	# Must read the body in 5 seconds.
+
+	server {
+		listen <%= ENV["PORT"] %>;
+		server_name _;
+		keepalive_timeout 5;
+		client_max_body_size <%= ENV['NGINX_CLIENT_MAX_BODY_SIZE'] || 1 %>M;
+
+		## HTTPS Only
+		if ($http_x_forwarded_proto != "https") {
+			return 301 https://$host$request_uri;
+		}
+
+		## Document root
+		root /app/dist;
+
+		location / {
+			## Clean URLs: match on extensionless requests.
+			# try_files $uri $uri/ $uri.html =404;
+
+			## Single-page app client-side routing: returns index.html if the requested path doesn't exist.
+			## When enabled, the client-side app must handle its own 404 errors.
+			# error_page 404 = /index.html;
+		}
+
+		## Define specific behaviors for sub directories and other locations.
+		# location /assets {
+		# 	expires 7d;
+		# }
+
+		## Custom error pages
+		# error_page 404 /404.html;
+		# error_page 500 /500.html;
+	}
+
+	## Canonical Host: redirect to a canonical hostname.
+	## Multiple server blocks may be used, one for each hostname to redirect from.
+	# server { 
+	# 	server_name some-other-name.example.com;
+	# 	return 301 https://canonical-name.example.com$request_uri;
+	# }
+	# server { 
+	# 	server_name yet-another-name.example.com;
+	# 	return 301 https://canonical-name.example.com$request_uri;
+	# }
+	# …
+}

@@ -1,4 +1,5 @@
 # web: npm run dev -- --host 0.0.0.0 --port $PORT
 # web: bin/start-nginx
-web: bin/start-nginx-debug
+# web: bin/start-nginx-debug
 # web: nginx -g 'daemon off;'
+web: bin/start-nginx-static
