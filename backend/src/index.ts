@@ -49,7 +49,8 @@ dotEnvFiles.forEach((filePath) => {
 const frontendUrl = process.env.FRONTEND_URL; // Ví dụ: https://your-frontend.herokuapp.com
 
 const allowedOrigins = [
-  "http://localhost:5173", // URL frontend khi chạy local (nhớ thay cổng nếu cần)
+  "http://localhost:5173", // URL frontend khi chạy local (nhớ thay cổng nếu cần)\
+  "https://www.touchme.today/"
   // Bạn có thể thêm các URL khác vào đây nếu cần (ví dụ: URL preview deploy)
 ];
 
@@ -128,17 +129,44 @@ const demoRoom = {
   'as123': {
     roomKey: "as123",
     currentQuestion: "What is the capital of France?",
+    host: "hostId",
   },
 };
 
 io.on("connection", (socket: any) => {
 
-  const createRoom = (roomCode: string, username: "Anonymous") => {
+  const createRoom = (roomCode: string, level = "level1", username = "Anonymous") => {
+    console.log("Creating room with code: ", roomCode);
+    // Kiểm tra xem phòng đã tồn tại chưa
+    if (rooms.has(roomCode)) {
+      socket.emit("room-exists", { message: "Room already exists!" });
+      return;
+    }
+    
+    let randomQuestion = getRandomQuestion(level);
 
+    // Tạo phòng mới
+    rooms.set(roomCode, {
+      roomKey: roomCode,
+      question:  randomQuestion,
+      host: socket.id,
+    });
+
+    // Tham gia phòng
+    socket.join(roomCode);
+    users[socket.id] = { username, currentRoom: roomCode };
+
+    console.log(`User ${socket.id} (${username}) created and joined room ${roomCode}`);
+
+    // Gửi thông báo cho người dùng
+    socket.emit("room-created", { roomCode, question: randomQuestion, message: "Room created successfully!" });
+    console.log(`Room ${roomCode} created with question: ${randomQuestion}`);
+    return { roomCode, question: randomQuestion.content };
   }
 
   // Khi người dùng tham gia phòng
-  socket.on("join-room", (roomCode: string, username = "Anonymous") => {
+  socket.on("join-room", (roomCode: string, username = "Anonymous", level = "level1") => {
+    console.log(`User ${socket.id} (${username}) is trying to join room ${roomCode}`);
     // Rời khỏi các phòng khác (nếu có) - Quan trọng nếu bạn chỉ muốn user ở 1 phòng tại 1 thời điểm
     Object.keys(socket.rooms); //trả về cả socket.id, cần lọc ra
     // Hoặc cách tốt hơn là lưu phòng hiện tại của user
@@ -154,6 +182,15 @@ io.on("connection", (socket: any) => {
         userCount: updatedOldRoomUserCount,
       });
       console.log(`User ${socket.id} (${username}) left room ${currentRoom}`);
+    }
+    let initRoomData = {} as any;
+    // Kiểm tra xem phòng đã tồn tại chưa
+    // console.log("Checking if room exists: ", !rooms.has(roomCode));
+    if (!rooms.has(roomCode)) {
+      initRoomData = createRoom(roomCode, level, username);
+    } else {
+      let roomStage = rooms.get(roomCode) as any;
+      initRoomData = {roomCode, question: roomStage?.question?.content};
     }
     socket.join(roomCode);
     // Lưu thông tin user (ví dụ)
@@ -182,7 +219,7 @@ io.on("connection", (socket: any) => {
       userCount: userCount,
     });
     // Gửi thông tin phòng hiện tại về cho client vừa join (tùy chọn)
-    socket.emit("room-joined", { roomCode, userCount });
+    socket.emit("room-joined", { roomCode, question: initRoomData.question, userCount });
   });
 
   // Khi người dùng yêu cầu câu hỏi (theo roomCode và cấp độ)
@@ -196,9 +233,22 @@ io.on("connection", (socket: any) => {
       console.log(
         `Sending question to room ${roomCode}: ${selectedQuestion.content}`
       ); // Log câu hỏi gửi đi
+      let roomStage = rooms.get(roomCode) as any;
+      let updateStage = {
+        ...roomStage,
+        question: selectedQuestion,
+      };
+      rooms.set(roomCode, updateStage);
       io.to(roomCode).emit("new-question", selectedQuestion); // Gửi câu hỏi ngẫu nhiên đến room
     }
   });
+
+  const getRandomQuestion = (level: string) => {
+    const levelQuestions = questions[level]; // Lấy câu hỏi từ cấp độ (level1, level2, level3)
+    const randomIndex = Math.floor(Math.random() * levelQuestions.length);
+    const selectedQuestion = levelQuestions[randomIndex]; // Chọn câu hỏi ngẫu nhiên
+    return selectedQuestion; // Trả về câu hỏi ngẫu nhiên
+  }
 
   // --- Xử lý khi người dùng ngắt kết nối ---
   socket.on("disconnect", () => {

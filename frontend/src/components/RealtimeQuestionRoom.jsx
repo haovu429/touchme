@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { toast } from 'react-toastify'; // Import toast từ react-toastify
 
-console.log("VITE_SOCKET_URL: ", import.meta.env.VITE_SOCKET_URL);
-console.log("NODE_ENV: ", import.meta.env.NODE_ENV);
+// console.log("VITE_SOCKET_URL: ", import.meta.env.VITE_SOCKET_URL);
+// console.log("NODE_ENV: ", import.meta.env.NODE_ENV);
 const socket = io(import.meta.env.VITE_SOCKET_URL);
 
 export default function RealtimeQuestionRoom() {
@@ -41,9 +41,9 @@ export default function RealtimeQuestionRoom() {
 
     // Lắng nghe người dùng mới tham gia
     socket.on("user-joined", (data) => {
-      console.log(
-        `${data.username} (${data.userId}) joined. Total users: ${data.userCount}`
-      );
+      // console.log(
+      //   `${data.username} (${data.userId}) joined. Total users: ${data.userCount}`
+      // );
       // Cập nhật UI: ví dụ hiển thị thông báo, cập nhật danh sách người dùng
       // setUsersInRoom(prevUsers => [...prevUsers, { id: data.userId, name: data.username }]);
       setUserCount(data.userCount);
@@ -53,9 +53,9 @@ export default function RealtimeQuestionRoom() {
 
     // Lắng nghe người dùng rời đi
     socket.on("user-left", (data) => {
-      console.log(
-        `${data.username} (${data.userId}) left. Total users: ${data.userCount}`
-      );
+      // console.log(
+      //   `${data.username} (${data.userId}) left. Total users: ${data.userCount}`
+      // );
       // Cập nhật UI: ví dụ hiển thị thông báo, cập nhật danh sách người dùng
       // setUsersInRoom(prevUsers => prevUsers.filter(user => user.id !== data.userId));
       setUserCount(data.userCount);
@@ -65,10 +65,12 @@ export default function RealtimeQuestionRoom() {
 
     // Lắng nghe xác nhận đã vào phòng (tùy chọn)
     socket.on("room-joined", (data) => {
-      console.log(
-        `Successfully joined room ${data.roomCode}. Users: ${data.userCount}`
-      );
+      // console.log(
+      //   `Successfully joined room ${data.roomCode}. Users: ${data.userCount}`
+      // );
       toast.success(`Successfully joined room ${data.roomCode}. Users: ${data.userCount}`);
+      console.log("Question: ", data.question);
+      setQuestion(data.question); // Nếu server gửi câu hỏi ngay khi vào phòng
       setUserCount(data.userCount);
     });
 
