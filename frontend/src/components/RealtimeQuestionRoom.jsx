@@ -287,7 +287,7 @@ export default function RealtimeQuestionRoom() {
         // Container lớn hơn, sử dụng flex cho 2 cột
         <div
           className="bg-white bg-opacity-95 p-4 md:p-6 rounded-2xl w-full max-w-sm md:max-w-4xl lg:max-w-5xl space-y-4 md:space-y-0 md:space-x-6 shadow-xl flex flex-col md:flex-row border border-gray-200"
-          style={{ height: "80vh", maxHeight: "700px" }}
+          // style={{ height: "80vh", maxHeight: "700px" }}
         >
           {/* Cột Trái: Câu hỏi và Nút điều khiển */}
           <div className="flex flex-col w-full md:w-3/5 space-y-4">
@@ -348,7 +348,12 @@ export default function RealtimeQuestionRoom() {
             {/* Khu vực hiển thị tin nhắn */}
             <div
               ref={chatDisplayRef}
-              className="flex-grow overflow-y-auto mb-2 pr-2 space-y-1.5 min-h-[200px] max-h-full"
+              // Bỏ flex-grow, thêm max-height cụ thể (ví dụ: max-h-96 tương đương 24rem hoặc 384px)
+              // Bạn có thể điều chỉnh giá trị max-h- này (vd: max-h-80, max-h-[400px]) cho phù hợp với giao diện
+              className="overflow-y-auto mb-2 pr-2 space-y-1.5 min-h-[200px] max-h-96 border rounded-md p-2 bg-gray-50"
+              // Giữ lại: overflow-y-auto, mb-2, pr-2, space-y-1.5, min-h-[200px], border, rounded, p-2, bg-gray-50
+              // Bỏ đi: flex-grow
+              // Thêm vào: max-h-96 (hoặc giá trị khác bạn muốn)
             >
               {messages.length === 0 && (
                 <p className="text-center text-gray-400 italic text-sm mt-4">
