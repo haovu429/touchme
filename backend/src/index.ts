@@ -226,6 +226,18 @@ loadQuestionsFromFirestore().then(() => {
         users[socket.id] = { username, currentRoom: roomCode };
         initialQuestion = roomData.question; // Lấy câu hỏi hiện tại
         console.log(`User ${socket.id} (${username}) joined existing room ${roomCode}`);
+
+        // --- GỬI TIN NHẮN HỆ THỐNG KHI JOIN PHÒNG ĐÃ CÓ ---
+        const joinMessage = {
+          id: `sys_join_${Date.now()}_${socket.id}`,
+          text: `${username || 'Someone'} đã vào phòng.`,
+          senderId: 'system',
+          senderName: 'Hệ thống',
+          timestamp: Date.now(),
+          type: 'system' // Dùng chung type 'system'
+        };
+        io.to(roomCode).emit("new-message", joinMessage); // Gửi cho cả phòng
+        // ----------------------------------------------
       }
 
       const userCount = roomData.users.size;
@@ -356,23 +368,32 @@ loadQuestionsFromFirestore().then(() => {
         const roomCode = userData.currentRoom;
         const roomData = rooms.get(roomCode);
         if (roomData) {
+          const leavingUsername = userData.username || 'Someone'; // Lưu tên trước khi xóa
           roomData.users.delete(socket.id);
           const userCount = roomData.users.size;
+
+          // --- GỬI TIN NHẮN HỆ THỐNG KHI DISCONNECT ---
+          const leaveMessage = {
+            id: `sys_leave_${Date.now()}_${socket.id}`,
+            text: `${leavingUsername} đã rời phòng.`,
+            senderId: 'system',
+            senderName: 'Hệ thống',
+            timestamp: Date.now(),
+            type: 'system'
+          };
+          // Gửi trước khi xóa phòng (nếu đây là người cuối)
+          if (userCount > 0) {
+            io.to(roomCode).emit("new-message", leaveMessage);
+          }
+          // -------------------------------------------
+
           if (userCount === 0) {
             rooms.delete(roomCode);
-            console.log(`Room ${roomCode} deleted from memory as user ${socket.id} disconnected.`);
-            deleteChatHistory(roomCode); // <--- Gọi xóa lịch sử chat
+            console.log(`[Disconnect] Room ${roomCode} deleted. Triggering chat deletion.`);
+            deleteChatHistory(roomCode);
           } else {
-            socket.to(roomCode).emit("user-left", { userId: socket.id, username: userData.username, userCount });
-            console.log(`User ${socket.id} left room ${roomCode}. Remaining: ${userCount}`);
-            // Logic chuyển host nếu cần
-            if (roomData.host === socket.id) {
-              const newHostId = Array.from(roomData.users.keys())[0];
-              if (newHostId) {
-                roomData.host = newHostId;
-                console.log(`New host for room ${roomCode}: ${newHostId}`);
-              }
-            }
+            socket.to(roomCode).emit("user-left", { userId: socket.id, username: leavingUsername, userCount });
+            // ... (xử lý host mới nếu cần) ...
           }
         }
       }
@@ -386,10 +407,26 @@ loadQuestionsFromFirestore().then(() => {
       const roomData = rooms.get(roomCode);
 
       if (userData && userData.currentRoom === roomCode && roomData && roomData.users.has(socket.id)) {
+        const leavingUsername = userData.username || 'Someone';
         socket.leave(roomCode);
         roomData.users.delete(socket.id);
         delete users[socket.id];
         const userCount = roomData.users.size;
+
+        // --- GỬI TIN NHẮN HỆ THỐNG KHI LEAVE ---
+        const leaveMessage = {
+          id: `sys_leave_${Date.now()}_${socket.id}`,
+          text: `${leavingUsername} đã chủ động rời phòng.`,
+          senderId: 'system',
+          senderName: 'Hệ thống',
+          timestamp: Date.now(),
+          type: 'system'
+        };
+        // Gửi cho những người còn lại (nếu có)
+        if (userCount > 0) {
+          io.to(roomCode).emit("new-message", leaveMessage); // Gửi cho cả phòng cũng được
+        }
+        // ---------------------------------------
 
         if (userCount === 0) {
           rooms.delete(roomCode);
