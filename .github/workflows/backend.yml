@@ -47,9 +47,13 @@ jobs:
           HEROKU_APP_NAME: ${{ secrets.HEROKU_BACKEND_APP_NAME }}
           FRONTEND_URL_VALUE: ${{ secrets.FRONTEND_URL }}
           FIREBASE_KEY_CONTENT: ${{ secrets.FIREBASE_KEY_CONTENT }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
         run: |
           heroku config:set FRONTEND_URL=$FRONTEND_URL_VALUE --app $HEROKU_APP_NAME
           heroku config:set FIREBASE_SERVICE_ACCOUNT_KEY_JSON="$FIREBASE_KEY_CONTENT" -a $HEROKU_APP_NAME
+          heroku config:set TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN" -a $HEROKU_APP_NAME
+          heroku config:set TELEGRAM_ADMIN_CHAT_ID="$TELEGRAM_ADMIN_CHAT_ID" -a $HEROKU_APP_NAME
       
       - name: Set the buildpack for backend
         run: |

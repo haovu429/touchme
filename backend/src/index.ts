@@ -9,6 +9,8 @@ import * as admin from 'firebase-admin';
 import { Timestamp } from 'firebase-admin/firestore'; // <--- Import Timestamp
 const path = require("path");
 const fs = require("fs");
+const axios = require('axios');
+const TelegramBot = require('node-telegram-bot-api'); // Thêm import này
 
 // --- Khởi tạo Firebase Admin SDK (giữ nguyên logic của bạn) ---
 let serviceAccount;
@@ -106,7 +108,16 @@ const getRandomQuestion = (level: string) => {
   }
 };
 
+// --- Biến trạng thái cho tính năng "Gọi Thổ Địa" ---
+let isCallAdminEnabled = true; // Mặc định là bật khi server khởi động
 
+// --- Hàm escape ký tự đặc biệt cho MarkdownV2 ---
+const escapeMarkdownV2 = (text: string): string => {
+  if (typeof text !== 'string') return '';
+  // Các ký tự cần escape trong MarkdownV2
+  // _ * [ ] ( ) ~ ` > # + - = | { } . !
+  return text.replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+};
 
 // --- Khởi chạy server sau khi tải câu hỏi ---
 loadQuestionsFromFirestore().then(() => {
@@ -157,119 +168,202 @@ loadQuestionsFromFirestore().then(() => {
   const users: { [key: string]: any } = {}; // { socketId: { username, currentRoom } }
   const rooms = new Map<string, any>([]); // Map [roomCode: string]: { roomKey, question, host, users: Map<string, string> }
 
-  // --- Hàm tạo phòng (nên định nghĩa bên ngoài io.on) ---
-  const createRoom = (socket: any, roomCode: string, level = "level1", username = "Anonymous") => {
-    console.log("Creating room with code: ", roomCode);
-    if (rooms.has(roomCode)) {
-      socket.emit("room-exists", { message: "Room already exists!" });
-      console.warn(`Attempt to create existing room: ${roomCode}`);
+  // --- Thêm state cho Rate Limiting "Gọi Thổ Địa" ---
+  const callAdminTimestamps = new Map<string, number>(); // Key: socket.id, Value: timestamp (ms)
+  const CALL_ADMIN_RATE_LIMIT_MS = 2 * 60 * 1000; // Ví dụ: 2 phút (tính bằng mili giây)
+  // --------------------------------------------------
+
+
+  // --- Khởi tạo Telegram Bot VÀ ĐẶT LISTENER Ở ĐÂY (SAU KHI io ĐƯỢC KHỞI TẠO) ---
+  const botToken = process.env.TELEGRAM_BOT_TOKEN;
+  const adminChatId = process.env.TELEGRAM_ADMIN_CHAT_ID;
+
+  if (botToken && adminChatId) {
+    const bot = new TelegramBot(botToken, { polling: true });
+
+    bot.onText(/^\/(oncalladmin|offcalladmin)$/, (msg: any) => {
+      if (msg.chat.id.toString() === adminChatId) {
+        if (msg.text === '/oncalladmin') {
+          isCallAdminEnabled = true;
+          console.log("[Admin Command] Call Admin feature ENABLED by admin.");
+          bot.sendMessage(adminChatId, "Tính năng 'Gọi Thổ Địa' đã được BẬT.");
+          io.emit("admin-call-status-changed", { enabled: true }); // <<<=== DÙNG io Ở ĐÂY
+        } else if (msg.text === '/offcalladmin') {
+          isCallAdminEnabled = false;
+          console.log("[Admin Command] Call Admin feature DISABLED by admin.");
+          bot.sendMessage(adminChatId, "Tính năng 'Gọi Thổ Địa' đã được TẮT.");
+          io.emit("admin-call-status-changed", { enabled: false }); // <<<=== DÙNG io Ở ĐÂY
+        }
+      } else {
+        console.warn(`[Admin Command] Unauthorized attempt by chat ID: ${msg.chat.id}`);
+        bot.sendMessage(msg.chat.id, "Bạn không có quyền thực hiện lệnh này.");
+      }
+    });
+
+    bot.on('polling_error', (error: any) => {
+      console.error("[Telegram Bot] Polling error:", error.code, error.message?.substring(0, 100));
+    });
+    console.log("Telegram Bot listener for admin commands started (polling).");
+
+  } else {
+    console.warn("TELEGRAM_BOT_TOKEN or TELEGRAM_ADMIN_CHAT_ID is not set. Bot command listener will not work.");
+  }
+  // --------------------------------------------------------------------
+
+  // --- Hàm tạo phòng (cần truyền rooms, users, getRandomQuestion) ---
+  const createRoom = (socket: any, roomCode: string, level = "level1", username = "Anonymous", roomsMap: Map<string, any>, usersMap: { [key: string]: any }, questionFunc: Function) => {
+    console.log("[Room Creation] Creating room with code: ", roomCode);
+    if (roomsMap.has(roomCode)) {
+      socket.emit("room-exists", { message: `Room ${roomCode} already exists!` });
+      console.warn(`[Room Creation] Attempt to create existing room: ${roomCode}`);
       return null;
     }
-    const randomQuestion = getRandomQuestion(level);
+    const initialQuestion = questionFunc(level);
     const newRoomData = {
       roomKey: roomCode,
-      question: randomQuestion,
+      question: initialQuestion,
       host: socket.id,
-      users: new Map<string, string>() // Map [socketId: string]: username
+      users: new Map<string, string>()
     };
     newRoomData.users.set(socket.id, username);
-    rooms.set(roomCode, newRoomData);
+    roomsMap.set(roomCode, newRoomData);
     socket.join(roomCode);
-    users[socket.id] = { username, currentRoom: roomCode };
-    console.log(`User ${socket.id} (${username}) created and joined room ${roomCode}`);
-    socket.emit("room-created", { roomCode, question: randomQuestion, userCount: 1, message: "Room created successfully!" });
-    console.log(`Room ${roomCode} created with initial question: ${randomQuestion?.content}`);
+    usersMap[socket.id] = { username, currentRoom: roomCode };
+    console.log(`[Room Creation] User ${socket.id} (${username}) created and joined room ${roomCode}`);
+    socket.emit("room-created", { roomCode, question: initialQuestion, userCount: 1 });
     return newRoomData;
-  }
+  };
 
   // --- Xử lý Socket connection ---
   io.on("connection", (socket: any) => {
     console.log(`User connected: ${socket.id}`);
 
-    // --- Sự kiện join-room (Thêm logic lấy lịch sử chat) ---
-    socket.on("join-room", async (roomCode: string, username = "Anonymous", level = "level1") => {
-      console.log(`User ${socket.id} (${username}) trying to join room ${roomCode}`);
+    // Gửi trạng thái "Gọi Thổ Địa" ban đầu cho client
+    socket.emit("admin-call-status-changed", { enabled: isCallAdminEnabled });
 
-      // Xử lý rời phòng cũ (nếu có)
-      const currentRoomData = users[socket.id];
-      if (currentRoomData && currentRoomData.currentRoom && currentRoomData.currentRoom !== roomCode) {
-        const oldRoomCode = currentRoomData.currentRoom;
+    // --- Sự kiện call-admin (Thêm kiểm tra trạng thái) ---
+    socket.on("call-admin", async (data: { roomCode: string }) => {
+      const { roomCode } = data;
+      const userData = users[socket.id];
+
+      // === KIỂM TRA RATE LIMIT ===
+      const now = Date.now();
+      const lastCallTime = callAdminTimestamps.get(socket.id);
+
+      if (lastCallTime && (now - lastCallTime < CALL_ADMIN_RATE_LIMIT_MS)) {
+        const timeLeftMs = CALL_ADMIN_RATE_LIMIT_MS - (now - lastCallTime);
+        const timeLeftMinutes = Math.ceil(timeLeftMs / (60 * 1000)); // Làm tròn lên phút
+        console.log(`[Call Admin] User ${socket.id} rate limited. Time left: ${timeLeftMinutes} minute(s).`);
+        socket.emit("admin-call-error", { message: `Bạn vừa mới gọi Thổ Địa. Vui lòng thử lại sau khoảng ${timeLeftMinutes} phút.` });
+        return;
+      }
+      // ===========================
+
+
+      if (!isCallAdminEnabled) {
+        console.log(`[Call Admin] Feature is disabled. User ${userData?.username} in room ${roomCode} tried.`);
+        socket.emit("admin-call-error", { message: "Tính năng 'Gọi Thổ Địa' hiện đang tạm tắt." });
+        return;
+      }
+      // ... (Phần còn lại của call-admin như cũ, dùng axios hoặc bot.sendMessage)
+      if (!userData || userData.currentRoom !== roomCode) {
+        console.warn(`[Call Admin] User ${socket.id} invalid call for room ${roomCode}.`);
+        socket.emit("admin-call-error", { message: "Không thể gọi admin lúc này." });
+        return;
+      }
+      if (!botToken || !adminChatId) { // Đảm bảo botToken và adminChatId vẫn có thể truy cập
+        console.error("[Call Admin] Telegram Bot Token hoặc Admin Chat ID chưa được cấu hình trên backend.");
+        socket.emit("admin-call-error", { message: "Chức năng gọi admin chưa được cấu hình đầy đủ." });
+        return;
+      }
+      // --- Escape các giá trị động ---
+      const safeRoomCode = escapeMarkdownV2(roomCode);
+      const safeUsername = escapeMarkdownV2(userData.username || 'Người dùng ẩn danh');
+      const safeSocketId = escapeMarkdownV2(socket.id);
+      // --- Tạo messageText với định dạng MarkdownV2 ---
+      // Ví dụ: In đậm một số phần, in nghiêng socket ID
+      const messageText =
+        `🆘 *Admin ơi, có người cần hỗ trợ\\!* 🆘
+
+Phòng: *${safeRoomCode}*
+Người gọi: *${safeUsername}*
+_\\(Socket ID: ${safeSocketId}\\)_`; // Dùng _id_ cho in nghiêng
+
+      const payload = {
+        chat_id: adminChatId,
+        text: messageText,
+        parse_mode: 'MarkdownV2' // <<<=== THÊM LẠI VÀ DÙNG MARKDOWNV2
+      };
+      const telegramApiUrl = `https://api.telegram.org/bot${botToken}/sendMessage`;
+      try {
+        await axios.post(telegramApiUrl, payload);
+        console.log(`[Call Admin] Successfully sent Telegram message for room ${roomCode}`);
+        socket.emit("admin-called-successfully", { message: "Đã thông báo cho Thổ Địa. Vui lòng chờ!" });
+
+        // --- CẬP NHẬT TIMESTAMP CHO USER NÀY ---
+        callAdminTimestamps.set(socket.id, Date.now());
+        // ------------------------------------
+      } catch (error: any) {
+        if (error.response && error.response.data) {
+          console.error("[Call Admin] Error sending Telegram message (Telegram API Response):", JSON.stringify(error.response.data, null, 2));
+        } else {
+          console.error("[Call Admin] Error sending Telegram message (Network/Axios error):", error.message);
+        }
+        socket.emit("admin-call-error", { message: "Lỗi khi cố gắng thông báo cho Thổ Địa." });
+      }
+    });
+
+    // --- Các sự kiện khác (join-room, get-question, send-message, disconnect, leave-room) ---
+    // Nhớ truyền users, rooms, getRandomQuestion vào createRoom khi gọi
+    socket.on("join-room", async (roomCode: string, username = "Anonymous", level = "level1") => {
+      console.log(`[Join Room] User ${socket.id} (${username}) trying to join room ${roomCode}`);
+      const currentUserData = users[socket.id];
+      if (currentUserData && currentUserData.currentRoom && currentUserData.currentRoom !== roomCode) {
+        const oldRoomCode = currentUserData.currentRoom;
         socket.leave(oldRoomCode);
         const oldRoom = rooms.get(oldRoomCode);
         if (oldRoom) {
           oldRoom.users.delete(socket.id);
-          if (oldRoom.users.size === 0) {
+          const oldRoomUserCount = oldRoom.users.size;
+          if (oldRoomUserCount === 0) {
             rooms.delete(oldRoomCode);
-            console.log(`Room ${oldRoomCode} deleted from memory as it became empty.`);
-            deleteChatHistory(oldRoomCode); // Xóa lịch sử khi phòng trống
+            console.log(`[Leave Room] Room ${oldRoomCode} deleted from memory as it became empty.`);
+            deleteChatHistory(oldRoomCode);
           } else {
-            socket.to(oldRoomCode).emit("user-left", { userId: socket.id, username: currentRoomData.username, userCount: oldRoom.users.size });
+            socket.to(oldRoomCode).emit("user-left", { userId: socket.id, username: currentUserData.username, userCount: oldRoomUserCount });
           }
         }
-        console.log(`User ${socket.id} (${username}) left room ${oldRoomCode}`);
+        console.log(`[Leave Room] User ${socket.id} (${username}) left room ${oldRoomCode}`);
       }
-
       let roomData = rooms.get(roomCode);
       let isNewRoom = false;
-      let initialQuestion: any = null;
-
-      // Tạo phòng mới nếu chưa có
       if (!roomData) {
-        roomData = createRoom(socket, roomCode, level, username);
-        if (!roomData) return; // Lỗi tạo phòng
+        roomData = createRoom(socket, roomCode, level, username, rooms, users, getRandomQuestion);
+        if (!roomData) {
+          console.error(`[Join Room] Failed to create room ${roomCode} for user ${socket.id}`);
+          return;
+        }
         isNewRoom = true;
-        initialQuestion = roomData.question;
       } else {
-        // Tham gia phòng đã có
         socket.join(roomCode);
         roomData.users.set(socket.id, username);
         users[socket.id] = { username, currentRoom: roomCode };
-        initialQuestion = roomData.question; // Lấy câu hỏi hiện tại
-        console.log(`User ${socket.id} (${username}) joined existing room ${roomCode}`);
-
-        // --- GỬI TIN NHẮN HỆ THỐNG KHI JOIN PHÒNG ĐÃ CÓ ---
-        const joinMessage = {
-          id: `sys_join_${Date.now()}_${socket.id}`,
-          text: `${username || 'Someone'} đã vào phòng.`,
-          senderId: 'system',
-          senderName: 'Hệ thống',
-          timestamp: Date.now(),
-          type: 'system' // Dùng chung type 'system'
-        };
-        io.to(roomCode).emit("new-message", joinMessage); // Gửi cho cả phòng
-        // ----------------------------------------------
+        console.log(`[Join Room] User ${socket.id} (${username}) joined existing room ${roomCode}`);
       }
-
       const userCount = roomData.users.size;
-
-      // Gửi user-joined cho người khác nếu không phải phòng mới
       if (!isNewRoom) {
         socket.to(roomCode).emit("user-joined", { userId: socket.id, username, userCount });
       }
-
-      // --- Lấy lịch sử chat ---
       let chatHistory: any[] = [];
       try {
-        console.log(`Workspaceing chat history for room ${roomCode}...`);
         const messagesRef = db.collection('rooms').doc(roomCode).collection('messages');
-        const snapshot = await messagesRef.orderBy('timestamp', 'asc').limit(50).get(); // Lấy 50 tin gần nhất, ASC để hiển thị đúng chiều
+        const snapshot = await messagesRef.orderBy('timestamp', 'asc').limit(50).get();
         snapshot.forEach(doc => {
           const data = doc.data();
-          chatHistory.push({
-            id: doc.id,
-            text: data.text,
-            senderId: data.senderId,
-            senderName: data.senderName,
-            timestamp: data.timestamp?.toMillis ? data.timestamp.toMillis() : null // Chuyển sang milliseconds cho client
-          });
+          chatHistory.push({ id: doc.id, text: data.text, senderId: data.senderId, senderName: data.senderName, timestamp: data.timestamp?.toMillis ? data.timestamp.toMillis() : null });
         });
-        console.log(`Workspaceed ${chatHistory.length} messages for room ${roomCode}.`);
-      } catch (error) {
-        console.error(`Error fetching chat history for room ${roomCode}:`, error);
-      }
-
-      // Gửi thông tin phòng và lịch sử chat cho client vừa join
-      socket.emit("room-joined", { roomCode, question: initialQuestion, userCount, chatHistory }); // <-- Gửi kèm chatHistory
+      } catch (error) { console.error(`[Chat History] Error fetching for room ${roomCode}:`, error); }
+      socket.emit("room-joined", { roomCode, question: roomData.question, userCount, chatHistory });
     });
 
     // --- Sự kiện get-question (Giữ nguyên logic, nhưng kiểm tra phòng tồn tại) ---
@@ -397,6 +491,8 @@ loadQuestionsFromFirestore().then(() => {
           }
         }
       }
+      callAdminTimestamps.delete(socket.id); // <--- Xóa khi disconnect
+      console.log(`User disconnected: ${socket.id}. Cleared call admin timestamp.`);
       delete users[socket.id];
     });
 
@@ -410,6 +506,7 @@ loadQuestionsFromFirestore().then(() => {
         const leavingUsername = userData.username || 'Someone';
         socket.leave(roomCode);
         roomData.users.delete(socket.id);
+        callAdminTimestamps.delete(socket.id); // <--- Xóa khi chủ động rời phòng
         delete users[socket.id];
         const userCount = roomData.users.size;
 

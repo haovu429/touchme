@@ -22,6 +22,8 @@ export default function RealtimeQuestionRoom() {
   const [newMessage, setNewMessage] = useState(""); // Nội dung tin nhắn đang gõ
   const chatDisplayRef = useRef(null); // Ref để tự cuộn chat
   const [showQrCode, setShowQrCode] = useState(false); // <-- State để ẩn/hiện QR
+  const [canCallAdmin, setCanCallAdmin] = useState(true); // Mặc định là có thể gọi
+  const [isAdminCallPending, setIsAdminCallPending] = useState(false); // Giữ nguyên state này
 
   // --- useEffect để đọc roomCode từ URL khi component mount ---
   useEffect(() => {
@@ -50,6 +52,16 @@ export default function RealtimeQuestionRoom() {
       }, 50);
     }
   }, []);
+
+  const handleCallAdmin = () => {
+    if (roomCode && !isAdminCallPending) {
+      setIsAdminCallPending(true); // Vô hiệu hóa nút tạm thời
+      socket.emit("call-admin", { roomCode }); // Gửi roomCode hiện tại
+      // Nút sẽ được kích hoạt lại bởi phản hồi từ server hoặc sau timeout
+      // Để đơn giản, ta đặt timeout ở đây, nhưng lý tưởng là chờ phản hồi từ server
+      setTimeout(() => setIsAdminCallPending(false), 30000); // Ví dụ: 30 giây
+    }
+  };
 
   // Tự cuộn khi có tin nhắn mới hoặc load lịch sử
   useEffect(() => {
@@ -177,6 +189,26 @@ export default function RealtimeQuestionRoom() {
       setJoined(false); // Reset trạng thái
     });
 
+    socket.on("admin-called-successfully", (data) => {
+      toast.success(data.message || "Đã gọi Thổ Địa thành công!");
+      setIsAdminCallPending(false); // Kích hoạt lại nút ngay khi có xác nhận
+    });
+
+    socket.on("admin-call-error", (data) => {
+      toast.error(data.message || "Gọi Thổ Địa thất bại.");
+      setIsAdminCallPending(false); // Kích hoạt lại nút khi có lỗi
+    });
+
+    socket.on("admin-call-status-changed", (data) => {
+      console.log("Admin call status changed:", data.enabled);
+      setCanCallAdmin(data.enabled);
+      // if (data.enabled) {
+      //   toast.success("Tính năng 'Gọi Thổ Địa' đã được BẬT.");
+      // } else {
+      //   toast.warn("Tính năng 'Gọi Thổ Địa' đã được TẮT.");
+      // }
+    });
+
     // --- Cleanup listeners ---
     return () => {
       socket.off("new-question");
@@ -187,6 +219,9 @@ export default function RealtimeQuestionRoom() {
       socket.off("message-error");
       socket.off("connect_error");
       socket.off("disconnect");
+      socket.off("admin-called-successfully");
+      socket.off("admin-call-error");
+      socket.off("admin-call-status-changed");
     };
     // Chỉ phụ thuộc vào socket và hàm scroll (ít thay đổi)
   }, [socket, scrollToBottom, joined, roomCode, username, level]);
@@ -291,13 +326,32 @@ export default function RealtimeQuestionRoom() {
         >
           {/* Cột Trái: Câu hỏi và Nút điều khiển */}
           <div className="flex flex-col w-full md:w-3/5 space-y-4">
-            <div className="text-center border-b pb-4 flex-shrink-0">
+            <div className="text-center pt-3 border-t md:border-b pb-4 flex-shrink-0 flex flex-wrap justify-center gap-2">
               <h3 className="text-lg font-semibold text-gray-600 mb-2">
                 Câu hỏi hiện tại:
               </h3>
               <div className="text-xl md:text-2xl font-semibold text-purple-800 mb-4 break-words min-h-[60px] flex items-center justify-center px-2">
                 {question ? question : "Đang chờ câu hỏi..."}
               </div>
+              <button
+                onClick={handleCallAdmin}
+                disabled={isAdminCallPending || !canCallAdmin} // <<<=== THÊM ĐIỀU KIỆN !canCallAdmin
+                className={`
+    text-white px-4 py-2 rounded-lg font-bold text-base transition shadow
+    ${
+      isAdminCallPending || !canCallAdmin
+        ? "bg-gray-400 opacity-50 cursor-not-allowed" // Style khi bị vô hiệu hóa
+        : "bg-yellow-500 hover:bg-yellow-600" // Style khi được phép
+    }
+  `}
+                title={
+                  !canCallAdmin
+                    ? "Tính năng Gọi Thổ Địa đang tắt"
+                    : "Nhờ Thổ Địa hỗ trợ"
+                }
+              >
+                📞 Gọi Thổ Địa {!canCallAdmin && "(Đang tắt)"}
+              </button>
               <button
                 onClick={randomQuestion}
                 className="bg-rose-400 text-white px-4 py-2 md:px-5 rounded-xl font-bold text-base md:text-lg hover:bg-rose-500 transition shadow"
@@ -306,7 +360,7 @@ export default function RealtimeQuestionRoom() {
               </button>
               <button
                 onClick={quitRoom}
-                className="bg-gray-400 text-white px-4 py-2 md:px-5 rounded-xl font-bold text-base md:text-lg hover:bg-gray-500 transition ml-3 shadow"
+                className="bg-gray-400 text-white px-4 py-2 md:px-5 rounded-xl font-bold text-base md:text-lg hover:bg-gray-500 transitions shadow"
               >
                 Thoát phòng
               </button>
