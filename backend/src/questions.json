@@ -2,187 +2,1507 @@
   "level1": [
     {
       "question": 1,
-      "content": "Nếu bạn được rủ bất cứ ai trên thế giới đi ăn tối, người đó sẽ là ai?",
-      "id": "14cfbffa-01a2-46ec-9e6b-86ce619ec448"
+      "content": "Nếu có thể hoán đổi cuộc sống với một người nổi tiếng trong 24 giờ, bạn sẽ chọn ai và làm gì đầu tiên?",
+      "id": "gen-q-001"
     },
     {
       "question": 2,
-      "content": "Bạn có thích trở nên nổi tiếng không? Và bạn thích nổi tiếng bằng cách nào?",
-      "id": "5d38642f-4d70-4bea-bdc6-89ea319f78fe"
+      "content": "Trend TikTok nào bạn thấy 'overrated' (được đánh giá quá cao) nhất hiện nay?",
+      "id": "gen-q-002"
     },
     {
       "question": 3,
-      "content": "Trước khi gọi điện cho ai đó, bạn có nhẩm lại nội dung mình sẽ nói không? Tại sao?",
-      "id": "1d8717b7-9785-4a03-974b-d5316bc4755e"
+      "content": "Nếu tiền không phải là vấn đề, bạn sẽ theo đuổi đam mê 'điên rồ' nào?",
+      "id": "gen-q-003"
     },
     {
       "question": 4,
-      "content": "Yếu tố nào tạo nên một ngày tuyệt hảo đối với bạn?",
-      "id": "cd1ac8a1-cbdc-4d1f-954d-a990a59a97b6"
+      "content": "Điều gì trên mạng xã hội khiến bạn thấy 'cringe' (khó chịu/xấu hổ) nhất?",
+      "id": "gen-q-004"
     },
     {
       "question": 5,
-      "content": "Lần gần nhất bạn ngân nga với chính mình là khi nào? Lần gần nhất hát cho người khác nghe?",
-      "id": "b0fa77a5-bdca-4437-8feb-65caab869ce7"
+      "content": "Nếu có cỗ máy thời gian, bạn sẽ đến tương lai hay quay về quá khứ? Vì sao?",
+      "id": "gen-q-005"
     },
     {
       "question": 6,
-      "content": "Giả sử bạn có thể sống đến 90 tuổi. Trong 60 năm còn lại của cuộc đời, bạn sẽ chọn duy trì ngoại hình năm 30 hay trí tuệ năm 30?",
-      "id": "02258b9d-01d1-4a88-8a41-f9008b895aac"
+      "content": "Một 'red flag' (dấu hiệu nguy hiểm) trong tình bạn mà bạn không bao giờ bỏ qua?",
+      "id": "gen-q-006"
     },
     {
       "question": 7,
-      "content": "Bạn có linh cảm bí mật nào về cái chết của mình không?",
-      "id": "a46887f3-7cf1-4a85-8ee3-24b1cde994e8"
+      "content": "Nếu được tạo ra một filter (bộ lọc) trên Instagram/TikTok, nó sẽ có hiệu ứng gì?",
+      "id": "gen-q-007"
     },
     {
       "question": 8,
-      "content": "Liệt kê 3 điều có vẻ như là điểm chung giữa bạn và đối tượng của bạn.",
-      "id": "ccc2e0d0-cf85-4e3a-9096-12dec003b6f9"
+      "content": "Bạn nghĩ AI (Trí tuệ nhân tạo) sẽ thay đổi công việc mơ ước của bạn như thế nào trong 10 năm tới?",
+      "id": "gen-q-008"
     },
     {
       "question": 9,
-      "content": "Bạn cảm thấy biết ơn điều gì nhất trong cuộc sống?",
-      "id": "7a272b01-7934-433b-a113-28804ecd8e1b"
+      "content": "Khoảnh khắc 'viral' nào trên mạng mà bạn nhớ mãi?",
+      "id": "gen-q-009"
     },
     {
       "question": 10,
-      "content": "Nếu có thể thay đổi cách mình được nuôi dạy từ nhỏ, bạn sẽ thay đổi thế nào?",
-      "id": "df0a4090-d472-4716-ae64-255774b61a97"
+      "content": "Nếu phải chọn giữa việc không bao giờ dùng mạng xã hội nữa và không bao giờ xem phim/series nữa, bạn chọn gì?",
+      "id": "gen-q-010"
     },
     {
       "question": 11,
-      "content": "Dành ra khoảng 4 phút kể về câu chuyện cuộc đời bạn, càng chi tiết càng tốt.",
-      "id": "b929627e-94f7-4171-8e6b-acff23546cc6"
+      "content": "Kể về một lần bạn 'đu trend' và kết quả không như mong đợi.",
+      "id": "gen-q-011"
     },
     {
       "question": 12,
-      "content": "Nếu sáng mai thức dậy bạn được ban cho một tính cách hay khả năng, đó sẽ là gì?",
-      "id": "2730b38f-8559-4af4-9b00-f467feb45544"
+      "content": "Nếu có siêu năng lực tàng hình, bạn sẽ làm gì đầu tiên (mà không phạm pháp nhé)?",
+      "id": "gen-q-012"
+    },
+    {
+      "question": 13,
+      "content": "Bạn định nghĩa 'thành công' ở tuổi của mình là gì?",
+      "id": "gen-q-013"
+    },
+    {
+      "question": 14,
+      "content": "Món đồ công nghệ nào bạn ao ước sở hữu nhất hiện tại?",
+      "id": "gen-q-014"
+    },
+    {
+      "question": 15,
+      "content": "Nếu phải ăn một món ăn 'kỳ dị' đang hot trend, bạn có dám thử không? Là món gì?",
+      "id": "gen-q-015"
+    },
+    {
+      "question": 16,
+      "content": "Điều gì khiến bạn cảm thấy 'FOMO' (Sợ bỏ lỡ) nhất?",
+      "id": "gen-q-016"
+    },
+    {
+      "question": 17,
+      "content": "Nếu crush nhắn tin 'em ăn cơm chưa?' phiên bản GenZ, họ sẽ nhắn thế nào?",
+      "id": "gen-q-017"
+    },
+    {
+      "question": 18,
+      "content": "Bạn nghĩ gì về việc các influencer 'review có tâm' nhưng thực ra là quảng cáo?",
+      "id": "gen-q-018"
+    },
+    {
+      "question": 19,
+      "content": "Nếu được thiết kế một môn học mới ở trường, đó sẽ là môn gì?",
+      "id": "gen-q-019"
+    },
+    {
+      "question": 20,
+      "content": "Bạn có tin vào 'vũ trụ gửi tín hiệu' không? Kể một ví dụ.",
+      "id": "gen-q-020"
+    },
+    {
+      "question": 21,
+      "content": "Nếu điện thoại của bạn biết nói, nó sẽ phàn nàn về bạn điều gì nhiều nhất?",
+      "id": "gen-q-021"
+    },
+    {
+      "question": 22,
+      "content": "Một kỹ năng 'vô dụng' nhưng bạn lại thấy rất ngầu?",
+      "id": "gen-q-022"
+    },
+    {
+      "question": 23,
+      "content": "Bạn nghĩ sao về việc dùng app hẹn hò? Ưu và nhược điểm?",
+      "id": "gen-q-023"
+    },
+    {
+      "question": 24,
+      "content": "Nếu có thể 'unsend' (thu hồi) một tin nhắn trong đời thực, bạn sẽ thu hồi tin nào?",
+      "id": "gen-q-024"
+    },
+    {
+      "question": 25,
+      "content": "Playlist nhạc hiện tại của bạn nói gì về tâm trạng của bạn?",
+      "id": "gen-q-025"
+    },
+    {
+      "question": 26,
+      "content": "Nếu được gặp phiên bản 10 tuổi của mình, bạn sẽ nói gì?",
+      "id": "gen-q-026"
+    },
+    {
+      "question": 27,
+      "content": "Mạng xã hội nào bạn dùng nhiều nhất và tại sao?",
+      "id": "gen-q-027"
+    },
+    {
+      "question": 28,
+      "content": "Nếu bị lạc trên đảo hoang cùng 3 người bạn trong phòng này, ai sẽ là người 'sinh tồn' giỏi nhất?",
+      "id": "gen-q-028"
+    },
+    {
+      "question": 29,
+      "content": "Bạn có sẵn sàng chi một số tiền lớn cho một món đồ ảo (virtual item) trong game không?",
+      "id": "gen-q-029"
+    },
+    {
+      "question": 30,
+      "content": "Điều 'toxic' (tiêu cực) nhất bạn thường thấy khi lướt mạng?",
+      "id": "gen-q-030"
+    },
+    {
+      "question": 31,
+      "content": "Nếu có thể đọc suy nghĩ của một người trong 5 phút, bạn chọn ai?",
+      "id": "gen-q-031"
+    },
+    {
+      "question": 32,
+      "content": "Bạn thích xem review phim trên YouTube/TikTok hay tự ra rạp trải nghiệm hơn?",
+      "id": "gen-q-032"
+    },
+    {
+      "question": 33,
+      "content": "Một thói quen xấu liên quan đến công nghệ mà bạn muốn bỏ?",
+      "id": "gen-q-033"
+    },
+    {
+      "question": 34,
+      "content": "Nếu profile mạng xã hội của bạn là một bộ phim, nó sẽ thuộc thể loại gì?",
+      "id": "gen-q-034"
+    },
+    {
+      "question": 35,
+      "content": "Bạn nghĩ gì về 'cancel culture' (văn hóa tẩy chay) trên mạng?",
+      "id": "gen-q-035"
+    },
+    {
+      "question": 36,
+      "content": "Nếu được ban một điều ước liên quan đến việc học, bạn ước gì?",
+      "id": "gen-q-036"
+    },
+    {
+      "question": 37,
+      "content": "Meme nào miêu tả chính xác cuộc sống của bạn nhất lúc này?",
+      "id": "gen-q-037"
+    },
+    {
+      "question": 38,
+      "content": "Bạn có bao giờ cảm thấy áp lực phải 'flex' (khoe khoang) trên mạng xã hội không?",
+      "id": "gen-q-038"
+    },
+    {
+      "question": 39,
+      "content": "Nếu thức dậy và thấy mình trở thành nhân vật chính trong game bạn vừa chơi, bạn sẽ làm gì?",
+      "id": "gen-q-039"
+    },
+    {
+      "question": 40,
+      "content": "Điều gì khiến bạn quyết định 'unfollow' một người trên mạng xã hội?",
+      "id": "gen-q-040"
+    },
+    {
+      "question": 41,
+      "content": "Nếu có thể 'download' một kỹ năng mới vào não ngay lập tức, bạn chọn kỹ năng gì?",
+      "id": "gen-q-041"
+    },
+    {
+      "question": 42,
+      "content": "Bạn nghĩ thế nào về việc dùng filter 'làm đẹp' khi đăng ảnh?",
+      "id": "gen-q-042"
+    },
+    {
+      "question": 43,
+      "content": "Nếu được tạo ra một loại tiền ảo mới, nó sẽ tên là gì và có gì đặc biệt?",
+      "id": "gen-q-043"
+    },
+    {
+      "question": 44,
+      "content": "Kể về một lần bạn bị 'ghost' (bơ đẹp) hoặc bạn 'ghost' người khác.",
+      "id": "gen-q-044"
+    },
+    {
+      "question": 45,
+      "content": "Bạn có tin vào 'manifest' (luật hấp dẫn/niềm tin tạo ra thực tại) không?",
+      "id": "gen-q-045"
+    },
+    {
+      "question": 46,
+      "content": "Nếu thú cưng của bạn có thể nhắn tin, tin nhắn đầu tiên nó gửi cho bạn là gì?",
+      "id": "gen-q-046"
+    },
+    {
+      "question": 47,
+      "content": "Bạn nghĩ gì về việc làm việc từ xa (remote work) hoàn toàn trong tương lai?",
+      "id": "gen-q-047"
+    },
+    {
+      "question": 48,
+      "content": "Nếu cuộc đời bạn là một bài hát, đoạn điệp khúc sẽ như thế nào?",
+      "id": "gen-q-048"
+    },
+    {
+      "question": 49,
+      "content": "Bạn có sợ bị AI 'cướp' mất công việc trong tương lai không?",
+      "id": "gen-q-049"
+    },
+    {
+      "question": 50,
+      "content": "Nếu bạn có thể đặt một luật lệ mới cho toàn thế giới, đó sẽ là gì?",
+      "id": "gen-q-050"
+    },
+    {
+      "question": 51,
+      "content": "Chia sẻ một 'life hack' (mẹo vặt cuộc sống) mà bạn thấy cực kỳ hữu ích.",
+      "id": "gen-q-051"
+    },
+    {
+      "question": 52,
+      "content": "Bạn có tin vào 'tình yêu sét đánh' qua mạng không?",
+      "id": "gen-q-052"
+    },
+    {
+      "question": 53,
+      "content": "Nếu được đổi giới tính trong một ngày, bạn sẽ làm gì để trải nghiệm?",
+      "id": "gen-q-053"
+    },
+    {
+      "question": 54,
+      "content": "Món đồ 'must-have' (phải có) trong balo/túi xách của bạn là gì?",
+      "id": "gen-q-054"
+    },
+    {
+      "question": 55,
+      "content": "Bạn nghĩ gì về trào lưu 'healing' (chữa lành) đang hot hiện nay?",
+      "id": "gen-q-055"
+    },
+    {
+      "question": 56,
+      "content": "Nếu có thể nói chuyện với động vật, bạn sẽ hỏi con vật nào và hỏi gì?",
+      "id": "gen-q-056"
+    },
+    {
+      "question": 57,
+      "content": "Một hiểu lầm phổ biến về thế hệ GenZ mà bạn thấy không đúng?",
+      "id": "gen-q-057"
+    },
+    {
+      "question": 58,
+      "content": "Nếu phải chọn một nhân vật trong phim/truyện để làm bạn thân, bạn chọn ai?",
+      "id": "gen-q-058"
+    },
+    {
+      "question": 59,
+      "content": "Bạn có nghĩ việc 'overshare' (chia sẻ quá nhiều) trên mạng là một vấn đề?",
+      "id": "gen-q-059"
+    },
+    {
+      "question": 60,
+      "content": "Nếu được tài trợ một chuyến du lịch 'bụi' đến bất kỳ đâu, bạn sẽ đi đâu?",
+      "id": "gen-q-060"
+    },
+    {
+      "question": 61,
+      "content": "Emoji nào bạn sử dụng nhiều nhất và tại sao?",
+      "id": "gen-q-061"
+    },
+    {
+      "question": 62,
+      "content": "Bạn có sợ cảm giác bị 'offline' hoàn toàn trong một ngày không?",
+      "id": "gen-q-062"
+    },
+    {
+      "question": 63,
+      "content": "Nếu có thể thiết kế trang phục cho một idol K-Pop, bạn sẽ thiết kế cho ai và theo phong cách nào?",
+      "id": "gen-q-063"
+    },
+    {
+      "question": 64,
+      "content": "Điều gì khiến bạn cảm thấy 'già' đi nhanh nhất?",
+      "id": "gen-q-064"
+    },
+    {
+      "question": 65,
+      "content": "Bạn nghĩ gì về việc sống thử trước hôn nhân?",
+      "id": "gen-q-065"
+    },
+    {
+      "question": 66,
+      "content": "Nếu điện thoại bạn hết pin đúng lúc cực kỳ quan trọng, bạn sẽ làm gì?",
+      "id": "gen-q-066"
+    },
+    {
+      "question": 67,
+      "content": "Một địa điểm 'chill' lý tưởng ở thành phố của bạn là ở đâu?",
+      "id": "gen-q-067"
+    },
+    {
+      "question": 68,
+      "content": "Bạn có bao giờ giả vờ thích một thứ gì đó đang trend để 'hòa nhập' không?",
+      "id": "gen-q-068"
+    },
+    {
+      "question": 69,
+      "content": "Nếu có thể mời 3 người (còn sống hoặc đã mất) ăn tối, bạn sẽ mời ai?",
+      "id": "gen-q-069"
+    },
+    {
+      "question": 70,
+      "content": "Bạn thích nhận 'ting ting' thông báo tin nhắn hay thông báo email hơn?",
+      "id": "gen-q-070"
+    },
+    {
+      "question": 71,
+      "content": "Nếu bạn có thể biến thành một đồ vật trong 1 giờ, bạn sẽ là gì?",
+      "id": "gen-q-071"
+    },
+    {
+      "question": 72,
+      "content": "Điều đầu tiên bạn làm khi thức dậy (ngoài việc tắt báo thức)?",
+      "id": "gen-q-072"
+    },
+    {
+      "question": 73,
+      "content": "Bạn có 'stalk' (theo dõi ngầm) crush trên mạng xã hội không? Thành thật nhé!",
+      "id": "gen-q-073"
+    },
+    {
+      "question": 74,
+      "content": "Nếu có thể tham gia một show thực tế, bạn sẽ chọn show nào?",
+      "id": "gen-q-074"
+    },
+    {
+      "question": 75,
+      "content": "Bạn nghĩ gì về việc dùng 'teencode' hoặc ngôn ngữ mạng khi nhắn tin?",
+      "id": "gen-q-075"
+    },
+    {
+      "question": 76,
+      "content": "Nếu được chọn lại ngành học, bạn có chọn ngành hiện tại không?",
+      "id": "gen-q-076"
+    },
+    {
+      "question": 77,
+      "content": "Khoảnh khắc bạn cảm thấy mình 'trưởng thành' nhất?",
+      "id": "gen-q-077"
+    },
+    {
+      "question": 78,
+      "content": "Bạn có dễ bị ảnh hưởng bởi quảng cáo trên mạng không?",
+      "id": "gen-q-078"
+    },
+    {
+      "question": 79,
+      "content": "Nếu có thể thêm một tính năng vào ứng dụng nhắn tin bạn hay dùng, đó là gì?",
+      "id": "gen-q-079"
+    },
+    {
+      "question": 80,
+      "content": "Điều khiến bạn tự hào nhất về bản thân (không liên quan đến học tập/công việc)?",
+      "id": "gen-q-080"
+    },
+    {
+      "question": 81,
+      "content": "Bạn có nghĩ rằng 'like' và 'follow' ảo ảnh hưởng đến giá trị thực của một người?",
+      "id": "gen-q-081"
+    },
+    {
+      "question": 82,
+      "content": "Nếu được viết kịch bản cho một tập phim hoạt hình yêu thích, bạn sẽ viết về gì?",
+      "id": "gen-q-082"
+    },
+    {
+      "question": 83,
+      "content": "Bạn có bao giờ thử 'digital detox' (cai nghiện công nghệ) chưa? Cảm giác thế nào?",
+      "id": "gen-q-083"
+    },
+    {
+      "question": 84,
+      "content": "Nếu có thể sở hữu một công ty công nghệ, bạn sẽ muốn sở hữu công ty nào?",
+      "id": "gen-q-084"
+    },
+    {
+      "question": 85,
+      "content": "Bạn nghĩ gì về việc chia sẻ vị trí (location sharing) liên tục với bạn bè/gia đình?",
+      "id": "gen-q-085"
+    },
+    {
+      "question": 86,
+      "content": "Nếu được nhận nuôi một sinh vật huyền thoại (rồng, kỳ lân...), bạn chọn con gì?",
+      "id": "gen-q-086"
+    },
+    {
+      "question": 87,
+      "content": "Một nỗi sợ 'phi lý' mà bạn có?",
+      "id": "gen-q-087"
+    },
+    {
+      "question": 88,
+      "content": "Bạn thích nhận quà sinh nhật là hiện vật hay trải nghiệm hơn?",
+      "id": "gen-q-088"
+    },
+    {
+      "question": 89,
+      "content": "Bạn có nghĩ việc xem 'ASMR' giúp thư giãn thực sự không?",
+      "id": "gen-q-089"
+    },
+    {
+      "question": 90,
+      "content": "Nếu bạn có thể 'mute' (tắt tiếng) một người trong đời thực, bạn có làm không?",
+      "id": "gen-q-090"
+    },
+    {
+      "question": 91,
+      "content": "Bạn có đặt password giống nhau cho nhiều tài khoản không?",
+      "id": "gen-q-091"
+    },
+    {
+      "question": 92,
+      "content": "Nếu được quyền xóa bỏ một phát minh đã tồn tại, bạn chọn cái gì?",
+      "id": "gen-q-092"
+    },
+    {
+      "question": 93,
+      "content": "Điều gì khiến bạn cảm thấy 'authentic' (là chính mình) nhất?",
+      "id": "gen-q-093"
+    },
+    {
+      "question": 94,
+      "content": "Bạn thích học online hay học offline hơn? Tại sao?",
+      "id": "gen-q-094"
+    },
+    {
+      "question": 95,
+      "content": "Nếu bạn là một nhân vật phản diện trong phim, 'origin story' (nguồn gốc) của bạn là gì?",
+      "id": "gen-q-095"
+    },
+    {
+      "question": 96,
+      "content": "Bạn có tin vào duyên số hay cho rằng mọi thứ đều là sự lựa chọn?",
+      "id": "gen-q-096"
+    },
+    {
+      "question": 97,
+      "content": "Nếu có thể tạo ra một ngày lễ mới, đó sẽ là ngày lễ gì và mọi người sẽ làm gì?",
+      "id": "gen-q-097"
+    },
+    {
+      "question": 98,
+      "content": "Bạn có sẵn sàng trả tiền cho các nội dung online (báo, nhạc, phim) hay tìm cách dùng miễn phí?",
+      "id": "gen-q-098"
+    },
+    {
+      "question": 99,
+      "content": "Một bộ phim/cuốn sách/bài hát nào đã thay đổi cách nhìn của bạn về điều gì đó?",
+      "id": "gen-q-099"
+    },
+    {
+      "question": 100,
+      "content": "Nếu phải tóm tắt năm vừa qua của bạn bằng 3 emoji, đó sẽ là gì?",
+      "id": "gen-q-100"
     }
   ],
   "level2": [
     {
       "question": 1,
-      "content": "Nếu có một quả cầu pha lê cho bạn biết sự thật về bản thân, cuộc sống, tương lai, hoặc bất cứ gì khác, bạn sẽ muốn biết điều gì?",
-      "id": "5b73bf37-634c-4140-9d73-60c82c6a29cc"
+      "content": "Nếu hôm nay là một ngày hoàn hảo không lo nghĩ, bạn sẽ muốn làm gì cùng ai đó?",
+      "id": "gen-crush-001"
     },
     {
       "question": 2,
-      "content": "Bạn có mơ ước được thực hiện điều gì từ lâu rồi không? Tại sao bạn vẫn chưa thực hiện việc đó?",
-      "id": "b5aa0b2c-8927-43b2-a7e9-a76a5e72dc8a"
+      "content": "Bài hát nào gần đây bạn nghe đi nghe lại mà không chán?",
+      "id": "gen-crush-002"
     },
     {
       "question": 3,
-      "content": "Thành tựu lớn nhất của cuộc đời bạn là gì?",
-      "id": "54b0a039-3deb-4376-a0fa-a31929612361"
+      "content": "Điều nhỏ nhặt nào có thể khiến tâm trạng bạn vui lên ngay lập tức?",
+      "id": "gen-crush-003"
     },
     {
       "question": 4,
-      "content": "Bạn coi trọng điều gì nhất trong tình bạn?",
-      "id": "39730274-fa64-4d9b-87dc-833e72443be0"
+      "content": "Nếu có thể ăn một món ăn thoải mái không lo béo, bạn sẽ chọn món gì?",
+      "id": "gen-crush-004"
     },
     {
       "question": 5,
-      "content": "Kỷ niệm quý giá nhất của bạn là gì?",
-      "id": "486bebf8-face-41ad-8c96-93da60072254"
+      "content": "Ấn tượng đầu tiên của bạn về mình là gì? (Thật lòng nhé!)",
+      "id": "gen-crush-005"
     },
     {
       "question": 6,
-      "content": "Còn ký ức tồi tệ nhất của bạn thì sao?",
-      "id": "e3d5637d-6800-4c49-8fdd-75809861b9ab"
+      "content": "Bạn thích kiểu thời tiết nào nhất và tại sao?",
+      "id": "gen-crush-006"
     },
     {
       "question": 7,
-      "content": "Nếu bạn biết trong vòng một năm tới bạn sẽ ra đi đột ngột, liệu bạn có thay đổi bất cứ điều gì trong nhịp sống hiện tại của mình không? Tại sao?",
-      "id": "2367f530-c36d-4cdd-b9f3-09281f876d56"
+      "content": "Kể về một bộ phim hoặc cuốn sách khiến bạn suy nghĩ nhiều sau khi xem/đọc xong.",
+      "id": "gen-crush-007"
     },
     {
       "question": 8,
-      "content": "Tình bạn có ý nghĩa như thế nào với bạn?",
-      "id": "2b5c48de-b519-4925-bb9e-c36b603b3dbb"
+      "content": "Nếu được tặng một chuyến du lịch bất ngờ, bạn mong muốn đến đâu?",
+      "id": "gen-crush-008"
     },
     {
       "question": 9,
-      "content": "Vai trò của tình yêu nói riêng và tình cảm nói chung trong cuộc sống của bạn?",
-      "id": "573cb349-2038-4f75-974f-00889797fa71"
+      "content": "Điều gì ở một người khiến bạn cảm thấy ngưỡng mộ?",
+      "id": "gen-crush-009"
     },
     {
       "question": 10,
-      "content": "Lần lượt chia sẻ 5 khía cạnh tích cực của nhau theo suy nghĩ và cảm nhận của mỗi bên.",
-      "id": "34bdeec9-21ff-4020-93ea-b653c7417fac"
+      "content": "Bạn có tài lẻ nào mà ít người biết không?",
+      "id": "gen-crush-010"
     },
     {
       "question": 11,
-      "content": "Gia đình bạn thân thiết và ấm cúng tới mức nào? Bạn có cảm thấy tuổi thơ của mình hạnh phúc hơn người khác không?",
-      "id": "c993ea03-e486-4b6a-991f-aa2326fba55f"
+      "content": "Giữa việc nhắn tin và gọi điện, bạn thích cách nào hơn để trò chuyện sâu?",
+      "id": "gen-crush-011"
     },
     {
       "question": 12,
-      "content": "Bạn cảm thấy mối quan hệ của mình với mẹ bạn như thế nào?",
-      "id": "f297c69e-8be4-49f5-bb96-df1b3d2d1f31"
+      "content": "Nếu có một ngày nghỉ hoàn toàn không vướng bận, bạn sẽ làm gì để 'sạc pin'?",
+      "id": "gen-crush-012"
+    },
+    {
+      "question": 13,
+      "content": "Kỷ niệm vui nhất bạn có với bạn bè là gì?",
+      "id": "gen-crush-013"
+    },
+    {
+      "question": 14,
+      "content": "Bạn có tin vào 'ngôn ngữ tình yêu' không? Nếu có, ngôn ngữ của bạn là gì?",
+      "id": "gen-crush-014"
+    },
+    {
+      "question": 15,
+      "content": "Một điều bạn học được về bản thân trong năm vừa qua?",
+      "id": "gen-crush-015"
+    },
+    {
+      "question": 16,
+      "content": "Bạn thích một buổi hẹn hò sôi động ngoài trời hay ấm cúng trong nhà hơn?",
+      "id": "gen-crush-016"
+    },
+    {
+      "question": 17,
+      "content": "Nếu có thể quay lại một khoảnh khắc trong quá khứ, bạn có muốn thay đổi gì không?",
+      "id": "gen-crush-017"
+    },
+    {
+      "question": 18,
+      "content": "Điều gì khiến bạn cười nhiều nhất?",
+      "id": "gen-crush-018"
+    },
+    {
+      "question": 19,
+      "content": "Bạn nghĩ điểm mạnh lớn nhất của mình là gì?",
+      "id": "gen-crush-019"
+    },
+    {
+      "question": 20,
+      "content": "Nếu có thể mời một nhân vật hư cấu đi chơi, bạn sẽ chọn ai và đi đâu?",
+      "id": "gen-crush-020"
+    },
+    {
+      "question": 21,
+      "content": "Bạn cảm thấy thế nào về những bất ngờ nhỏ trong một mối quan hệ?",
+      "id": "gen-crush-021"
+    },
+    {
+      "question": 22,
+      "content": "Một mục tiêu bạn đang cố gắng đạt được trong năm nay?",
+      "id": "gen-crush-022"
+    },
+    {
+      "question": 23,
+      "content": "Bạn có dễ dàng chia sẻ cảm xúc của mình với người khác không?",
+      "id": "gen-crush-023"
+    },
+    {
+      "question": 24,
+      "content": "Nếu chúng ta cùng nhau đi du lịch, bạn muốn khám phá hay nghỉ dưỡng?",
+      "id": "gen-crush-024"
+    },
+    {
+      "question": 25,
+      "content": "Điều gì bạn trân trọng nhất trong một tình bạn?",
+      "id": "gen-crush-025"
+    },
+    {
+      "question": 26,
+      "content": "Kể về một lần bạn cảm thấy thực sự tự hào về bản thân.",
+      "id": "gen-crush-026"
+    },
+    {
+      "question": 27,
+      "content": "Bạn có nghĩ rằng hai người có sở thích hoàn toàn khác nhau vẫn có thể hợp nhau không?",
+      "id": "gen-crush-027"
+    },
+    {
+      "question": 28,
+      "content": "Nếu có thể đặt tên cho một ngôi sao, bạn sẽ đặt tên là gì?",
+      "id": "gen-crush-028"
+    },
+    {
+      "question": 29,
+      "content": "Điều gì khiến bạn cảm thấy được quan tâm và yêu thương?",
+      "id": "gen-crush-029"
+    },
+    {
+      "question": 30,
+      "content": "Nếu có một 'nút F5' cho cuộc sống, bạn có thường xuyên sử dụng nó không?",
+      "id": "gen-crush-030"
+    },
+    {
+      "question": 31,
+      "content": "Bạn nghĩ sao về việc thể hiện tình cảm nơi công cộng?",
+      "id": "gen-crush-031"
+    },
+    {
+      "question": 32,
+      "content": "Một lời khuyên tốt nhất mà bạn từng nhận được?",
+      "id": "gen-crush-032"
+    },
+    {
+      "question": 33,
+      "content": "Bạn có tin vào 'định mệnh' hay 'duyên số' trong tình yêu không?",
+      "id": "gen-crush-033"
+    },
+    {
+      "question": 34,
+      "content": "Nếu được mô tả bản thân bằng 3 từ, đó sẽ là gì?",
+      "id": "gen-crush-034"
+    },
+    {
+      "question": 35,
+      "content": "Điều gì khiến bạn cảm thấy thực sự kết nối với một người?",
+      "id": "gen-crush-035"
+    },
+    {
+      "question": 36,
+      "content": "Kể về một nơi bạn cảm thấy bình yên nhất.",
+      "id": "gen-crush-036"
+    },
+    {
+      "question": 37,
+      "content": "Bạn nghĩ yếu tố nào là quan trọng nhất để duy trì một mối quan hệ (bất kỳ)?",
+      "id": "gen-crush-037"
+    },
+    {
+      "question": 38,
+      "content": "Nếu có thể học một ngôn ngữ mới ngay lập tức, bạn chọn tiếng gì?",
+      "id": "gen-crush-038"
+    },
+    {
+      "question": 39,
+      "content": "Điều gì bạn mong muốn người khác hiểu về mình hơn?",
+      "id": "gen-crush-039"
+    },
+    {
+      "question": 40,
+      "content": "Bạn có nghĩ rằng những điều đối lập hút nhau không?",
+      "id": "gen-crush-040"
+    },
+    {
+      "question": 41,
+      "content": "Nếu bạn có thể sống trong một bộ phim, bạn sẽ chọn phim nào?",
+      "id": "gen-crush-041"
+    },
+    {
+      "question": 42,
+      "content": "Điều gì khiến bạn cảm thấy dễ bị tổn thương nhất?",
+      "id": "gen-crush-042"
+    },
+    {
+      "question": 43,
+      "content": "Bạn định nghĩa một 'buổi hẹn hò lý tưởng' là như thế nào?",
+      "id": "gen-crush-043"
+    },
+    {
+      "question": 44,
+      "content": "Kể về một nỗi sợ 'trẻ con' mà bạn vẫn còn giữ?",
+      "id": "gen-crush-044"
+    },
+    {
+      "question": 45,
+      "content": "Bạn nghĩ gì về việc 'yêu từ cái nhìn đầu tiên'?",
+      "id": "gen-crush-045"
+    },
+    {
+      "question": 46,
+      "content": "Nếu có thể dùng bữa tối với phiên bản tương lai của mình, bạn sẽ hỏi gì?",
+      "id": "gen-crush-046"
+    },
+    {
+      "question": 47,
+      "content": "Điều gì bạn thích nhất khi ở một mình?",
+      "id": "gen-crush-047"
+    },
+    {
+      "question": 48,
+      "content": "Bạn có nghĩ rằng ngoại hình quan trọng trong việc tạo ấn tượng ban đầu không?",
+      "id": "gen-crush-048"
+    },
+    {
+      "question": 49,
+      "content": "Nếu bạn có thể tặng mình một món quà bất kỳ, đó là gì?",
+      "id": "gen-crush-049"
+    },
+    {
+      "question": 50,
+      "content": "Điều gì ở mình khiến bạn cảm thấy thu hút nhất? (Hãy thử khen mình xem!)",
+      "id": "gen-crush-050"
+    },
+    {
+      "question": 51,
+      "content": "Bạn thích được khen về ngoại hình hay trí tuệ/tính cách hơn?",
+      "id": "gen-crush-051"
+    },
+    {
+      "question": 52,
+      "content": "Nếu chúng ta cùng nhau nấu một bữa ăn, ai sẽ là bếp chính, ai là bếp phụ?",
+      "id": "gen-crush-052"
+    },
+    {
+      "question": 53,
+      "content": "Điều gì bạn ước mình có thể làm tốt hơn trong giao tiếp?",
+      "id": "gen-crush-053"
+    },
+    {
+      "question": 54,
+      "content": "Bạn có tin vào việc đọc 'tín hiệu' (hints) từ người khác không?",
+      "id": "gen-crush-054"
+    },
+    {
+      "question": 55,
+      "content": "Nếu được đặt một câu hỏi cho mình trong tương lai 5 năm nữa, bạn sẽ hỏi gì?",
+      "id": "gen-crush-055"
+    },
+    {
+      "question": 56,
+      "content": "Bạn cảm thấy thế nào khi nhận được một lời khen chân thành?",
+      "id": "gen-crush-056"
+    },
+    {
+      "question": 57,
+      "content": "Điều gì bạn thích làm cùng người khác hơn là làm một mình?",
+      "id": "gen-crush-057"
+    },
+    {
+      "question": 58,
+      "content": "Một 'green flag' (dấu hiệu tốt) rõ ràng nhất ở một người bạn thích?",
+      "id": "gen-crush-058"
+    },
+    {
+      "question": 59,
+      "content": "Nếu chúng ta cùng tham gia một thử thách, bạn nghĩ chúng ta sẽ hợp tác tốt chứ?",
+      "id": "gen-crush-059"
+    },
+    {
+      "question": 60,
+      "content": "Điều gì khiến bạn cảm thấy 'rung động' thực sự?",
+      "id": "gen-crush-060"
+    },
+     {
+      "question": 61,
+      "content": "Bạn có nghĩ rằng sự im lặng đôi khi cũng là một cách giao tiếp hiệu quả không?",
+      "id": "gen-crush-061"
+    },
+    {
+      "question": 62,
+      "content": "Nếu có thể xóa một kỷ niệm không vui, bạn có làm không?",
+      "id": "gen-crush-062"
+    },
+    {
+      "question": 63,
+      "content": "Điều gì bạn muốn làm cùng ai đó nhưng chưa có dịp?",
+      "id": "gen-crush-063"
+    },
+    {
+      "question": 64,
+      "content": "Bạn có dễ dàng tha thứ cho lỗi lầm của người khác không?",
+      "id": "gen-crush-064"
+    },
+    {
+      "question": 65,
+      "content": "Nếu mô tả mối quan hệ lý tưởng bằng một hình ảnh, đó sẽ là gì?",
+      "id": "gen-crush-065"
+    },
+    {
+      "question": 66,
+      "content": "Bạn có hay nghĩ về những gì người khác nghĩ về mình không?",
+      "id": "gen-crush-066"
+    },
+    {
+      "question": 67,
+      "content": "Điều gì bạn ngưỡng mộ ở mối quan hệ của bố mẹ bạn (hoặc một cặp đôi khác)?",
+      "id": "gen-crush-067"
+    },
+    {
+      "question": 68,
+      "content": "Nếu có một ngày để làm bất cứ điều gì mình muốn cùng nhau, chúng ta sẽ làm gì?",
+      "id": "gen-crush-068"
+    },
+    {
+      "question": 69,
+      "content": "Bạn có nghĩ rằng việc thể hiện sự yếu đuối đôi khi lại là sức mạnh không?",
+      "id": "gen-crush-069"
+    },
+    {
+      "question": 70,
+      "content": "Điều gì bạn nghĩ mình có thể học hỏi từ đối phương?",
+      "id": "gen-crush-070"
+    },
+    {
+      "question": 71,
+      "content": "Bạn có tin vào 'happy ending' (kết thúc có hậu) trong tình yêu không?",
+      "id": "gen-crush-071"
+    },
+    {
+      "question": 72,
+      "content": "Một điều nhỏ nhặt mà ai đó làm có thể khiến bạn cảm động?",
+      "id": "gen-crush-072"
+    },
+    {
+      "question": 73,
+      "content": "Bạn nghĩ sao về việc giữ liên lạc với người yêu cũ?",
+      "id": "gen-crush-073"
+    },
+    {
+      "question": 74,
+      "content": "Nếu có thể quay lại thời điểm mới gặp nhau, bạn có muốn nói gì khác không?",
+      "id": "gen-crush-074"
+    },
+    {
+      "question": 75,
+      "content": "Điều gì khiến bạn cảm thấy an toàn và được che chở trong một mối quan hệ?",
+      "id": "gen-crush-075"
+    },
+    {
+      "question": 76,
+      "content": "Bạn có nghĩ rằng việc dành thời gian riêng tư là quan trọng ngay cả khi đang trong một mối quan hệ?",
+      "id": "gen-crush-076"
+    },
+    {
+      "question": 77,
+      "content": "Nếu được diễn tả cảm xúc hiện tại bằng một màu sắc, đó là màu gì?",
+      "id": "gen-crush-077"
+    },
+    {
+      "question": 78,
+      "content": "Bạn có nghĩ mình là người dễ yêu không?",
+      "id": "gen-crush-078"
+    },
+    {
+      "question": 79,
+      "content": "Điều gì bạn thích nhất khi trò chuyện với mình?",
+      "id": "gen-crush-079"
+    },
+    {
+      "question": 80,
+      "content": "Nếu chúng ta cùng nhau xem một bộ phim lãng mạn, bạn có dễ khóc không?",
+      "id": "gen-crush-080"
+    },
+    {
+      "question": 81,
+      "content": "Bạn có bao giờ nghĩ về tương lai của chúng ta không?",
+      "id": "gen-crush-081"
+    },
+    {
+      "question": 82,
+      "content": "Điều gì ở mình khiến bạn cười hoặc cảm thấy vui vẻ?",
+      "id": "gen-crush-082"
+    },
+    {
+      "question": 83,
+      "content": "Bạn có nghĩ rằng tình bạn là nền tảng tốt cho một mối quan hệ lãng mạn?",
+      "id": "gen-crush-083"
+    },
+    {
+      "question": 84,
+      "content": "Nếu có thể miêu tả cảm giác của bạn dành cho mình bằng một bài hát, đó là bài gì?",
+      "id": "gen-crush-084"
+    },
+    {
+      "question": 85,
+      "content": "Bạn có nghĩ rằng đã đến lúc chúng ta nên thành thật hơn về cảm xúc của mình không?",
+      "id": "gen-crush-085"
+    },
+    {
+      "question": 86,
+      "content": "Điều gì bạn mong đợi nhất ở một người bạn đời/người yêu?",
+      "id": "gen-crush-086"
+    },
+    {
+      "question": 87,
+      "content": "Bạn có cảm thấy có một 'sợi dây' đặc biệt nào đó giữa chúng ta không?",
+      "id": "gen-crush-087"
+    },
+    {
+      "question": 88,
+      "content": "Nếu mình nói mình thích bạn, phản ứng đầu tiên của bạn sẽ là gì?",
+      "id": "gen-crush-088"
+    },
+    {
+      "question": 89,
+      "content": "Bạn có nghĩ chúng ta có thể còn hơn cả bạn bè không?",
+      "id": "gen-crush-089"
+    },
+    {
+      "question": 90,
+      "content": "Khoảnh khắc nào bên mình khiến bạn cảm thấy vui nhất?",
+      "id": "gen-crush-090"
+    },
+    {
+      "question": 91,
+      "content": "Bạn có muốn thử tìm hiểu nhau sâu sắc hơn không?",
+      "id": "gen-crush-091"
+    },
+    {
+      "question": 92,
+      "content": "Điều gì bạn thích nhất ở nụ cười của mình?",
+      "id": "gen-crush-092"
+    },
+    {
+      "question": 93,
+      "content": "Nếu có thể dùng 3 từ để miêu tả mình trong mắt bạn, đó là gì?",
+      "id": "gen-crush-093"
+    },
+    {
+      "question": 94,
+      "content": "Bạn có muốn biết mình nghĩ gì về bạn không?",
+      "id": "gen-crush-094"
+    },
+    {
+      "question": 95,
+      "content": "Nếu chúng ta chính thức hẹn hò, buổi hẹn đầu tiên bạn muốn như thế nào?",
+      "id": "gen-crush-095"
+    },
+    {
+      "question": 96,
+      "content": "Bạn có nghĩ rằng 'thích' là một từ đủ mạnh cho cảm giác của mình lúc này không?",
+      "id": "gen-crush-096"
+    },
+    {
+      "question": 97,
+      "content": "Mình có thể mời bạn một buổi hẹn không?",
+      "id": "gen-crush-097"
+    },
+    {
+      "question": 98,
+      "content": "Điều gì bạn hy vọng sẽ xảy ra tiếp theo giữa chúng ta?",
+      "id": "gen-crush-098"
+    },
+    {
+      "question": 99,
+      "content": "Mình có thể nói thật lòng là mình rất thích bạn được không?",
+      "id": "gen-crush-099"
+    },
+    {
+      "question": 100,
+      "content": "Vậy... chúng ta có thể coi đây là một buổi 'tiền hẹn hò' không?",
+      "id": "gen-crush-100"
     }
   ],
   "level3": [
     {
       "question": 1,
-      "content": "Đặt 3 câu trần thuật một sự thật với chủ thể là “chúng ta”. Ví dụ: “Chúng ta đều đang ở trong căn phòng này và cảm thấy…”",
-      "id": "46419d43-385d-43d1-bd7d-1c5773023717"
+      "content": "Khoảnh khắc nào trong tuần qua khiến bạn cảm thấy được yêu thương và trân trọng nhất?",
+      "id": "gen-couple-001"
     },
     {
       "question": 2,
-      "content": "Hoàn thành câu sau: “Tôi ước có một người mà mình có thể chia sẻ…”",
-      "id": "5fdb7398-d95f-4bc4-8abf-f01eabb02f75"
+      "content": "Nếu có thể diễn tả tình yêu của chúng ta bằng một bài hát hoặc một bộ phim, đó sẽ là gì?",
+      "id": "gen-couple-002"
     },
     {
       "question": 3,
-      "content": "Nếu bạn có ý định trở thành bạn thân của đối phương, hãy chia sẻ điều quan trọng mà anh ấy/cô ấy cần biết.",
-      "id": "e9cea131-ab28-4154-8e4d-ec4206b54654"
+      "content": "Điều gì nhỏ nhặt ở đối phương khiến bạn luôn mỉm cười khi nghĩ đến?",
+      "id": "gen-couple-003"
     },
     {
       "question": 4,
-      "content": "Nói với đối phương điều bạn thích ở họ; hãy thành thật nhất có thể – những điều bạn thường không nói với một người mới gặp.",
-      "id": "3bd42def-ab90-49d3-87ad-da0f9fd918ba"
+      "content": "Khi nào bạn cảm thấy kết nối sâu sắc nhất với mình?",
+      "id": "gen-couple-004"
     },
     {
       "question": 5,
-      "content": "Chia sẻ với đối phương một kỷ niệm xấu hổ trong cuộc đời bạn.",
-      "id": "2292734d-c49d-475c-b0d0-8827cfec6d11"
+      "content": "Một lời khen bạn muốn nghe từ mình thường xuyên hơn?",
+      "id": "gen-couple-005"
     },
     {
       "question": 6,
-      "content": "Lần gần nhất bạn khóc trước mặt người khác là khi nào? Còn khi bạn khóc một mình thì sao?",
-      "id": "c5d0148e-7598-4a6f-9a21-75379c34bd55"
+      "content": "Cách thể hiện tình yêu nào (lời nói, hành động, quà tặng, thời gian chất lượng, cử chỉ âu yếm) khiến bạn cảm thấy được yêu nhất?",
+      "id": "gen-couple-006"
     },
     {
       "question": 7,
-      "content": "Nói với đối phương về một điểm mà bạn mến ở họ.",
-      "id": "1f826f15-4ac1-4bc3-a542-370c9a10b750"
+      "content": "Kỷ niệm hẹn hò nào của chúng ta mà bạn nhớ nhất và tại sao?",
+      "id": "gen-couple-007"
     },
     {
       "question": 8,
-      "content": "Xét tất cả các vấn đề, bạn thấy vấn đề nào nghiêm trọng đến mức không thể đem ra đùa cợt được?",
-      "id": "2d1eddfa-45f8-4abc-a0e2-eaace8f22013"
+      "content": "Nếu có một ngày hoàn toàn tự do chỉ có hai chúng ta, bạn muốn mình làm gì cùng nhau?",
+      "id": "gen-couple-008"
     },
     {
       "question": 9,
-      "content": "Nếu tối nay bạn phải từ giã cõi đời nhưng không có cơ hội nào để liên lạc với bất kì ai, điều gì chưa nói làm bạn hối tiếc nhất? Tại sao trước đây bạn vẫn chưa nói điều đó ra?",
-      "id": "f57b0b25-c609-4ac0-b69d-04e81fc24726"
+      "content": "Điều gì ở mình khiến bạn cảm thấy tự hào nhất?",
+      "id": "gen-couple-009"
     },
     {
       "question": 10,
-      "content": "Ngôi nhà với tất cả đồ đạc bạn sở hữu chìm trong hỏa hoạn. Sau khi cứu hết người thân và thú cưng, bạn còn đủ thời gian vào nhà cứu thêm một món đồ nữa. Bạn sẽ cứu món đồ nào? Tại sao?",
-      "id": "996b41f4-1c5d-4183-a1bb-656d4fcbe7e3"
+      "content": "Bạn có nghĩ rằng chúng ta đang dành đủ thời gian chất lượng cho nhau không?",
+      "id": "gen-couple-010"
     },
     {
       "question": 11,
-      "content": "Trong tất cả thành viên gia đình của bạn, sự ra đi của ai làm bạn bứt rứt nhất? Tại sao?",
-      "id": "6a6bad86-dc39-41aa-8f71-a9aade26b3cc"
+      "content": "Nỗi sợ thầm kín nào bạn muốn chia sẻ với mình?",
+      "id": "gen-couple-011"
     },
     {
       "question": 12,
-      "content": "Chia sẻ một vấn đề cá nhân và hỏi ý kiến đối phương nên giải quyết vấn đề đó như thế nào. Ngoài ra, nhờ đối phương phản hồi cảm nhận của họ về thái độ/cảm xúc của bạn đối với vấn đề mà bạn lựa chọn.",
-      "id": "3b9742ed-13a0-44cc-b547-d441fe16ece8"
+      "content": "Làm thế nào để mình có thể hỗ trợ bạn tốt hơn khi bạn gặp căng thẳng hoặc áp lực?",
+      "id": "gen-couple-012"
+    },
+    {
+      "question": 13,
+      "content": "Có điều gì bạn ước chúng ta có thể cùng nhau học hỏi hoặc trải nghiệm không?",
+      "id": "gen-couple-013"
+    },
+    {
+      "question": 14,
+      "content": "Theo bạn, điều gì là thử thách lớn nhất trong mối quan hệ của chúng ta và cách chúng ta vượt qua nó?",
+      "id": "gen-couple-014"
+    },
+    {
+      "question": 15,
+      "content": "Bạn cảm thấy thế nào về sự thân mật thể xác trong mối quan hệ của chúng ta hiện tại?",
+      "id": "gen-couple-015"
+    },
+    {
+      "question": 16,
+      "content": "Có điều gì bạn muốn mình làm thường xuyên hơn để thể hiện sự quan tâm không?",
+      "id": "gen-couple-016"
+    },
+    {
+      "question": 17,
+      "content": "Ước mơ hoặc mục tiêu cá nhân nào bạn muốn mình biết và ủng hộ?",
+      "id": "gen-couple-017"
+    },
+    {
+      "question": 18,
+      "content": "Khi chúng ta bất đồng ý kiến, điều gì giúp bạn cảm thấy được lắng nghe và tôn trọng?",
+      "id": "gen-couple-018"
+    },
+    {
+      "question": 19,
+      "content": "Bạn thích được nhận sự giúp đỡ một cách trực tiếp hay thích tự mình giải quyết vấn đề hơn?",
+      "id": "gen-couple-019"
+    },
+    {
+      "question": 20,
+      "content": "Khoảnh khắc nào bạn nhận ra mình thực sự yêu/rất yêu mình?",
+      "id": "gen-couple-020"
+    },
+    {
+      "question": 21,
+      "content": "Có điều gì về cơ thể bạn mà bạn mong mình khen ngợi hoặc chú ý nhiều hơn không?",
+      "id": "gen-couple-021"
+    },
+    {
+      "question": 22,
+      "content": "Làm thế nào để chúng ta có thể giao tiếp cởi mở hơn về nhu cầu và mong muốn trong chuyện ấy?",
+      "id": "gen-couple-022"
+    },
+    {
+      "question": 23,
+      "content": "Một điều mới lạ hoặc thú vị về sự thân mật mà bạn tò mò muốn cùng mình khám phá?",
+      "id": "gen-couple-023"
+    },
+    {
+      "question": 24,
+      "content": "Điều gì khiến bạn cảm thấy được 'bật đèn xanh' hoặc được mời gọi trong không gian riêng tư?",
+      "id": "gen-couple-024"
+    },
+    {
+      "question": 25,
+      "content": "Bạn cảm thấy thế nào về tần suất gần gũi của chúng ta?",
+      "id": "gen-couple-025"
+    },
+    {
+      "question": 26,
+      "content": "Có một tưởng tượng (fantasy) nhẹ nhàng nào bạn muốn chia sẻ hoặc thử cùng mình không?",
+      "id": "gen-couple-026"
+    },
+    {
+      "question": 27,
+      "content": "Ngoài những lúc thân mật, khoảnh khắc nào bạn cảm thấy gần gũi với mình nhất?",
+      "id": "gen-couple-027"
+    },
+    {
+      "question": 28,
+      "content": "Làm sao để mình biết khi nào bạn muốn và không muốn gần gũi?",
+      "id": "gen-couple-028"
+    },
+    {
+      "question": 29,
+      "content": "Bạn có cảm thấy thoải mái khi nói về những điều bạn thích hoặc không thích trong chuyện chăn gối không?",
+      "id": "gen-couple-029"
+    },
+    {
+      "question": 30,
+      "content": "Điều gì trong mối quan hệ của chúng ta khiến bạn cảm thấy biết ơn nhất?",
+      "id": "gen-couple-030"
+    },
+    {
+      "question": 31,
+      "content": "Quan điểm của bạn về tiền bạc và cách quản lý tài chính chung trong gia đình/mối quan hệ?",
+      "id": "gen-couple-031"
+    },
+    {
+      "question": 32,
+      "content": "Mục tiêu tài chính lớn nhất của bạn trong 5 năm tới là gì?",
+      "id": "gen-couple-032"
+    },
+    {
+      "question": 33,
+      "content": "Chúng ta có thể làm gì để hỗ trợ nhau tốt hơn trong việc đạt được mục tiêu tài chính?",
+      "id": "gen-couple-033"
+    },
+    {
+      "question": 34,
+      "content": "Thói quen chi tiêu nào của đối phương khiến bạn thấy khó hiểu (hoặc ngược lại)?",
+      "id": "gen-couple-034"
+    },
+    {
+      "question": 35,
+      "content": "Bạn cảm thấy thế nào về việc chia sẻ hoàn toàn tài chính hoặc có quỹ riêng?",
+      "id": "gen-couple-035"
+    },
+    {
+      "question": 36,
+      "content": "Nếu chúng ta trúng số độc đắc, điều đầu tiên bạn muốn làm là gì?",
+      "id": "gen-couple-036"
+    },
+    {
+      "question": 37,
+      "content": "Kế hoạch nghỉ hưu lý tưởng của bạn trông như thế nào?",
+      "id": "gen-couple-037"
+    },
+    {
+      "question": 38,
+      "content": "Có điều gì về gia đình hoặc quá khứ của bạn mà bạn muốn mình hiểu rõ hơn không?",
+      "id": "gen-couple-038"
+    },
+    {
+      "question": 39,
+      "content": "Mối quan hệ của chúng ta đã thay đổi bạn như thế nào theo hướng tích cực?",
+      "id": "gen-couple-039"
+    },
+    {
+      "question": 40,
+      "content": "Nếu có thể mô tả tương lai của chúng ta bằng một từ, đó là gì?",
+      "id": "gen-couple-040"
+    },
+    {
+      "question": 41,
+      "content": "Điều gì bạn ước mình có thể làm khác đi trong một cuộc tranh cãi trước đây của chúng ta?",
+      "id": "gen-couple-041"
+    },
+    {
+      "question": 42,
+      "content": "Làm thế nào để chúng ta 'làm lành' hiệu quả nhất sau một bất đồng?",
+      "id": "gen-couple-042"
+    },
+    {
+      "question": 43,
+      "content": "Có điều gì bạn đang giữ trong lòng mà ngần ngại chưa nói với mình không?",
+      "id": "gen-couple-043"
+    },
+    {
+      "question": 44,
+      "content": "Bạn cảm thấy được lắng nghe nhất khi mình làm gì?",
+      "id": "gen-couple-044"
+    },
+    {
+      "question": 45,
+      "content": "Bạn nghĩ 'không gian riêng tư' quan trọng như thế nào trong mối quan hệ?",
+      "id": "gen-couple-045"
+    },
+    {
+      "question": 46,
+      "content": "Nếu có một truyền thống mới cho riêng hai chúng ta, bạn muốn nó là gì?",
+      "id": "gen-couple-046"
+    },
+    {
+      "question": 47,
+      "content": "Điều gì khiến bạn cảm thấy ghen tuông (nếu có) và làm sao để mình giúp bạn cảm thấy an tâm hơn?",
+      "id": "gen-couple-047"
+    },
+    {
+      "question": 48,
+      "content": "Bạn có cảm thấy thoải mái khi thể hiện sự yếu đuối trước mặt mình không?",
+      "id": "gen-couple-048"
+    },
+    {
+      "question": 49,
+      "content": "Chúng ta có thể làm gì để giữ 'lửa' và sự mới mẻ trong mối quan hệ?",
+      "id": "gen-couple-049"
+    },
+    {
+      "question": 50,
+      "content": "Điều điên rồ nhất bạn muốn làm cùng mình là gì?",
+      "id": "gen-couple-050"
+    },
+    {
+      "question": 51,
+      "content": "Bạn cảm thấy thế nào về việc có con và nuôi dạy con cái (nếu liên quan)?",
+      "id": "gen-couple-051"
+    },
+    {
+      "question": 52,
+      "content": "Giá trị cốt lõi nào bạn muốn con cái chúng ta học được?",
+      "id": "gen-couple-052"
+    },
+    {
+      "question": 53,
+      "content": "Vai trò của gia đình (bố mẹ hai bên) trong cuộc sống của chúng ta nên như thế nào?",
+      "id": "gen-couple-053"
+    },
+    {
+      "question": 54,
+      "content": "Làm thế nào để chúng ta cân bằng giữa công việc, cuộc sống cá nhân và thời gian dành cho nhau?",
+      "id": "gen-couple-054"
+    },
+    {
+      "question": 55,
+      "content": "Có điều gì về thói quen hàng ngày của mình khiến bạn khó chịu nhưng chưa nói không?",
+      "id": "gen-couple-055"
+    },
+    {
+      "question": 56,
+      "content": "Ngược lại, thói quen nào của bạn mà bạn nghĩ có thể làm phiền mình?",
+      "id": "gen-couple-056"
+    },
+    {
+      "question": 57,
+      "content": "Cách 'xin lỗi' chân thành nhất đối với bạn là gì?",
+      "id": "gen-couple-057"
+    },
+    {
+      "question": 58,
+      "content": "Bạn có cảm thấy được là chính mình hoàn toàn khi ở bên cạnh mình không?",
+      "id": "gen-couple-058"
+    },
+    {
+      "question": 59,
+      "content": "Điều gì bạn mong muốn thay đổi hoặc cải thiện trong mối quan hệ của chúng ta?",
+      "id": "gen-couple-059"
+    },
+    {
+      "question": 60,
+      "content": "Nếu mối quan hệ này là một chuyến đi, hiện tại chúng ta đang ở giai đoạn nào?",
+      "id": "gen-couple-060"
+    },
+    {
+      "question": 61,
+      "content": "Khi nói về tương lai xa (10-20 năm), bạn hình dung cuộc sống của chúng ta như thế nào?",
+      "id": "gen-couple-061"
+    },
+    {
+      "question": 62,
+      "content": "Bạn có nghĩ rằng sự lãng mạn cần được thể hiện hàng ngày hay chỉ trong dịp đặc biệt?",
+      "id": "gen-couple-062"
+    },
+    {
+      "question": 63,
+      "content": "Một cử chỉ lãng mạn đơn giản mà bạn luôn yêu thích?",
+      "id": "gen-couple-063"
+    },
+    {
+      "question": 64,
+      "content": "Bạn có cảm thấy an toàn khi chia sẻ những bí mật sâu kín nhất với mình không?",
+      "id": "gen-couple-064"
+    },
+    {
+      "question": 65,
+      "content": "Làm thế nào để mình khiến bạn cảm thấy hấp dẫn và được khao khát?",
+      "id": "gen-couple-065"
+    },
+    {
+      "question": 66,
+      "content": "Có vị trí nào trên cơ thể bạn đặc biệt nhạy cảm hoặc thích được chạm vào không?",
+      "id": "gen-couple-066"
+    },
+    {
+      "question": 67,
+      "content": "Bạn cảm thấy thế nào về việc thử những điều mới trong phòng ngủ?",
+      "id": "gen-couple-067"
+    },
+    {
+      "question": 68,
+      "content": "Màn dạo đầu lý tưởng đối với bạn là như thế nào?",
+      "id": "gen-couple-068"
+    },
+    {
+      "question": 69,
+      "content": "Điều gì khiến bạn cảm thấy thỏa mãn nhất sau khi chúng ta gần gũi?",
+      "id": "gen-couple-069"
+    },
+    {
+      "question": 70,
+      "content": "Có áp lực nào bạn cảm thấy về tần suất hoặc 'hiệu suất' trong chuyện ấy không?",
+      "id": "gen-couple-070"
+    },
+    {
+      "question": 71,
+      "content": "Làm sao để mình biết bạn đang thực sự tận hưởng khoảnh khắc thân mật?",
+      "id": "gen-couple-071"
+    },
+    {
+      "question": 72,
+      "content": "Bạn có nghĩ rằng sự thân mật về tinh thần và thể xác luôn đi đôi với nhau không?",
+      "id": "gen-couple-072"
+    },
+    {
+      "question": 73,
+      "content": "Có điều gì bạn muốn thay đổi trong cách chúng ta thể hiện sự thân mật không?",
+      "id": "gen-couple-073"
+    },
+    {
+      "question": 74,
+      "content": "Bạn cảm thấy tự tin nhất về điều gì ở bản thân?",
+      "id": "gen-couple-074"
+    },
+    {
+      "question": 75,
+      "content": "Điều gì khiến bạn cảm thấy bất an hoặc thiếu tự tin nhất?",
+      "id": "gen-couple-075"
+    },
+    {
+      "question": 76,
+      "content": "Làm sao để mình giúp bạn cảm thấy tự tin và được yêu thương hơn mỗi ngày?",
+      "id": "gen-couple-076"
+    },
+    {
+      "question": 77,
+      "content": "Nếu chúng ta có thể đi đâu đó chỉ hai người trong một tuần tới, bạn chọn đi đâu?",
+      "id": "gen-couple-077"
+    },
+    {
+      "question": 78,
+      "content": "Bạn có cảm thấy mối quan hệ của chúng ta đang phát triển đúng hướng không?",
+      "id": "gen-couple-078"
+    },
+    {
+      "question": 79,
+      "content": "Điều gì bạn học được từ những mối quan hệ trước đây (nếu có) giúp ích cho mối quan hệ này?",
+      "id": "gen-couple-079"
+    },
+    {
+      "question": 80,
+      "content": "Bạn có nghĩ rằng chúng ta giao tiếp đủ và hiệu quả về mọi mặt không?",
+      "id": "gen-couple-080"
+    },
+     {
+      "question": 81,
+      "content": "Nếu có thể quay ngược thời gian về ngày đầu tiên chúng ta gặp nhau, bạn có làm gì khác không?",
+      "id": "gen-couple-081"
+    },
+    {
+      "question": 82,
+      "content": "Bạn thích cách chúng ta giải quyết xung đột như thế nào?",
+      "id": "gen-couple-082"
+    },
+    {
+      "question": 83,
+      "content": "Điều gì làm bạn cười mà chỉ có mình mới hiểu?",
+      "id": "gen-couple-083"
+    },
+    {
+      "question": 84,
+      "content": "Bạn cảm thấy thế nào khi nhìn thấy mình thành công hoặc đạt được mục tiêu?",
+      "id": "gen-couple-084"
+    },
+    {
+      "question": 85,
+      "content": "Có bí mật nho nhỏ nào bạn chưa từng kể cho ai nghe, nhưng muốn kể cho mình không?",
+      "id": "gen-couple-085"
+    },
+    {
+      "question": 86,
+      "content": "Điều gì bạn mong muốn chúng ta cùng nhau xây dựng trong tương lai?",
+      "id": "gen-couple-086"
+    },
+    {
+      "question": 87,
+      "content": "Bạn có cảm thấy mình được ưu tiên trong cuộc sống của đối phương không?",
+      "id": "gen-couple-087"
+    },
+    {
+      "question": 88,
+      "content": "Làm thế nào để chúng ta có thể tiếp tục 'hẹn hò' và giữ sự lãng mạn ngay cả khi đã ở bên nhau lâu?",
+      "id": "gen-couple-088"
+    },
+    {
+      "question": 89,
+      "content": "Nếu phải dùng một từ để mô tả cảm giác của bạn khi ở bên mình, đó là từ gì?",
+      "id": "gen-couple-089"
+    },
+    {
+      "question": 90,
+      "content": "Điều gì bạn muốn chắc chắn rằng mình biết bạn yêu mình?",
+      "id": "gen-couple-090"
+    },
+    {
+      "question": 91,
+      "content": "Bạn có cảm thấy hoàn toàn tin tưởng mình không? Làm sao để củng cố niềm tin đó?",
+      "id": "gen-couple-091"
+    },
+    {
+      "question": 92,
+      "content": "Mức độ thân mật nào (không chỉ về thể xác) bạn cảm thấy thoải mái nhất khi chia sẻ?",
+      "id": "gen-couple-092"
+    },
+    {
+      "question": 93,
+      "content": "Có điều gì về 'chuyện ấy' mà bạn luôn tò mò nhưng chưa dám hỏi hoặc đề nghị không?",
+      "id": "gen-couple-093"
+    },
+    {
+      "question": 94,
+      "content": "Làm thế nào để mình biết bạn đang có tâm trạng muốn được âu yếm hoặc gần gũi?",
+      "id": "gen-couple-094"
+    },
+    {
+      "question": 95,
+      "content": "Bạn có nghĩ rằng đời sống tình dục ảnh hưởng đến hạnh phúc chung của mối quan hệ không?",
+      "id": "gen-couple-095"
+    },
+    {
+      "question": 96,
+      "content": "Điều gì bạn thích nhất về cơ thể của mình (partner)?",
+      "id": "gen-couple-096"
+    },
+    {
+      "question": 97,
+      "content": "Làm thế nào để chúng ta có thể duy trì sự hấp dẫn lẫn nhau theo thời gian?",
+      "id": "gen-couple-097"
+    },
+    {
+      "question": 98,
+      "content": "Bạn có hoàn toàn hài lòng với sự thân mật và đời sống tình dục của chúng ta không? Nếu không, chúng ta có thể cải thiện điều gì?",
+      "id": "gen-couple-098"
+    },
+    {
+      "question": 99,
+      "content": "Cam kết lớn nhất bạn muốn thực hiện cho mối quan hệ này là gì?",
+      "id": "gen-couple-099"
+    },
+    {
+      "question": 100,
+      "content": "Điều gì về chúng ta khiến bạn tin rằng chúng ta có thể cùng nhau đi một chặng đường dài?",
+      "id": "gen-couple-100"
     }
   ]
 }

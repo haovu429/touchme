@@ -200,6 +200,40 @@ loadQuestionsFromFirestore().then(() => {
       }
     });
 
+    // --- THÊM LISTENER MỚI CHO LỆNH /refreshquestions ---
+    bot.onText(/^\/refreshquestions$/, async (msg: any) => {
+      // Chỉ admin mới được thực hiện lệnh này
+      if (msg.chat.id.toString() === adminChatId) {
+        console.log("[Admin Command] Received /refreshquestions command from admin.");
+        // Gửi phản hồi tạm thời cho admin biết lệnh đã được nhận
+        bot.sendMessage(adminChatId, "⏳ Đang thực hiện yêu cầu làm mới danh sách câu hỏi từ Firestore...");
+
+        try {
+          // Gọi lại hàm load questions đã có sẵn
+          await loadQuestionsFromFirestore();
+
+          // Kiểm tra xem việc load có thành công không (ví dụ: loadedQuestions có dữ liệu)
+          const levelsLoaded = Object.keys(loadedQuestions);
+          const totalQuestionsLoaded = levelsLoaded.reduce((sum, level) => sum + (loadedQuestions[level]?.length || 0), 0);
+
+          if (totalQuestionsLoaded > 0) {
+            bot.sendMessage(adminChatId, `✅ Đã làm mới danh sách câu hỏi từ Firestore thành công! (${totalQuestionsLoaded} câu hỏi trên ${levelsLoaded.length} cấp độ)`);
+            console.log("[Admin Command] Questions reloaded successfully via Telegram command.");
+          } else {
+            bot.sendMessage(adminChatId, "⚠️ Làm mới câu hỏi từ Firestore nhưng không tìm thấy dữ liệu nào. Kiểm tra lại Firestore?");
+            console.warn("[Admin Command] Questions reloaded via Telegram command, but no data was found in Firestore.");
+          }
+        } catch (error) {
+          console.error("[Admin Command] Error during /refreshquestions execution:", error);
+          bot.sendMessage(adminChatId, "❌ Đã xảy ra lỗi khi cố gắng làm mới câu hỏi từ Firestore. Kiểm tra log server.");
+        }
+      } else {
+        console.warn(`[Admin Command] Unauthorized attempt to use /refreshquestions by chat ID: ${msg.chat.id}`);
+        bot.sendMessage(msg.chat.id, "Bạn không có quyền thực hiện lệnh này.");
+      }
+    });
+    // ---------------------------------------------------------
+
     bot.on('polling_error', (error: any) => {
       console.error("[Telegram Bot] Polling error:", error.code, error.message?.substring(0, 100));
     });
