@@ -350,7 +350,7 @@ export default function RealtimeQuestionRoom() {
                     : "Nhờ Thổ Địa hỗ trợ"
                 }
               >
-                📞 Gọi Admins {!canCallAdmin && "(Đang tắt)"}
+                📞 Gọi Admin {!canCallAdmin && "(Đang tắt)"}
               </button>
               <button
                 onClick={randomQuestion}
