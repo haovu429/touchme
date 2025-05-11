@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import { toast } from "react-toastify";
 import SystemChatMessage from "./SystemChatMessage";
 import QRCode from "react-qr-code"; // <--- Import thư viện QR Code
+import CallAdminDialog from "./CallAdminDialog";
 
 const socket = io(import.meta.env.VITE_SOCKET_URL, {
   transports: ["websocket", "polling"], // Ưu tiên websocket
@@ -24,25 +25,26 @@ export default function RealtimeQuestionRoom() {
   const [showQrCode, setShowQrCode] = useState(false); // <-- State để ẩn/hiện QR
   const [canCallAdmin, setCanCallAdmin] = useState(true); // Mặc định là có thể gọi
   const [isAdminCallPending, setIsAdminCallPending] = useState(false); // Giữ nguyên state này
+  const [showCallDialog, setShowCallDialog] = useState(false);
 
   // --- useEffect để đọc roomCode từ URL khi component mount ---
   useEffect(() => {
     const cached = localStorage.getItem("touchme-room");
-      if (cached) {
-        try {
-          const { roomCode, username, level } = JSON.parse(cached);
-          if (roomCode && username && level) {
-            toast.info("Khôi phục phòng từ cache...");
-            setRoomCode(roomCode);
-            setUsername(username);
-            setLevel(level);
-            socket.emit("join-room", roomCode, username, level);
-            setJoined(true);
-          }
-        } catch (e) {
-          console.error("Không thể parse cache room:", e);
+    if (cached) {
+      try {
+        const { roomCode, username, level } = JSON.parse(cached);
+        if (roomCode && username && level) {
+          toast.info("Khôi phục phòng từ cache...");
+          setRoomCode(roomCode);
+          setUsername(username);
+          setLevel(level);
+          socket.emit("join-room", roomCode, username, level);
+          setJoined(true);
         }
+      } catch (e) {
+        console.error("Không thể parse cache room:", e);
       }
+    }
 
     const queryParams = new URLSearchParams(window.location.search);
     const roomFromUrl = queryParams.get("room");
@@ -72,12 +74,17 @@ export default function RealtimeQuestionRoom() {
 
   const handleCallAdmin = () => {
     if (roomCode && !isAdminCallPending) {
-      setIsAdminCallPending(true); // Vô hiệu hóa nút tạm thời
-      socket.emit("call-admin", { roomCode }); // Gửi roomCode hiện tại
-      // Nút sẽ được kích hoạt lại bởi phản hồi từ server hoặc sau timeout
-      // Để đơn giản, ta đặt timeout ở đây, nhưng lý tưởng là chờ phản hồi từ server
-      setTimeout(() => setIsAdminCallPending(false), 30000); // Ví dụ: 30 giây
+      setShowCallDialog(true); // Hiện form nhập
     }
+  };
+
+  const submitCallAdminMessage = (userMessage) => {
+    setIsAdminCallPending(true);
+    socket.emit("call-admin", { roomCode, message: userMessage });
+    setShowCallDialog(false);
+
+    // Timeout fallback
+    setTimeout(() => setIsAdminCallPending(false), 30000);
   };
 
   // Tự cuộn khi có tin nhắn mới hoặc load lịch sử
@@ -96,12 +103,14 @@ export default function RealtimeQuestionRoom() {
       setUsername(finalUsername); // Cập nhật lại state username
       socket.emit("join-room", finalRoomCode, finalUsername, level); // Gửi cả 3
       setJoined(true);
-      localStorage.setItem("touchme-room", JSON.stringify({
-        roomCode: finalRoomCode,
-        username: finalUsername,
-        level,
-      }));
-    
+      localStorage.setItem(
+        "touchme-room",
+        JSON.stringify({
+          roomCode: finalRoomCode,
+          username: finalUsername,
+          level,
+        })
+      );
     } else {
       toast.error("Vui lòng nhập mã phòng hợp lệ (tối đa 6 ký tự).");
     }
@@ -509,6 +518,11 @@ export default function RealtimeQuestionRoom() {
           {/* Hết cột phải (Chat) */}
         </div> // Hết giao diện trong phòng
       )}
+      <CallAdminDialog
+        isOpen={showCallDialog}
+        onClose={() => setShowCallDialog(false)}
+        onSubmit={submitCallAdminMessage}
+      />
     </div> // Hết container chính
   );
 }

@@ -276,8 +276,8 @@ loadQuestionsFromFirestore().then(() => {
     socket.emit("admin-call-status-changed", { enabled: isCallAdminEnabled });
 
     // --- Sự kiện call-admin (Thêm kiểm tra trạng thái) ---
-    socket.on("call-admin", async (data: { roomCode: string }) => {
-      const { roomCode } = data;
+    socket.on("call-admin", async (data: { roomCode: string, message?: string }) => {
+      const { roomCode, message = "" } = data;
       const userData = users[socket.id];
 
       // === KIỂM TRA RATE LIMIT ===
@@ -312,16 +312,20 @@ loadQuestionsFromFirestore().then(() => {
       }
       // --- Escape các giá trị động ---
       const safeRoomCode = escapeMarkdownV2(roomCode);
+      const escapedMessage = escapeMarkdownV2(message);
       const safeUsername = escapeMarkdownV2(userData.username || 'Người dùng ẩn danh');
       const safeSocketId = escapeMarkdownV2(socket.id);
       // --- Tạo messageText với định dạng MarkdownV2 ---
       // Ví dụ: In đậm một số phần, in nghiêng socket ID
       const messageText =
         `🆘 *Admin ơi, có người cần hỗ trợ\\!* 🆘
-
-Phòng: *${safeRoomCode}*
-Người gọi: *${safeUsername}*
-_\\(Socket ID: ${safeSocketId}\\)_`; // Dùng _id_ cho in nghiêng
+  
+  Phòng: *${safeRoomCode}*
+  Người gọi: *${safeUsername}*
+  _\\(Socket ID: ${safeSocketId}\\)_
+  
+  📝 Lý do: ${escapedMessage || '_(Không cung cấp)_'}
+  `;
 
       const payload = {
         chat_id: adminChatId,
