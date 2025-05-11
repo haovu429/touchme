@@ -324,7 +324,7 @@ loadQuestionsFromFirestore().then(() => {
   Người gọi: *${safeUsername}*
   _\\(Socket ID: ${safeSocketId}\\)_
   
-  📝 Lý do: ${escapedMessage || '_(Không cung cấp)_'}
+  📝 Lý do: ${escapedMessage || '_\\(Không cung cấp\\)_'}
   `;
 
       const payload = {
