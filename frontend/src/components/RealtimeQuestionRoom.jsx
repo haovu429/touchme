@@ -27,6 +27,23 @@ export default function RealtimeQuestionRoom() {
 
   // --- useEffect để đọc roomCode từ URL khi component mount ---
   useEffect(() => {
+    const cached = localStorage.getItem("touchme-room");
+      if (cached) {
+        try {
+          const { roomCode, username, level } = JSON.parse(cached);
+          if (roomCode && username && level) {
+            toast.info("Khôi phục phòng từ cache...");
+            setRoomCode(roomCode);
+            setUsername(username);
+            setLevel(level);
+            socket.emit("join-room", roomCode, username, level);
+            setJoined(true);
+          }
+        } catch (e) {
+          console.error("Không thể parse cache room:", e);
+        }
+      }
+
     const queryParams = new URLSearchParams(window.location.search);
     const roomFromUrl = queryParams.get("room");
     if (roomFromUrl && roomFromUrl.length <= 6) {
@@ -79,6 +96,12 @@ export default function RealtimeQuestionRoom() {
       setUsername(finalUsername); // Cập nhật lại state username
       socket.emit("join-room", finalRoomCode, finalUsername, level); // Gửi cả 3
       setJoined(true);
+      localStorage.setItem("touchme-room", JSON.stringify({
+        roomCode: finalRoomCode,
+        username: finalUsername,
+        level,
+      }));
+    
     } else {
       toast.error("Vui lòng nhập mã phòng hợp lệ (tối đa 6 ký tự).");
     }
@@ -106,6 +129,8 @@ export default function RealtimeQuestionRoom() {
     setMessages([]);
     // Không cần reload trang
     // toast.info(`Bạn đã rời phòng!`); // Có thể thêm toast nếu muốn
+
+    localStorage.removeItem("touchme-room");
   };
 
   // Hàm gửi tin nhắn
