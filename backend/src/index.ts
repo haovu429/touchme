@@ -37,6 +37,16 @@ try {
   process.exit(1);
 }
 
+// --- THÊM HÀM TẠO TIN NHẮN HỆ THỐNG NHỎ ---
+const createSystemNotice = (text: string) => ({
+  id: `sys_notice_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+  text,
+  senderId: 'system',
+  senderName: 'Hệ thống',
+  timestamp: Date.now(),
+  type: 'system-notice'
+});
+
 const db = admin.firestore();
 let loadedQuestions: { [key: string]: any[] } = {};
 
@@ -390,7 +400,11 @@ loadQuestionsFromFirestore().then(() => {
       }
       const userCount = roomData.users.size;
       if (!isNewRoom) {
-        socket.to(roomCode).emit("user-joined", { userId: socket.id, username, userCount });
+        // socket.to(roomCode).emit("user-joined", { userId: socket.id, username, userCount });
+        const notice = createSystemNotice(`${username} đã vào phòng.`);
+        // io.to(roomCode).emit("new-message", notice);
+        io.to(roomCode).emit("new-message", notice);
+        
       }
       let chatHistory: any[] = [];
       try {
@@ -524,7 +538,9 @@ loadQuestionsFromFirestore().then(() => {
             console.log(`[Disconnect] Room ${roomCode} deleted. Triggering chat deletion.`);
             deleteChatHistory(roomCode);
           } else {
-            socket.to(roomCode).emit("user-left", { userId: socket.id, username: leavingUsername, userCount });
+            // socket.to(roomCode).emit("user-left", { userId: socket.id, username: leavingUsername, userCount });
+            const notice = createSystemNotice(`${leavingUsername} mất kết nối.`);
+            io.to(roomCode).emit("new-message", notice);
             // ... (xử lý host mới nếu cần) ...
           }
         }
@@ -559,7 +575,9 @@ loadQuestionsFromFirestore().then(() => {
         };
         // Gửi cho những người còn lại (nếu có)
         if (userCount > 0) {
-          io.to(roomCode).emit("new-message", leaveMessage); // Gửi cho cả phòng cũng được
+          // io.to(roomCode).emit("new-message", leaveMessage); // Gửi cho cả phòng cũng được
+          const notice = createSystemNotice(`${leavingUsername} đã rời khỏi phòng.`);
+          io.to(roomCode).emit("new-message", notice);
         }
         // ---------------------------------------
 
