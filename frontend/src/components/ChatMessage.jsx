@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function ChatMessage({ msg, socketId, formatTime }) {
+export default function ChatMessage({ msg, socketId, formatTime, handleOpenImage }) {
   const isSelf = msg.senderId === socketId;
 
   return (
@@ -23,6 +23,7 @@ export default function ChatMessage({ msg, socketId, formatTime }) {
             src={msg.imageUrl}
             alt="Đính kèm"
             className="rounded-lg max-w-full max-h-64 border mt-1"
+            onClick={() => handleOpenImage(msg.imageUrl)}
           />
         ) : (
           <span className="text-sm">{msg.text}</span>

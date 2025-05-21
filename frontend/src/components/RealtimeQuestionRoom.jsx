@@ -32,6 +32,15 @@ export default function RealtimeQuestionRoom() {
   const [canCallAdmin, setCanCallAdmin] = useState(true); // Mặc định là có thể gọi
   const [isAdminCallPending, setIsAdminCallPending] = useState(false); // Giữ nguyên state này
   const [showCallDialog, setShowCallDialog] = useState(false);
+  const [previewImage, setPreviewImage] = useState(null);
+
+  const handleOpenImage = (url) => {
+    setPreviewImage(url);
+  };
+
+  const handleCloseImage = () => {
+    setPreviewImage(null);
+  };
 
   // --- useEffect để đọc roomCode từ URL khi component mount ---
   useEffect(() => {
@@ -530,6 +539,7 @@ export default function RealtimeQuestionRoom() {
                       msg={msg}
                       socketId={socket.id}
                       formatTime={formatTime}
+                      handleOpenImage={handleOpenImage} // Truyền hàm mở ảnh
                     />
                   );
                 }
@@ -575,6 +585,19 @@ export default function RealtimeQuestionRoom() {
           </div>{" "}
           {/* Hết cột phải (Chat) */}
         </div> // Hết giao diện trong phòng
+      )}
+      {previewImage && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50"
+          onClick={handleCloseImage}
+        >
+          <img
+            src={previewImage}
+            alt="Ảnh phóng to"
+            className="max-w-full max-h-[90vh] rounded shadow-xl"
+            onClick={(e) => e.stopPropagation()} // ⛔ tránh đóng khi click vào ảnh
+          />
+        </div>
       )}
       <CallAdminDialog
         isOpen={showCallDialog}
