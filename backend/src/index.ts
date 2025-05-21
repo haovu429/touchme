@@ -520,7 +520,7 @@ loadQuestionsFromFirestore().then(() => {
           senderName: userData.username || "Anonymous",
           timestamp: Timestamp.now(), // Dùng Timestamp của Firestore Server
           publicId: "", // Thêm publicId nếu có
-          // Không cần expiresAt nữa
+
         };
 
         if (imageUrl) {
