@@ -5,6 +5,12 @@ import { toast } from "react-toastify";
 import SystemChatMessage from "./SystemChatMessage";
 import QRCode from "react-qr-code"; // <--- Import thư viện QR Code
 import CallAdminDialog from "./CallAdminDialog";
+import axios from "axios";
+import {
+  CLOUDINARY_API_URL,
+  CLOUDINARY_UPLOAD_PRESET,
+} from "../cloudinaryConfig";
+import ChatMessage from "./ChatMessage";
 
 const socket = io(import.meta.env.VITE_SOCKET_URL, {
   transports: ["websocket", "polling"], // Ưu tiên websocket
@@ -34,7 +40,7 @@ export default function RealtimeQuestionRoom() {
       try {
         const { roomCode, username, level } = JSON.parse(cached);
         if (roomCode && username && level) {
-          toast.info("Khôi phục phòng từ cache...");
+          // toast.info("Khôi phục phòng từ cache...");
           setRoomCode(roomCode);
           setUsername(username);
           setLevel(level);
@@ -153,6 +159,63 @@ export default function RealtimeQuestionRoom() {
     }
   };
 
+  // const handleImageUpload = async (e) => {
+  //   const file = e.target.files[0];
+  //   if (!file) return;
+
+  //   if (!roomCode || !joined) {
+  //     toast.error("Bạn phải vào phòng trước khi gửi ảnh.");
+  //     return;
+  //   }
+
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //   formData.append("upload_preset", CLOUDINARY_UPLOAD_PRESET);
+
+  //   try {
+  //     toast.info("Đang tải ảnh...");
+  //     const res = await axios.post(CLOUDINARY_API_URL, formData);
+  //     const imageUrl = res.data.secure_url;
+
+  //     socket.emit("send-message", {
+  //       roomCode,
+  //       imageUrl,
+  //     });
+
+  //     toast.success("Đã gửi ảnh!");
+  //   } catch (err) {
+  //     console.error("Upload error:", err);
+  //     toast.error("Không thể gửi ảnh.");
+  //   }
+  // };
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+
+    try {
+      toast.info("Đang tải ảnh lên server...");
+      const res = await axios.post(
+        `${import.meta.env.VITE_SOCKET_URL}/upload-image`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
+      );
+
+      const imageUrl = res.data.imageUrl;
+      socket.emit("send-message", { roomCode, imageUrl });
+
+      toast.success("Đã gửi ảnh!");
+    } catch (err) {
+      console.error("Lỗi gửi ảnh:", err);
+      toast.error("Không thể gửi ảnh.");
+    }
+  };
+
   // Lắng nghe sự kiện từ server
   useEffect(() => {
     // --- Xử lý kết nối lại và tự động join lại ---
@@ -162,7 +225,7 @@ export default function RealtimeQuestionRoom() {
         // Chỉ rejoin nếu trước đó đã ở trong phòng
         console.log(`Attempting to rejoin room ${roomCode} as ${username}`);
         socket.emit("join-room", roomCode, username, level); // Gửi lại đầy đủ thông tin
-        toast.info("Đã kết nối lại!");
+        // toast.info("Đã kết nối lại!");
       } else {
         console.log("Connected with ID:", socket.id);
       }
@@ -462,30 +525,12 @@ export default function RealtimeQuestionRoom() {
                 // --- Render tin nhắn người dùng bình thường ---
                 else {
                   return (
-                    <div
+                    <ChatMessage
                       key={msg.id || msg.timestamp}
-                      className={`flex flex-col ${
-                        msg.senderId === socket.id ? "items-end" : "items-start"
-                      }`}
-                    >
-                      <div
-                        className={`px-2.5 py-1 rounded-lg max-w-[90%] break-words shadow-sm ${
-                          msg.senderId === socket.id
-                            ? "bg-blue-500 text-white"
-                            : "bg-gray-100 text-gray-800"
-                        }`}
-                      >
-                        {msg.senderId !== socket.id && (
-                          <span className="font-semibold text-xs block opacity-80 mb-0.5">
-                            {msg.senderName || "Someone"}
-                          </span>
-                        )}
-                        <span className="text-sm">{msg.text}</span>
-                        <span className="text-[10px] opacity-70 block text-right mt-0.5">
-                          {formatTime(msg.timestamp)}
-                        </span>
-                      </div>
-                    </div>
+                      msg={msg}
+                      socketId={socket.id}
+                      formatTime={formatTime}
+                    />
                   );
                 }
                 // ------------------------------------------
@@ -513,6 +558,19 @@ export default function RealtimeQuestionRoom() {
               >
                 Gửi
               </button>
+              <input
+                type="file"
+                accept="image/*"
+                style={{ display: "none" }}
+                id="upload-image"
+                onChange={handleImageUpload}
+              />
+              <label
+                htmlFor="upload-image"
+                className="ml-2 cursor-pointer text-blue-500 text-sm hover:underline"
+              >
+                📎
+              </label>
             </form>
           </div>{" "}
           {/* Hết cột phải (Chat) */}

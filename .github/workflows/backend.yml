@@ -49,11 +49,17 @@ jobs:
           FIREBASE_KEY_CONTENT: ${{ secrets.FIREBASE_KEY_CONTENT }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_ADMIN_CHAT_ID: ${{ secrets.TELEGRAM_ADMIN_CHAT_ID }}
+          CLOUDINARY_CLOUD_NAME: ${{ secrets.CLOUDINARY_CLOUD_NAME }}
+          CLOUDINARY_API_KEY: ${{ secrets.CLOUDINARY_API_KEY }}
+          CLOUDINARY_API_SECRET: ${{ secrets.CLOUDINARY_API_SECRET }}
         run: |
           heroku config:set FRONTEND_URL=$FRONTEND_URL_VALUE --app $HEROKU_APP_NAME
           heroku config:set FIREBASE_SERVICE_ACCOUNT_KEY_JSON="$FIREBASE_KEY_CONTENT" -a $HEROKU_APP_NAME
           heroku config:set TELEGRAM_BOT_TOKEN="$TELEGRAM_BOT_TOKEN" -a $HEROKU_APP_NAME
           heroku config:set TELEGRAM_ADMIN_CHAT_ID="$TELEGRAM_ADMIN_CHAT_ID" -a $HEROKU_APP_NAME
+          heroku config:set CLOUDINARY_CLOUD_NAME="$CLOUDINARY_CLOUD_NAME" -a $HEROKU_APP_NAME
+          heroku config:set CLOUDINARY_API_KEY="$CLOUDINARY_API_KEY" -a $HEROKU_APP_NAME
+          heroku config:set CLOUDINARY_API_SECRET="$CLOUDINARY_API_SECRET" -a $HEROKU_APP_NAME
       
       - name: Set the buildpack for backend
         run: |

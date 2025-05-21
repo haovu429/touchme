@@ -1,14 +1,504 @@
 {
   "level1": [
     {
-      "question": 92,
+      "question": 1,
+      "content": "Nếu bạn là một loại mì gói, bạn sẽ là vị gì?",
+      "id": "gen-q-001"
+    },
+    {
+      "question": 2,
+      "content": "Nếu đặt biệt danh cho chính mình, bạn sẽ chọn gì?",
+      "id": "gen-q-002"
+    },
+    {
+      "question": 3,
+      "content": "Bạn từng có thói quen kỳ quặc nào không ai biết chưa?",
+      "id": "gen-q-003"
+    },
+    {
+      "question": 4,
+      "content": "Bạn từng ăn gì kết hợp kỳ dị mà vẫn thấy ngon?",
+      "id": "gen-q-004"
+    },
+    {
+      "question": 5,
+      "content": "Món đồ nào bạn hay mang theo nhưng chẳng bao giờ dùng tới?",
+      "id": "gen-q-005"
+    },
+    {
+      "question": 6,
+      "content": "Nếu bạn biến thành mèo trong 1 ngày, bạn sẽ làm gì đầu tiên?",
+      "id": "gen-q-006"
+    },
+    {
+      "question": 7,
+      "content": "Nếu có thể “troll” ai đó mà không bị phát hiện, bạn sẽ troll ai?",
+      "id": "gen-q-007"
+    },
+    {
+      "question": 8,
+      "content": "Nếu mỗi lần bạn nói dối thì mông bạn phát sáng, bạn có còn dám nói dối?",
+      "id": "gen-q-008"
+    },
+    {
+      "question": 9,
+      "content": "Nếu phải sống trong một app điện thoại, bạn sẽ chọn app nào?",
+      "id": "gen-q-009"
+    },
+    {
+      "question": 10,
+      "content": "Nếu mỗi sáng ngủ dậy đều có một kỹ năng mới, bạn muốn gì đầu tiên?",
+      "id": "gen-q-010"
+    },
+    {
+      "question": 11,
+      "content": "Bạn từng trúng tiếng sét ái tình chưa?",
+      "id": "gen-q-011"
+    },
+    {
+      "question": 12,
+      "content": "Lần cuối bạn thả thính là khi nào?",
+      "id": "gen-q-012"
+    },
+    {
+      "question": 13,
+      "content": "Bạn có tin vào tình yêu online không?",
+      "id": "gen-q-013"
+    },
+    {
+      "question": 14,
+      "content": "Bạn từng mơ thấy crush chưa? Nội dung mơ là gì?",
+      "id": "gen-q-014"
+    },
+    {
+      "question": 15,
+      "content": "Khi yêu bạn ghen kiểu “nhẹ nhàng”, “lồng lộn”, hay “im lặng dỗi”?",
+      "id": "gen-q-015"
+    },
+    {
+      "question": 16,
+      "content": "Điều gì khiến bạn 'quê độ' nhất?",
+      "id": "gen-q-016"
+    },
+    {
+      "question": 17,
+      "content": "Hành động “đỉnh của chóp” nhất bạn từng làm là gì?",
+      "id": "gen-q-017"
+    },
+    {
+      "question": 18,
+      "content": "Bạn có bao giờ bật nhạc buồn để khóc chưa?",
+      "id": "gen-q-018"
+    },
+    {
+      "question": 19,
+      "content": "Nếu đời bạn là một bộ phim hài, tựa phim sẽ là gì?",
+      "id": "gen-q-019"
+    },
+    {
+      "question": 20,
+      "content": "Bạn có bao giờ nói chuyện với đồ vật chưa?",
+      "id": "gen-q-020"
+    },
+    {
+      "question": 21,
+      "content": "Bạn từng ‘đu trend’ nào mà giờ nghĩ lại thấy ngố?",
+      "id": "gen-q-021"
+    },
+    {
+      "question": 22,
+      "content": "Bạn có bao giờ rơi dép nơi công cộng chưa?",
+      "id": "gen-q-022"
+    },
+    {
+      "question": 23,
+      "content": "Có bao giờ bạn ngủ gật khi đang nhắn tin không?",
+      "id": "gen-q-023"
+    },
+    {
+      "question": 24,
+      "content": "Bạn từng lén chụp ai đó mà bị phát hiện chưa?",
+      "id": "gen-q-024"
+    },
+    {
+      "question": 25,
+      "content": "Bạn có từng dùng đồ người khác mà không xin phép không?",
+      "id": "gen-q-025"
+    },
+    {
+      "question": 26,
+      "content": "Nếu được quyền lén xem điện thoại ai đó 5 phút, bạn chọn ai?",
+      "id": "gen-q-026"
+    },
+    {
+      "question": 27,
+      "content": "Bạn có thói quen kỳ quặc nào lúc đi ngủ không?",
+      "id": "gen-q-027"
+    },
+    {
+      "question": 28,
+      "content": "Bạn có bao giờ cười mà lòi… rau chưa?",
+      "id": "gen-q-028"
+    },
+    {
+      "question": 29,
+      "content": "Bạn từng thử bắt chuyện lạ lùng với người lạ chưa?",
+      "id": "gen-q-029"
+    },
+    {
+      "question": 30,
+      "content": "Bạn đã từng tưởng mình nổi tiếng chưa?",
+      "id": "gen-q-030"
+    },
+    {
+      "question": 31,
+      "content": "Bạn từng bị ngã siêu ngố chỗ đông người chưa?",
+      "id": "gen-q-031"
+    },
+    {
+      "question": 32,
+      "content": "Bạn có sợ gà không?",
+      "id": "gen-q-032"
+    },
+    {
+      "question": 33,
+      "content": "Bạn từng thử hát trong nhà tắm chưa?",
+      "id": "gen-q-033"
+    },
+    {
+      "question": 34,
+      "content": "Bạn có từng ăn vụng lúc nửa đêm?",
+      "id": "gen-q-034"
+    },
+    {
+      "question": 35,
+      "content": "Bạn có bao giờ giả vờ nghe điện thoại để né ai đó chưa?",
+      "id": "gen-q-035"
+    },
+    {
+      "question": 36,
+      "content": "Bạn đã từng crush ai đó chỉ vì tiếng cười của họ?",
+      "id": "gen-q-036"
+    },
+    {
+      "question": 37,
+      "content": "Nếu được sống trong phim hoạt hình, bạn chọn phim nào?",
+      "id": "gen-q-037"
+    },
+    {
+      "question": 38,
+      "content": "Bạn nghĩ đồ ăn nào nên bị 'cấm yêu'?",
+      "id": "gen-q-038"
+    },
+    {
+      "question": 39,
+      "content": "Bạn có từng bóc phốt bạn thân chưa?",
+      "id": "gen-q-039"
+    },
+    {
+      "question": 40,
+      "content": "Bạn từng bị gọi nhầm tên chưa? Phản ứng bạn là gì?",
+      "id": "gen-q-040"
+    },
+    {
+      "question": 41,
+      "content": "Nếu được làm thú cưng 1 ngày, bạn chọn làm mèo hay chó?",
+      "id": "gen-q-041"
+    },
+    {
+      "question": 42,
+      "content": "Bạn có thường vừa xem điện thoại vừa ẻ?",
+      "id": "gen-q-042"
+    },
+    {
+      "question": 43,
+      "content": "Bạn có thói quen gì khiến người khác thấy 'khó hiểu'?",
+      "id": "gen-q-043"
+    },
+    {
+      "question": 44,
+      "content": "Bạn nghĩ điều gì là 'kỳ cục nhưng lại dễ thương'?",
+      "id": "gen-q-044"
+    },
+    {
+      "question": 45,
+      "content": "Lúc bị stress, bạn thường làm gì kỳ cục để xả?",
+      "id": "gen-q-045"
+    },
+    {
+      "question": 46,
+      "content": "Bạn đã từng thấy ai đó xấu nhưng tính dễ thương chưa?",
+      "id": "gen-q-046"
+    },
+    {
+      "question": 47,
+      "content": "Bạn có bao giờ tưởng mình đang bị quay camera bí mật?",
+      "id": "gen-q-047"
+    },
+    {
+      "question": 48,
+      "content": "Bạn đã từng làm điều gì đó ngầu và bị quê chưa?",
+      "id": "gen-q-048"
+    },
+    {
+      "question": 49,
+      "content": "Có bao giờ bạn ngửi thấy mùi gì lạ và nhận ra… từ mình không?",
+      "id": "gen-q-049"
+    },
+    {
+      "question": 50,
       "content": "Sao gọi là “ngủ nướng” trong khi chẳng ăn gì?",
-      "id": "gen-q-092"
+      "id": "gen-q-050"
+    },
+    {
+      "question": 51,
+      "content": "Nếu bạn là một mùi hương, bạn sẽ là mùi gì?",
+      "id": "gen-q-051"
+    },
+    {
+      "question": 52,
+      "content": "Bạn nghĩ đồ vật nào có thể là bạn kiếp trước của bạn?",
+      "id": "gen-q-052"
+    },
+    {
+      "question": 53,
+      "content": "Bạn từng có biệt danh nào 'lạ đời' chưa?",
+      "id": "gen-q-053"
+    },
+    {
+      "question": 54,
+      "content": "Nếu bạn là emoji, bạn sẽ là emoji nào?",
+      "id": "gen-q-054"
+    },
+    {
+      "question": 55,
+      "content": "Bạn nghĩ loài động vật nào là đại diện tính cách bạn?",
+      "id": "gen-q-055"
+    },
+    {
+      "question": 56,
+      "content": "Bạn có bao giờ nói mớ và bị bắt gặp chưa?",
+      "id": "gen-q-056"
+    },
+    {
+      "question": 57,
+      "content": "Nếu bạn được đổi tên trong 1 tuần, bạn sẽ chọn tên gì?",
+      "id": "gen-q-057"
+    },
+    {
+      "question": 58,
+      "content": "Bạn đã từng nói chuyện với gương chưa?",
+      "id": "gen-q-058"
+    },
+    {
+      "question": 59,
+      "content": "Bạn có thể sống thiếu mạng xã hội trong bao lâu?",
+      "id": "gen-q-059"
+    },
+    {
+      "question": 60,
+      "content": "Bạn có thói quen kỳ lạ nào khi học hoặc làm việc không?",
+      "id": "gen-q-060"
+    },
+    {
+      "question": 61,
+      "content": "Nếu bạn có thể ăn mãi một món mà không ngán, bạn chọn món nào?",
+      "id": "gen-q-061"
+    },
+    {
+      "question": 62,
+      "content": "Bạn từng khóc vì lý do 'trời ơi đất hỡi' nào?",
+      "id": "gen-q-062"
+    },
+    {
+      "question": 63,
+      "content": "Bạn có tin người ngoài hành tinh không?",
+      "id": "gen-q-063"
+    },
+    {
+      "question": 64,
+      "content": "Bạn từng thử bắt chuyện với thú cưng như người chưa?",
+      "id": "gen-q-064"
+    },
+    {
+      "question": 65,
+      "content": "Bạn có bao giờ... lạc lối trong siêu thị?",
+      "id": "gen-q-065"
+    },
+    {
+      "question": 66,
+      "content": "Thói quen xấu nhất mà bạn thấy đáng yêu ở chính mình?",
+      "id": "gen-q-066"
+    },
+    {
+      "question": 67,
+      "content": "Bạn có từng vô tình gửi nhầm tin nhắn 'nhạy cảm' chưa?",
+      "id": "gen-q-067"
+    },
+    {
+      "question": 68,
+      "content": "Bạn có từng bị nhầm là người nổi tiếng chưa?",
+      "id": "gen-q-068"
+    },
+    {
+      "question": 69,
+      "content": "Bạn từng ăn trộm đồ ăn trong tủ lạnh nhà ai chưa?",
+      "id": "gen-q-069"
+    },
+    {
+      "question": 70,
+      "content": "Bạn có khả năng siêu nhiên nào (tự nhận) không?",
+      "id": "gen-q-070"
+    },
+    {
+      "question": 71,
+      "content": "Bạn từng xem lại tin nhắn cũ rồi tự cười như điên chưa?",
+      "id": "gen-q-071"
+    },
+    {
+      "question": 72,
+      "content": "Bạn có bao giờ muốn xóa quá khứ nhưng lại không nỡ?",
+      "id": "gen-q-072"
+    },
+    {
+      "question": 73,
+      "content": "Bạn có lưu trữ những tấm ảnh 'dìm hàng' ai đó không?",
+      "id": "gen-q-073"
+    },
+    {
+      "question": 74,
+      "content": "Bạn có khi nào tự tưởng tượng mình đang nhận giải Oscar chưa?",
+      "id": "gen-q-074"
+    },
+    {
+      "question": 75,
+      "content": "Bạn có từng nghe tiếng bụng réo trong phòng học yên tĩnh chưa?",
+      "id": "gen-q-075"
+    },
+    {
+      "question": 76,
+      "content": "Bạn có tự chấm điểm ngoại hình của mình bao giờ không?",
+      "id": "gen-q-076"
+    },
+    {
+      "question": 77,
+      "content": "Bạn có đang theo dõi 'crush' qua mạng xã hội không?",
+      "id": "gen-q-077"
+    },
+    {
+      "question": 78,
+      "content": "Tư thế ngủ kỳ lạ nhất của bạn là gì?",
+      "id": "gen-q-078"
+    },
+    {
+      "question": 79,
+      "content": "Bạn có thói quen nào khiến người khác hiểu lầm không?",
+      "id": "gen-q-079"
+    },
+    {
+      "question": 80,
+      "content": "Bạn có từng mơ thấy mình là nhân vật trong anime chưa?",
+      "id": "gen-q-080"
+    },
+    {
+      "question": 81,
+      "content": "Bạn có từng để ý ai đó vì giọng nói của họ không?",
+      "id": "gen-q-081"
+    },
+    {
+      "question": 82,
+      "content": "Bạn có bao giờ lười đến mức nhắn tin nhưng không gửi chưa?",
+      "id": "gen-q-082"
+    },
+    {
+      "question": 83,
+      "content": "Bạn từng lướt mạng quá lâu đến mức quên ngủ chưa?",
+      "id": "gen-q-083"
+    },
+    {
+      "question": 84,
+      "content": "Bạn có bao giờ ăn mặc 'quê mùa' đi dự tiệc chưa?",
+      "id": "gen-q-084"
+    },
+    {
+      "question": 85,
+      "content": "Bạn có từng giả vờ nghe nhạc để khỏi nói chuyện không?",
+      "id": "gen-q-085"
+    },
+    {
+      "question": 86,
+      "content": "Nếu phải sống trong một meme, bạn sẽ chọn meme nào?",
+      "id": "gen-q-086"
+    },
+    {
+      "question": 87,
+      "content": "Bạn có nghĩ mình là nhân vật chính trong đời không?",
+      "id": "gen-q-087"
+    },
+    {
+      "question": 88,
+      "content": "Bạn có từng thử 'tự kỷ ám thị' để làm điều gì không?",
+      "id": "gen-q-088"
+    },
+    {
+      "question": 89,
+      "content": "Bạn có bao giờ tự tạo playlist chỉ để 'sống deep' chưa?",
+      "id": "gen-q-089"
+    },
+    {
+      "question": 90,
+      "content": "Bạn từng cười đến mức bị đau bụng chưa?",
+      "id": "gen-q-090"
+    },
+    {
+      "question": 91,
+      "content": "Bạn có từng vô tình trả lời tin nhắn bằng giọng nói chưa?",
+      "id": "gen-q-091"
     },
     {
       "question": 92,
-      "content": "Bạn có thường vừa xem đt vừa ẻ?",
+      "content": "Bạn có từng crush giáo viên hoặc sếp chưa?",
       "id": "gen-q-092"
+    },
+    {
+      "question": 93,
+      "content": "Bạn có từng bị bắt gặp đang tự soi gương quá lâu không?",
+      "id": "gen-q-093"
+    },
+    {
+      "question": 94,
+      "content": "Bạn có bao giờ nói chuyện một mình như đang phỏng vấn không?",
+      "id": "gen-q-094"
+    },
+    {
+      "question": 95,
+      "content": "Bạn từng bị nhầm là người yêu của bạn thân chưa?",
+      "id": "gen-q-095"
+    },
+    {
+      "question": 96,
+      "content": "Bạn có nghĩ mình có kiếp trước không?",
+      "id": "gen-q-096"
+    },
+    {
+      "question": 97,
+      "content": "Bạn từng tưởng tượng ra kịch bản cãi nhau rồi tự diễn chưa?",
+      "id": "gen-q-097"
+    },
+    {
+      "question": 98,
+      "content": "Bạn có từng bắt chước giọng người khác khi nói chuyện không?",
+      "id": "gen-q-098"
+    },
+    {
+      "question": 99,
+      "content": "Bạn có bao giờ thử sống như người nổi tiếng 1 ngày chưa?",
+      "id": "gen-q-099"
+    },
+    {
+      "question": 100,
+      "content": "Bạn có từng hỏi những câu hỏi ngớ ngẩn đến mức quê chưa?",
+      "id": "gen-q-100"
     }
   ],
   "level2": [
@@ -312,7 +802,7 @@
       "content": "Điều gì khiến bạn cảm thấy 'rung động' thực sự?",
       "id": "gen-crush-060"
     },
-     {
+    {
       "question": 61,
       "content": "Bạn có nghĩ rằng sự im lặng đôi khi cũng là một cách giao tiếp hiệu quả không?",
       "id": "gen-crush-061"
@@ -914,7 +1404,7 @@
       "content": "Bạn có nghĩ rằng chúng ta giao tiếp đủ và hiệu quả về mọi mặt không?",
       "id": "gen-couple-080"
     },
-     {
+    {
       "question": 81,
       "content": "Nếu có thể quay ngược thời gian về ngày đầu tiên chúng ta gặp nhau, bạn có làm gì khác không?",
       "id": "gen-couple-081"

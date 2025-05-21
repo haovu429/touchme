@@ -11,6 +11,9 @@ const path = require("path");
 const fs = require("fs");
 const axios = require('axios');
 const TelegramBot = require('node-telegram-bot-api'); // Thêm import này
+import uploadRoute from "./routes/uploadRoute";
+import { v2 as cloudinary } from "cloudinary";
+import { UploadApiResponse, UploadApiErrorResponse } from "cloudinary";
 
 // --- Khởi tạo Firebase Admin SDK (giữ nguyên logic của bạn) ---
 let serviceAccount;
@@ -46,6 +49,15 @@ const createSystemNotice = (text: string) => ({
   timestamp: Date.now(),
   type: 'system-notice'
 });
+
+interface MessageData {
+  text: string;
+  senderId: string;
+  senderName: string;
+  timestamp: admin.firestore.Timestamp;
+  imageUrl?: string;
+  publicId?: string | undefined; // Thêm publicId nếu cần
+}
 
 const db = admin.firestore();
 let loadedQuestions: { [key: string]: any[] } = {};
@@ -88,7 +100,21 @@ async function deleteChatHistory(roomCode: string) {
 
     while (snapshot.size > 0) {
       const batch = db.batch();
-      snapshot.docs.forEach(doc => { batch.delete(doc.ref); });
+      snapshot.docs.forEach(doc => {
+        const data = doc.data();
+        batch.delete(doc.ref);
+
+        // ✅ XÓA ẢNH NẾU CÓ
+        if (data.publicId) {
+          cloudinary.uploader.destroy(data.publicId, (error: UploadApiErrorResponse | undefined, result: UploadApiResponse | undefined) => {
+            if (error) {
+              console.error("Xoá ảnh lỗi:", error);
+            } else {
+              console.log("Xoá ảnh thành công:", result?.public_id);
+            }
+          });
+        }
+      });
       await batch.commit();
       docsDeleted += snapshot.size;
       console.log(`[Chat Deletion] Deleted ${snapshot.size} messages batch for room ${roomCode}. Total: ${docsDeleted}`);
@@ -171,6 +197,9 @@ loadQuestionsFromFirestore().then(() => {
     console.log(`Received request on /test endpoint from IP: ${clientIp}`);
     res.status(200).send(`Backend is running! Your IP: ${clientIp}`);
   });
+
+  app.use(express.json());
+  app.use(uploadRoute);
 
   const server = http.createServer(app);
   const io = new Server(server, { cors: { origin: allowedOrigins } });
@@ -404,7 +433,7 @@ loadQuestionsFromFirestore().then(() => {
         const notice = createSystemNotice(`${username} đã vào phòng.`);
         // io.to(roomCode).emit("new-message", notice);
         io.to(roomCode).emit("new-message", notice);
-        
+
       }
       let chatHistory: any[] = [];
       try {
@@ -412,7 +441,14 @@ loadQuestionsFromFirestore().then(() => {
         const snapshot = await messagesRef.orderBy('timestamp', 'asc').limit(50).get();
         snapshot.forEach(doc => {
           const data = doc.data();
-          chatHistory.push({ id: doc.id, text: data.text, senderId: data.senderId, senderName: data.senderName, timestamp: data.timestamp?.toMillis ? data.timestamp.toMillis() : null });
+          chatHistory.push({
+            id: doc.id,
+            text: data.text,
+            imageUrl: data.imageUrl || null,
+            senderId: data.senderId,
+            senderName: data.senderName,
+            timestamp: data.timestamp?.toMillis ? data.timestamp.toMillis() : null
+          });
         });
       } catch (error) { console.error(`[Chat History] Error fetching for room ${roomCode}:`, error); }
       socket.emit("room-joined", { roomCode, question: roomData.question, userCount, chatHistory });
@@ -459,11 +495,11 @@ loadQuestionsFromFirestore().then(() => {
     });
 
     // --- SỰ KIỆN MỚI: Nhận và lưu tin nhắn ---
-    socket.on("send-message", async (data: { roomCode: string, message: string }) => {
-      const { roomCode, message } = data;
+    socket.on("send-message", async (data: { roomCode: string, message?: string, publicId?: string, imageUrl?: string }) => {
+      const { roomCode, message, imageUrl, publicId } = data;
       const userData = users[socket.id];
 
-      if (!userData || userData.currentRoom !== roomCode || !message || typeof message !== 'string' || message.trim().length === 0) {
+      if (!userData || userData.currentRoom !== roomCode || (!message && !imageUrl)) {
         console.warn(`Invalid message attempt from ${socket.id} for room ${roomCode}`);
         socket.emit("message-error", { message: "Cannot send message." });
         return;
@@ -475,16 +511,24 @@ loadQuestionsFromFirestore().then(() => {
         return;
       }
 
-      const trimmedMessage = message.trim().substring(0, 500); // Giới hạn độ dài tin nhắn nếu cần
+      const trimmedMessage = message?.trim()?.substring(0, 500); // Giới hạn độ dài tin nhắn nếu cần
 
       try {
-        const messageData = {
-          text: trimmedMessage,
+        const messageData: MessageData = {
+          text: trimmedMessage || "[Ảnh]",
           senderId: socket.id,
           senderName: userData.username || "Anonymous",
-          timestamp: Timestamp.now() // Dùng Timestamp của Firestore Server
+          timestamp: Timestamp.now(), // Dùng Timestamp của Firestore Server
+          publicId: "", // Thêm publicId nếu có
           // Không cần expiresAt nữa
         };
+
+        if (imageUrl) {
+          messageData.imageUrl = imageUrl;
+          if (publicId) {
+            messageData.publicId = publicId; // ✅ chỉ thêm khi có
+          }
+        }
 
         // Thêm tin nhắn vào subcollection 'messages' của phòng
         const messageRef = await db.collection('rooms').doc(roomCode).collection('messages').add(messageData);
@@ -493,10 +537,8 @@ loadQuestionsFromFirestore().then(() => {
         // Gửi tin nhắn tới tất cả mọi người trong phòng
         io.to(roomCode).emit("new-message", {
           id: messageRef.id,
-          text: messageData.text,
-          senderId: messageData.senderId,
-          senderName: messageData.senderName,
-          timestamp: messageData.timestamp?.toMillis ? messageData.timestamp.toMillis() : Date.now() // Gửi timestamp milliseconds
+          ...messageData,
+          timestamp: messageData.timestamp.toMillis?.() || Date.now(),
         });
 
       } catch (error) {
@@ -535,8 +577,16 @@ loadQuestionsFromFirestore().then(() => {
 
           if (userCount === 0) {
             rooms.delete(roomCode);
-            console.log(`[Disconnect] Room ${roomCode} deleted. Triggering chat deletion.`);
-            deleteChatHistory(roomCode);
+            console.log(`[Room] ${roomCode} trống, sẽ xoá sau 5 phút nếu không có ai vào lại.`);
+            setTimeout(() => {
+              const roomStillGone = !rooms.has(roomCode);
+              if (roomStillGone) {
+                console.log(`[Room] ${roomCode} không có người sau 5 phút. Tiến hành xoá tin nhắn + ảnh.`);
+                deleteChatHistory(roomCode);
+              } else {
+                console.log(`[Room] ${roomCode} đã có người quay lại, không xoá.`);
+              }
+            }, 5 * 60 * 1000); // 5 phút
           } else {
             // socket.to(roomCode).emit("user-left", { userId: socket.id, username: leavingUsername, userCount });
             const notice = createSystemNotice(`${leavingUsername} mất kết nối.`);
