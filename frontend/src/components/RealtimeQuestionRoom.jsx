@@ -547,31 +547,20 @@ export default function RealtimeQuestionRoom() {
             {/* Khu vực nhập tin nhắn */}
             <form
               onSubmit={sendMessage}
-              className="flex items-center gap-2 pt-3 flex-shrink-0"
+              className="flex items-center gap-2 pt-3 px-1"
             >
+              {/* Nhập tin nhắn */}
               <input
                 type="text"
                 value={newMessage}
                 onChange={(e) => setNewMessage(e.target.value)}
                 placeholder="Nhập tin nhắn..."
-                className="flex-grow px-3 py-2 border border-gray-300 rounded-l-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
+                className="flex-grow px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-blue-500"
                 autoComplete="off"
-                maxLength={300} // Giới hạn ký tự nếu cần
+                maxLength={300}
               />
-              <button
-                type="submit"
-                className="bg-blue-500 text-white px-4 py-2 rounded-r-lg font-semibold hover:bg-blue-600 transition"
-                disabled={!newMessage.trim()} // Vô hiệu hóa nút nếu input trống
-              >
-                Gửi
-              </button>
-              <input
-                type="file"
-                accept="image/*"
-                className="hidden"
-                id="image-upload"
-                onChange={handleImageUpload}
-              />
+
+              {/* Nút gửi ảnh */}
               <label
                 htmlFor="image-upload"
                 className="cursor-pointer text-xl px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
@@ -579,6 +568,22 @@ export default function RealtimeQuestionRoom() {
               >
                 📷
               </label>
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                id="image-upload"
+                onChange={handleImageUpload}
+              />
+
+              {/* Nút gửi tin nhắn */}
+              <button
+                type="submit"
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg font-semibold hover:bg-blue-600 transition"
+                disabled={!newMessage.trim()}
+              >
+                Gửi
+              </button>
             </form>
           </div>{" "}
           {/* Hết cột phải (Chat) */}
