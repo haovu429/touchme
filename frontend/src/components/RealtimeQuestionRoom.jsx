@@ -577,7 +577,8 @@ export default function RealtimeQuestionRoom() {
               />
               <label
                 htmlFor="upload-image"
-                className="cursor-pointer text-xl px-2"
+                className="cursor-pointer text-xl px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
+                title="Gửi ảnh"
               >
                 📷
               </label>
