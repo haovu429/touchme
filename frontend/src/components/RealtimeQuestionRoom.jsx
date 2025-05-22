@@ -575,7 +575,12 @@ export default function RealtimeQuestionRoom() {
                 id="upload-image"
                 onChange={handleImageUpload}
               />
-              <label className="cursor-pointer text-xl px-2">📷</label>
+              <label
+                htmlFor="upload-image"
+                className="cursor-pointer text-xl px-2"
+              >
+                📷
+              </label>
             </form>
           </div>{" "}
           {/* Hết cột phải (Chat) */}
