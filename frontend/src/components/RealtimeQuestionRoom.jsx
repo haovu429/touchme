@@ -426,10 +426,7 @@ export default function RealtimeQuestionRoom() {
       ) : (
         // --- Giao diện trong phòng (Chia cột) ---
         // Container lớn hơn, sử dụng flex cho 2 cột
-        <div
-          className="bg-white bg-opacity-95 p-4 md:p-6 rounded-2xl w-full max-w-sm md:max-w-4xl lg:max-w-5xl space-y-4 md:space-y-0 md:space-x-6 shadow-xl flex flex-col md:flex-row border border-gray-200"
-          // style={{ height: "80vh", maxHeight: "700px" }}
-        >
+        <div className="flex flex-col md:flex-row w-full max-w-5xl bg-white bg-opacity-95 p-4 rounded-2xl border shadow-xl space-y-4 md:space-y-0 md:space-x-6">
           {/* Cột Trái: Câu hỏi và Nút điều khiển */}
           <div className="flex flex-col w-full md:w-3/5 space-y-4">
             <div className="text-center pt-3 border-t md:border-b pb-4 flex-shrink-0 flex flex-wrap justify-center gap-2">
@@ -550,7 +547,7 @@ export default function RealtimeQuestionRoom() {
             {/* Khu vực nhập tin nhắn */}
             <form
               onSubmit={sendMessage}
-              className="flex items-center pt-3 flex-shrink-0"
+              className="flex items-center gap-2 pt-3 flex-shrink-0"
             >
               <input
                 type="text"
@@ -571,12 +568,12 @@ export default function RealtimeQuestionRoom() {
               <input
                 type="file"
                 accept="image/*"
-                style={{ display: "none" }}
-                id="upload-image"
+                className="hidden"
+                id="image-upload"
                 onChange={handleImageUpload}
               />
               <label
-                htmlFor="upload-image"
+                htmlFor="image-upload"
                 className="cursor-pointer text-xl px-3 py-2 bg-white border border-gray-300 rounded-lg hover:bg-gray-100"
                 title="Gửi ảnh"
               >
